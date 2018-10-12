@@ -1,0 +1,130 @@
+
+/*  -----=====----- 个人 首页  -----=====----- */
+.personal-top{
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+}
+.personal-top-right{
+    font-size: 12px;
+    height: 30px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+}
+.personal-top-right-item span{
+    cursor: pointer;
+}
+.personal-top-right-item:nth-child(-n+3){
+    border-right: 1px solid #ccc;
+}
+
+/* 顶部导航栏 */
+.personal-header{
+    text-align: left;
+}
+.personal-header-menu{
+    height: 64px;
+    line-height: 64px;
+}
+.personal-logo{
+    height: 64px;
+    text-align: left;
+    background: url('/img/logo1.png') no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
+/* --------------============== 内容 ===========----------------- */
+.personal-content{
+    background: #fff;
+    padding: 0 50px;
+}
+.user-info{
+    min-height: 200px;
+    margin-bottom: 50px;
+}
+.user-autograph{
+    font-size: 20px;
+    color: rgb(0,0,0,.85);
+    text-align: center;
+    margin: 50px 200px;
+}
+.user-infos{
+    width: 60%;
+    height: 80px;
+    border: 1px solid #f1f5f8;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.user-infos-item{
+    font-size: 18px;
+    color: rgb(0,0,0,.85);
+}
+.user-avatar{
+    width: 180px;
+    height: 180px;
+    /* background: url('/img/avatar.png') no-repeat; */
+    background-size: 100%;
+    background-color: #fff;
+    border: 1px solid #f1f5f8;
+    border-radius: 50%;
+}
+
+
+
+/* ================!!!!!!!!!!!!!!!!! Tabs index 页面样式 !!!!!!!!!!!!!!!!==================== */
+
+/* 评分 */
+.index-score{
+    width: 120px;
+    height: 120px;
+    color: #F36250;
+    padding-top: 20px;
+    border: 8px solid #F36250;
+    border-radius: 50%;
+}
+
+.index-score strong{
+    font-size: 28px;
+}
+.index-score span{
+    font-size: 15px;
+}
+.index-comment{
+    width: 120px;
+}
+
+/* 印象标签 */
+
+.index-impress-tags{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+.index-tags-item{
+    margin-top: 8px;
+}
+
+/* 照片墙 */
+.index-photo-wall{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+.index-photos{
+    height: 180px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.index-photo-box{
+    width: 100%;
+    height: 100%;
+    padding: 12px 8px;
+}
+.index-photo-item {
+    
+}

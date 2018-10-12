@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 通用 class */
+
+/* padding */
+.p-0{
+  padding: 0 !important;
+}
+
+.m-btm-16{
+  margin-bottom: 16px;
+}
+.m-top-16{
+  margin-top: 16px;
+}
+
+
+
+/* flex */
+.d-f{
+  display: flex !important;
+}
+.d-f-j-sb{
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.d-f-j-sa{
+  display: flex !important;
+  justify-content: space-around !important;
+}
+.d-f-a-c{
+  display: flex !important;
+  align-items: center !important;
+}
+.d-f-c{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* img */
+.img-size{
+  width: 100%;
+  height: 100%;
+}
+
+/* hide */
+.hide{
+  display: none;
+}
+
+/* w h */
+.w-20{
+  width: 20%;
+}
+.w-25{
+  width: 25%;
+}
