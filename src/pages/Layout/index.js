@@ -3,8 +3,8 @@ import { Link, Route, withRouter } from 'react-router-dom';
 
 import { Layout, Menu, Breadcrumb } from 'antd';
 
-import Personal from '../Personal';
-import Supplier from '../Supplier';
+import Personal from '../personal';
+import Supplier from '../supplier';
 
 const { Header, Content, Footer } = Layout;
 

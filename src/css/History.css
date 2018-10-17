@@ -1,0 +1,121 @@
+.History{
+    padding: 0 50px 50px 50px;
+}
+
+/* 评价 */
+.evaluate{
+
+}
+.evaluate-tag{
+    font-size: 14px;
+    color: rgb(0,0,0,.85);
+    line-height: 40px;
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    margin-top: 16px;
+    display: flex;
+}
+.evaluate-tag-item{
+    margin-right: 16px;
+    cursor: pointer;
+}
+.evaluate-tag-item:hover{
+    margin-right: 16px;
+    color: #1890ff;
+    cursor: pointer;
+}
+.evaluate-tag-item-active{
+    color: #1890ff;
+}
+
+/* 遍历 评价 */
+.evaluate-item-box{
+    padding: 16px 24px 16px 0;
+}
+.evaluate-info{
+    display: flex;
+}
+.evaluate-type{
+    text-align: center;
+    margin-right: 16px;
+}
+.evaluate-com-emp{
+    max-width: 280px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 16px;
+}
+.evaluate-pro_name{
+    max-width: 240px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 16px;
+}
+.evaluate-dep_date{
+    margin-right: 16px;
+}
+.evaluate-num{
+
+}
+.evaluate-time{
+    text-align: right;
+}
+.evaluate-main{
+    margin-top: 8px;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    /* 展开 干掉这个属性就行 */
+    -webkit-line-clamp: 2;
+}
+.evaluate-main-open{
+    margin-top: 8px;
+}
+.evaluate-open{
+    text-align: right;
+    color: #13c2c2;
+    user-select: none;
+}
+.evaluate-open span{
+    display: inline-block;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+.evaluate-open-icon{
+    transform:rotate(-90deg);
+}
+.evaluate-fold-icon{
+    transform:rotate(90deg);
+}
+.evaluate-sell{
+
+}
+.evaluate-buy{
+
+}
+
+.evaluate-praise{
+    font-size: 50px;
+    text-align: center;
+}
+.praise1{
+    color: #52c41a;
+}
+.praise2{
+    color: #faad14;
+}
+.praise3{
+    color: #f5222d;
+}
+
+/* 分页 */
+.history-pages{
+    margin: 30px;
+}

@@ -1,0 +1,59 @@
+.LatestNews{
+    padding: 0 50px 50px 50px;
+}
+
+/* 动态列表 */
+.LatestNews-content{
+    text-align: left;
+}
+.LatestNews-item{
+    margin-bottom: 16px;
+}
+.LatestNews-time{
+    line-height: 28px;
+}
+.LatestNews-main{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    /* 展开 干掉这个属性就行 */
+    -webkit-line-clamp: 2;
+}
+.LatestNews-main-open{
+
+}
+.LatestNews-imgs{
+    display: flex;
+}
+.LatestNews-imgs-item{
+    width: 80px;
+    height: 80px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+
+/* Modal carousel  样式重置 */
+.modal-carousel{
+    position: relative;
+}
+.modal-carousel .ant-carousel .slick-slide {
+  text-align: center;
+  height: 400px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.modal-carousel .ant-carousel .slick-dots{
+    color: #fff;
+}   
+.modal-carousel-prev{
+
+}
+.modal-carousel-next{
+    
+}

@@ -1,0 +1,97 @@
+.Login-layout{
+
+}
+
+
+/* header */
+.Login-header{
+    width: 100%;
+    height: 100px;
+    /* background: #fff; */
+}
+.Login-logo{
+    width: 250px;
+    height: 100%;
+    background: url('/img/logo4.png') no-repeat center center;
+    background-size: contain;
+}
+
+/* content */
+.Login-content{
+    width: 100%;
+    height: 550px;
+    background: url('/img/login-bg.jpg');
+    background-size: 100% 100%;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+.login-box{
+    width: 380px;
+    /* height: 500px; */
+    padding: 16px;
+    margin: 5% 5% 7% 0%;
+    background: #fff;
+    border-radius: 4px;
+}
+.box-header{
+    font-size: 18px;
+    font-weight: bold;
+    color: #1890FF;
+    border-bottom: 1px solid #1890FF;
+    line-height: 40px;
+}
+.box-main{
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+.input-box{
+    margin: 16px 0 24px 0;
+    position: relative;
+
+    display: flex;
+}
+.input-box label{
+    width: 80px;
+    font-size: 14px;
+    color: rgb(0,0,0,.45);
+    line-height: 30px;
+}
+.user-name{
+    flex: 1;
+}
+.password{
+    flex: 1;
+}
+.veri-input{
+    flex: 1;
+}
+.veri-code{
+    width: 80px;
+    height: 32px;
+}
+.submit{
+    margin-bottom: 16px;
+}
+.login-prompt{
+    color: #666;
+    text-align: left;
+}
+
+.prompt{
+    position: absolute;
+    left: 83px;
+    bottom: -17px;
+    font-size: 12px;
+    color: #f5222d;
+}
+
+
+/* footer */
+.Login-footer{
+
+}
+
+
+

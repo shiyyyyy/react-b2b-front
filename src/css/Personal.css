@@ -2,13 +2,13 @@
 /*  -----=====----- 个人 首页  -----=====----- */
 .personal-top{
     font-size: 14px;
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
 }
 .personal-top-right{
     font-size: 12px;
-    height: 30px;
-    line-height: 20px;
+    height: 40px;
+    line-height: 18px;
     display: flex;
     align-items: center;
 }
@@ -20,48 +20,95 @@
 }
 
 /* 顶部导航栏 */
+/* 菜单栏覆盖样式 && 高度设为44px */
+.ant-layout-header{
+    height: 44px;
+    line-height: 44px;
+    background-color: #4B96E6;
+}
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
+    background: #6CAFF6;
+}
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item-selected > a {
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item > a {
+    display: block;
+    color: rgb(255, 255, 255);
+}
+.ant-menu-horizontal > .ant-menu-item > a:hover {
+    color: #fff;
+}
+.ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
+    color: #fff;
+}
+
+/*  */
 .personal-header{
     text-align: left;
 }
 .personal-header-menu{
-    height: 64px;
-    line-height: 64px;
+    height: 44px;
+    line-height: 44px;
+    color: #fff;
+    border-bottom: none;
+    background-color: #4B96E6;
 }
 .personal-logo{
-    height: 64px;
+    height: 44px;
     text-align: left;
-    background: url('/img/logo1.png') no-repeat;
+    background: url('/img/logo.png') no-repeat;
     background-position: center;
-    background-size: 40%;
+    background-size: 100%;
 }
 
 /* --------------============== 内容 ===========----------------- */
 .personal-content{
     background: #fff;
-    padding: 0 50px;
 }
 .user-info{
-    min-height: 200px;
-    margin-bottom: 50px;
+    background: url('https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1539930936&di=ec3947f2a8a6282524ebf9fdded12ff2&imgtype=jpg&src=http%3A%2F%2Fimg6.bdstatic.com%2Fimg%2Fimage%2Fpublic%2Fsheyingshidingjian.jpg');
+    min-height: 400px;
+    margin-bottom: 100px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
 }
 .user-autograph{
+    margin: 0 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: -50px;
+}
+.user-autograph span{
     font-size: 20px;
-    color: rgb(0,0,0,.85);
+    color: #fff;
     text-align: center;
-    margin: 50px 200px;
 }
 .user-infos{
     width: 60%;
     height: 80px;
-    border: 1px solid #f1f5f8;
     margin: 0 auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;    
+    right: 0;
 }
 .user-infos-item{
-    font-size: 18px;
-    color: rgb(0,0,0,.85);
+    font-size: 14px;
+    color: #fff;
+}
+.user-infos-item span{
+    font-size: 24px;
 }
 .user-avatar{
     width: 180px;
@@ -71,13 +118,67 @@
     background-color: #fff;
     border: 1px solid #f1f5f8;
     border-radius: 50%;
+    position: relative;
+    top: 40px;
+}
+/* 公司 员工 信息 */
+.user-company{
+    line-height: 32px;
+    margin-bottom: 16px;
+}
+.user-company-emp{
+    font-size: 16px;
+    color: rgb(0,0,0,.85);
+}
+.user-company-heart{
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    background: #f5222d;
+    display: inline-block;
+    cursor: pointer;
+}
+.user-company-heart i{
+    color: #fff;
+}
+.user-company-msg{
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    background: #52c41a;
+    display: inline-block;
+    cursor: pointer;
+}
+.user-company-msg i{
+    color: #fff;
 }
 
-
-
 /* ================!!!!!!!!!!!!!!!!! Tabs index 页面样式 !!!!!!!!!!!!!!!!==================== */
+.Personal-index{
+    padding: 0 50px 100px 50px;
+}
+/* 标题 && more */
+.index-title{
+    padding-left: 12px;
+    padding-right: 24px;
+    line-height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.index-title-left{
+    font-size: 16px;
+    font-weight: bold;
+}
+.index-title-right{
+    font-size: 12px;
+    cursor: pointer;
+}
 
 /* 评分 */
+
 .index-score{
     width: 120px;
     height: 120px;
@@ -95,6 +196,11 @@
 }
 .index-comment{
     width: 120px;
+    font-size: 12px;
+    line-height: 24px;
+}
+.index-comment-contrast{
+    font-size: 12px;
 }
 
 /* 印象标签 */
@@ -103,17 +209,24 @@
     font-size: 16px;
     font-weight: bold;
     text-align: left;
+    line-height: 40px;
 }
 .index-tags-item{
     margin-top: 8px;
+    font-size: 12px;
+    /* border: 1px solid #549CE7;
+    border-radius: 20px;
+    padding: 2px 10px;
+    color: #549CE7;
+    box-sizing: content-box;
+    background-color: #fff; */
 }
+/* .index-tags-item:hover{
+    color: #fff;
+    background-color: #549CE7;
+} */
 
 /* 照片墙 */
-.index-photo-wall{
-    font-size: 16px;
-    font-weight: bold;
-    text-align: left;
-}
 .index-photos{
     height: 180px;
     display: flex;
@@ -126,5 +239,82 @@
     padding: 12px 8px;
 }
 .index-photo-item {
-    
+    border-radius: 4px;
+}
+
+/* 同行留言 */
+.index-message{
+    padding: 16px 24px;
+    overflow: hidden;
+}
+.index-message-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.index-message-top-left{
+    font-size: 14px;
+    color: rgb(0,0,0,.85);
+}
+.index-message-top-right{
+    color: #999;
+}
+
+.index-message-content{
+    font-size: 14px;
+    color: rgb(0, 0, 0, .65);
+    text-align: left;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    /* 展开 干掉这个属性就行 */
+    -webkit-line-clamp: 4;
+}
+
+.index-message-footer{
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+.index-message-footer-zan{
+    width: 100px;
+    font-size: 18px;
+    color: #f5222d;
+    cursor: pointer;
+}
+.index-message-footer-qa{
+    width: 100px;
+    font-size: 18px;
+    color: #4b96e6;
+    cursor: pointer;
+}
+
+/* ================= 到访记录 ================= */
+.index-record{
+    padding: 0 4%;
+    display: flex;
+    justify-content: space-around;
+}
+.index-record-box{
+    cursor: pointer;
+}
+.index-record-avatar{
+
+}
+.index-record-name{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.index-record-time{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
