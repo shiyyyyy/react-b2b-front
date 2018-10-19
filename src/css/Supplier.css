@@ -1,0 +1,63 @@
+
+
+
+/* 顶部导航栏 */
+/* 菜单栏覆盖样式 && 高度设为44px */
+.ant-layout-header{
+    height: 44px;
+    line-height: 44px;
+    background-color: #4B96E6;
+}
+.ant-menu-horizontal > .ant-menu-item, .ant-menu-horizontal > .ant-menu-submenu{
+    border: none;
+    top: 0px;
+}
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
+    background: #6CAFF6;
+}
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item-selected > a {
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item > a {
+    display: block;
+    color: rgb(255, 255, 255);
+}
+.ant-menu-horizontal > .ant-menu-item > a:hover {
+    color: #fff;
+    border: none;
+}
+.ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover {
+    color: #fff;
+}
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected{
+    border: none;
+}
+
+/*-------------------======================= Supplier index=======================-------------- */
+.Supplier-index{
+    padding: 0 50px 100px 50px;
+}
+
+/* 大轮播图 */
+.Suplier-Carousel{
+    width: 100%;
+    height: 480px;
+}
+
+/* 热卖推介 */
+.supplier-hot{
+}
+.supplier-hot-item{
+    height: 130px;
+    padding: 12px 4px;
+}
+
+
+
+/* 尾货甩卖 */
+.supplier-discount{
+    display: flex;
+}

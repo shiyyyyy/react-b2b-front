@@ -55,13 +55,18 @@ class LatestNews extends React.Component {
         this.setState({modal_visible: true})
     }
     imgModal(index){
+        // console.log(this.props.location)
+        // console.log(this)
+        // this.props.history.push('/QA')
+        // return;
         var that = this
         const info = {
             data: this.state.photos,
             title: '动态分享图片',
             visible: this.state.modal_visible,
             footer: null,
-            style: {},
+            bodyStyle: {padding: '0'},
+            style: {top:50},
             width: 800,
             handleCancel(){
                 that.setState({modal_visible: false})
@@ -113,7 +118,7 @@ class LatestNews extends React.Component {
                 {/* 分页 */}
                 <Row>
                     <Col className="history-pages">
-                        <Pagination defaultCurrent={1} total={this.state.total}
+                        <Pagination defaultCurrent={this.state.cur_page} total={this.state.total}
                             onChange={(page) => this.pageChange(page)} />
                     </Col>
                 </Row>

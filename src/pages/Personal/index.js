@@ -3,9 +3,9 @@ import React from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Col, Avatar, Button, Tabs, Rate, Tag, Tooltip, Badge, Dropdown } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
-// import 'swiper/dist/css/swiper.min.css';
+import 'swiper/dist/css/swiper.min.css';
 
-import {ComModal} from '../com';
+import {ModalCarousel} from '../../util/com';
 
 import History from './History';
 import LatestNews from './LatestNews';
@@ -66,12 +66,11 @@ class Personal extends React.Component {
             ],
             photoWallShow: false, // 照片墙弹窗默认不显示
         }
-        this.swiperId = null
     }
 
     componentDidMount() {
         new Swiper('#swiper', {
-            loop: true, // 循环模式选项
+            // loop: true, // 循环模式选项
             slidesPerView: 4,
 
             // 如果需要前进后退按钮
@@ -108,33 +107,23 @@ class Personal extends React.Component {
 
     // 照片墙 弹窗
     photoWallShowFun(){
-        let that = this
-        const data = {
-            title: '照片墙', // 标题
-            okText: '确定', // (确定按钮)文字
-            cancelText: '取消', // (取消按钮)文字
-            visible: true, // 显示隐藏
-            centered: false, // 是否垂直居中展示
-            footer: false, // 是否显示底部按钮
-            style: {width: '720px', height: '360px'}, // 样式
-            onOk: onOk, // 点击确定按钮的回调
-            onCancel: onCancel, // 关闭modal回调
-            data: that.state.photos // 轮播图数据
+        var that = this
+        const info = {
+            data: this.state.photos,
+            title: '照片墙',
+            visible: this.state.photoWallShow,
+            footer: null,
+            bodyStyle: { padding: '0' },
+            style: { top: 50 },
+            width: 800,
+            handleCancel() {
+                that.setState({ photoWallShow: false })
+            }
         }
-
-        function onOk(){
-            console.log('onOk:')
-            console.log(that)
-        }
-        function onCancel(){
-            console.log('onCancel:')
-            that.setState({ photoWallShow: false })
-        }
-
-        return(
-            <ComModal data={data}></ComModal>
+        return (
+            <ModalCarousel info={info} ></ModalCarousel>
         )
-    }
+    }  
 
     // tab切换
     TabsChange(key){
@@ -191,13 +180,13 @@ class Personal extends React.Component {
                         ))
                     } */}
                     {/* 轮播图版本的 照片墙 */}
-                        <div className="swiper-container index-photos" id="swiper">
+                        <div className="swiper-container" style={{width: '100%'}} id="swiper">
                             <div className="swiper-wrapper">
                                 {
                                     this.state.photos.map((item, index) => (
-                                        <div className="swiper-slide index-photo-box w-25" key={index}>
+                                        <div className="swiper-slide index-photo-box" key={index}>
                                             <img onClick={_ => this.setState({ photoWallShow: true })}
-                                                src={item} className="index-photo-item img-size" />
+                                            src={item} className="index-photo-item img-size" />
                                         </div>
                                     ))
                                 }
@@ -265,10 +254,10 @@ class Personal extends React.Component {
             {/* 顶部 登录人 */}
                 <Row className="personal-top">
                     <Col span={6} push={1} className="personal-top-right">
-                        <Col span={6} className="personal-top-right-item"><span>设为首页</span></Col>
-                        <Col span={6} className="personal-top-right-item"><span>加入收藏</span></Col>
-                        <Col span={6} className="personal-top-right-item"><span>官方微信</span></Col>
-                        <Col span={6} className="personal-top-right-item"><span>在线帮助</span></Col>
+                        <Col span={6} className="personal-top-right-item"><a>设为首页</a></Col>
+                        <Col span={6} className="personal-top-right-item"><a>加入收藏</a></Col>
+                        <Col span={6} className="personal-top-right-item"><a>官方微信</a></Col>
+                        <Col span={6} className="personal-top-right-item"><a>在线帮助</a></Col>
                     </Col>
                     <Col span={2} push={13}>
                         <Dropdown overlay={this.DropdownMenu} placement="bottomCenter">

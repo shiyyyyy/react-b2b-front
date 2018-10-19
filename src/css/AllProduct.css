@@ -1,0 +1,43 @@
+
+
+.AllProduct{
+    padding: 0 50px 100px 50px;
+}
+/* header-type */
+.AllProduct-header-type{
+    display: flex;
+}
+
+.AllProduct-header-type-item{
+    border: 1px solid rgba(0,0,0,.25);
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+.AllProduct-header-type-item:hover{
+    border-color: #1890ff;
+    color: #1890ff;
+}
+.active-header-type-item{
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+/* ============================== filter ======================= */
+.AllProduct-filter{
+
+}
+.AllProduct-filter-item{
+
+}
+.AllProduct-filter-title{
+
+}
+.AllProduct-filter-main{
+    display: flex;
+    flex-wrap: wrap;
+}
+.AllProduct-filter-main-item{
+    margin-right: 16px;
+}

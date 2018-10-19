@@ -99,7 +99,7 @@ class QA extends React.Component{
                 {/* 分页 */}
                 <Row>
                     <Col className="history-pages">
-                        <Pagination defaultCurrent={1} total={this.state.total}
+                        <Pagination defaultCurrent={this.state.cur_page} total={this.state.total}
                             onChange={(page) => this.pageChange(page)} />
                     </Col>
                 </Row>

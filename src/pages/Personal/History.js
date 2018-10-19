@@ -11,7 +11,7 @@ class History extends React.Component{
         super()
         this.state = {
             cur_tag: 1,
-            
+            cur_page: 1,
             total: 666, // 评论总条数
             cur_page: 1, // 当前第几页
             open_eva_index: '', // 展开的是第几条评论
@@ -152,7 +152,7 @@ class History extends React.Component{
                 {/* 分页 */}
                 <Row>
                     <Col className="history-pages">
-                        <Pagination defaultCurrent={1} total={this.state.total}
+                        <Pagination defaultCurrent={this.state.cur_page} total={this.state.total}
                             onChange={(page) => this.pageChange(page)} />
                     </Col>
                 </Row>
