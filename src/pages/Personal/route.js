@@ -1,4 +1,4 @@
-import Personal from './index';
+import Personal from './Personal';
 
 export default [
 	{

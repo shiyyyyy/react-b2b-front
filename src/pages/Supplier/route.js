@@ -1,4 +1,4 @@
-import Supplier from './index';
+import Supplier from './Supplier';
 
 export default [
     {

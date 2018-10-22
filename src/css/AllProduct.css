@@ -5,7 +5,9 @@
 }
 /* header-type */
 .AllProduct-header-type{
+    height: 40px;
     display: flex;
+    align-items: center;
 }
 
 .AllProduct-header-type-item{
@@ -26,13 +28,14 @@
 
 /* ============================== filter ======================= */
 .AllProduct-filter{
-
+    border: 1px solid rgba(0,0,0,.25);
 }
 .AllProduct-filter-item{
-
+    height: 40px;
+    line-height: 40px;
 }
 .AllProduct-filter-title{
-
+    font-weight: bold;
 }
 .AllProduct-filter-main{
     display: flex;
@@ -40,4 +43,12 @@
 }
 .AllProduct-filter-main-item{
     margin-right: 16px;
+    cursor: pointer;
+}
+.AllProduct-filter-main-item:hover{
+    margin-right: 16px;
+    cursor: pointer;
+}
+.active-filter-main-item{
+    color: #1890ff;
 }
