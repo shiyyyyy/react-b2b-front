@@ -110,10 +110,10 @@ class Personal extends React.Component {
                         )}
                     </Carousel>
                     <div className="modal-carousel-prev" onClick={_ => this.prevImg()}>
-                        <Icon type="left-circle" theme="outlined" />
+                        <Icon type="left-circle" theme="filled" />
                     </div>
                     <div className="modal-carousel-next" onClick={_ => this.nextImg()}>
-                        <Icon type="right-circle" theme="outlined" />
+                        <Icon type="right-circle" theme="filled" />
                     </div>
                 </Row>
                 {/* 热卖推介 */}

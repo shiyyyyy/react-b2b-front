@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import './util/init';
 import { HistoryBrowserRouter } from './util/com';
 import { Provider } from 'react-redux';
 import {store} from './util/core';

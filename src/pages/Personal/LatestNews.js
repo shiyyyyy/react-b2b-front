@@ -84,33 +84,43 @@ class LatestNews extends React.Component {
                     <Col className="LatestNews-content">
                     {this.state.latest.map( (item,index) => 
                         <Col className="LatestNews-item" key={item.id}>
-                            <Col className="LatestNews-time">2018-08-08 17:24:53</Col>
-                            <Col className={this.state.open_latest_index === index ? "LatestNews-main-open" : "LatestNews-main"}>
-                                云南旅行，其实是需要具有一些流浪精神的，这种精神使人能在旅行中和大自然更加接近，大理旅游攻略悠然享受和大自然融合之乐。旅行，大理有一种苍凉，“浮云游子意，落日故人情”，丽江旅游攻略孑然一身，隐入苍茫自然，丽江自有一种孤独的意味;云南旅游，更有一种逍遥，浑然。。。。 ​
+                            <Col span={2}>
+                                <Avatar src={item.avatar ? '/img/avatar1.png' : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'}
+                                    size={64} />
                             </Col>
-                            <Col className="evaluate-open" style={{paddingRight: '5%'}}>
-                                <span onClick={_ => this.open_latest(index)}>
-                                    {this.state.open_latest_index === index ? '收起' : '展开'}
-                                    <Icon className={this.state.open_latest_index === index ? 'evaluate-fold-icon' : 'evaluate-open-icon'}
-                                        type="double-left" theme="outlined" />
-                                </span>
-                            </Col>
-                            <Col className="LatestNews-imgs">
-                            {item.imgs.map((imgs,index)=>
-                                <Col className="LatestNews-imgs-item" key={index}
-                                onClick={_ => this.openModal()}>
-                                    <img src={imgs?imgs:'/img/Login-bg.jpg'} className="LatestNews-imgs-item img-size" />
+                            <Col span={22}>
+                                <Col className="LatestNews-item-r-t">
+                                    <Col className="LatestNews-user">G2爆锤RNG</Col>
+                                    <Col className="LatestNews-time">2018-10-20 17:24:53</Col>
                                 </Col>
-                            )}
-                            </Col>
-                            {/* <Col>
+                                <Col className={this.state.open_latest_index === index ? "LatestNews-main-open" : "LatestNews-main"}>
+                                    韩国旅行，其实是需要具有一些头铁精神的，3选奥巴马这种事,并不需要一起旅游的人认可，大不了一拍两散,反正都叫我拆队狂魔。比赛,其实是一场旅行，头脑清醒的话, 还可以是一种代购方式, 那是一种一种孤独的感觉，“此时,一名高调的世界第一中单路过,嗯?小伙计,你也是世界第一?'世界第一吹jb'”，比赛后我洗澡狗可不是孑然一身，隐入苍茫自然，我还可以逛街、代购; 输了比赛，赢了代购，这波不亏。
+                                </Col>
+                                <Col className="evaluate-open" style={{ paddingRight: '5%' }}>
+                                    <span onClick={_ => this.open_latest(index)}>
+                                        <Icon className={this.state.open_latest_index === index ? 'evaluate-fold-icon' : 'evaluate-open-icon'}
+                                            type="double-left" theme="outlined" /> &nbsp;
+                                {this.state.open_latest_index === index ? '收起全部' : '展开全部'}
+                                    </span>
+                                </Col>
+                                <Col className="LatestNews-imgs">
+                                    {item.imgs.map((imgs, index) =>
+                                        <Col className={"LatestNews-imgs-item "+(index>5?"hide":"")} span={3} key={index} 
+                                            onClick={_ => this.openModal()}>
+                                            <img src={imgs ? imgs : '/img/Login-bg.jpg'} className="LatestNews-img-item img-size" />
+                                        </Col>
+                                    )}
+                                </Col>
+                                {/* <Col>
                                 <span><Icon type="like" theme="outlined" /></span>
                                 <span></span>
-                            </Col> */}
-                            <Col className="index-message-footer">
-                                <span className="index-message-footer-zan"><Icon type="like" theme="outlined" />(998)</span>
-                                <span className="index-message-footer-qa"><Icon type="select" theme="outlined" />(666)</span>
+                                </Col> */}
+                                <Col className="index-message-footer">
+                                    <span className="index-message-footer-zan"><Icon type="like" theme="outlined" />(998)</span>
+                                    <span className="index-message-footer-qa"><Icon type="form" theme="outlined" />(666)</span>
+                                </Col>
                             </Col>
+                            
                         </Col>
                     )}
                     </Col>

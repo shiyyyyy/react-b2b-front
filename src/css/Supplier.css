@@ -36,6 +36,10 @@
     border: none;
 }
 
+/* 重置 评分 颜色 */
+.rate-color{
+  color: #F43266;
+}
 /*-------------------======================= Supplier index=======================-------------- */
 .Supplier-index{
     padding: 0 50px 100px 50px;

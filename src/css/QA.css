@@ -27,9 +27,12 @@
 }
 .QA-Q{
     line-height: 32px;
+    color: #666;
+    margin-top: 4px;
 }
 .QA-A-main{
-
+    text-indent: 2em;
+    font-weight: 300;
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -42,4 +45,18 @@
 }
 
 .QA-A-main-open{
+    text-indent: 2em;
+    font-weight: 300;
+}
+.QA-praise{
+    text-align: center;
+    overflow: hidden;
+}
+.QA-praise-icon{
+    font-size: 40px;
+    line-height: 40px;
+}
+.QA-praise-text{
+    line-height: 32px;
+    font-size: 14px;
 }

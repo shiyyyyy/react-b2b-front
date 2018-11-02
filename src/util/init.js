@@ -1,7 +1,7 @@
-import {pubInit} from './data.js';
+import { trigger ,AppCore} from './core';
 
-function init() {
-	pubInit();
+export function init() {
+
 }
 
-init();
+//init();

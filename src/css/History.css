@@ -2,6 +2,10 @@
     padding: 0 50px 50px 50px;
 }
 
+/* 重置 评分 颜色 */
+.rate-color{
+  color: #F43266;
+}
 /* 评价 */
 .evaluate{
 
@@ -10,9 +14,7 @@
     font-size: 14px;
     color: rgb(0,0,0,.85);
     line-height: 40px;
-    border-top: 1px solid #d9d9d9;
-    border-bottom: 1px solid #d9d9d9;
-    margin-top: 16px;
+    margin-top: 24px;
     display: flex;
 }
 .evaluate-tag-item{
@@ -30,28 +32,38 @@
 
 /* 遍历 评价 */
 .evaluate-item-box{
+    color: #666;
     padding: 16px 24px 16px 0;
 }
 .evaluate-info{
     display: flex;
+    font-size: 16px;
+    font-weight: 500;
 }
 .evaluate-type{
     text-align: center;
     margin-right: 16px;
 }
 .evaluate-com-emp{
-    max-width: 280px;
+    max-width: 600px;
+    color: #333;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
     margin-right: 16px;
 }
+
+.evaluate-pro_name-box{
+    font-weight: 500;
+    clear: both;
+    display: flex;
+}
 .evaluate-pro_name{
-    max-width: 240px;
+    max-width: 730px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    margin-right: 16px;
+    margin-right: 24px;
 }
 .evaluate-dep_date{
     margin-right: 16px;
@@ -60,6 +72,8 @@
 
 }
 .evaluate-time{
+    font-size: 16px;
+    color: #999;
     text-align: right;
 }
 .evaluate-main{
@@ -79,8 +93,9 @@
     margin-top: 8px;
 }
 .evaluate-open{
+    line-height: 28px;
     text-align: right;
-    color: #13c2c2;
+    color: #1890FF;
     user-select: none;
 }
 .evaluate-open span{
@@ -89,30 +104,35 @@
     cursor: pointer;
 }
 .evaluate-open-icon{
-    transform:rotate(-90deg);
+    transform: rotate(-90deg);
 }
 .evaluate-fold-icon{
-    transform:rotate(90deg);
+    transform: rotate(90deg);
 }
 .evaluate-sell{
-
+    font-size: 12px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
 }
-.evaluate-buy{
-
+.evaluate-sell span{
+    color:#999;
+    font-weight: 300;
 }
-
+.evaluate-sell strong{
+    color:#DC1D0E;
+    font-weight: 500;
+}
+.evaluate-sell .evaluate-sell-title{
+    color:#666;
+    font-weight: 500;
+}
 .evaluate-praise{
-    font-size: 50px;
+    font-size: 12px;
     text-align: center;
-}
-.praise1{
-    color: #52c41a;
-}
-.praise2{
-    color: #faad14;
-}
-.praise3{
-    color: #f5222d;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
 /* 分页 */

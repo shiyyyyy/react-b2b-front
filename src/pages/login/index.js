@@ -1,7 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Layout, Icon, Input ,Button } from 'antd';
-
+import { trigger,goTo } from '../../util/core';
+import { userInit } from '../../util/data';
+import { request,encUrl } from '../../util/request';
+import { routes} from '../index';
 import '../../css/Login.css';
 
 const { Header, Content, Footer } = Layout;
@@ -10,14 +13,25 @@ class Login extends React.Component{
     constructor(){
         super()
         this.state = {
-            user_name: '',
-            password: '',
-            veri_code: '',
+            account:'',
+            password:''
         }
+        this.url = '/Session/login';
     }
 
-    submit(){
-        console.log(this)
+    login(){
+        request(this.url,this.state,{wait:1}).then(
+          r => {
+                trigger('更新用户',r.user);
+                userInit().then(r=>{
+                    trigger('更新路由',routes);
+                    goTo('/home');
+                },e=>{
+                    console.log(e);
+                })
+                
+            }
+        );
     }
 
 
@@ -33,7 +47,7 @@ class Login extends React.Component{
                         <div className="box-main">
                             <div className="input-box">
                                 <label>用户名</label>
-                                <Input onChange={e => this.setState({ user_name: e.target.value })}
+                                <Input onChange={e => this.setState({ account: e.target.value })}
                                 type="text" className="user-name" placeholder="请输入用户名" />
                                 <div className={"prompt "+(this.state.err==1?'':'hide')}>用户名错误!</div>
                             </div>
@@ -43,15 +57,8 @@ class Login extends React.Component{
                                 type="password" className="password" placeholder="请输入密码" />
                                 <div className={"prompt "+(this.state.err==2?'':'hide')}>用户密码错误!</div>
                             </div>
-                            <div className="input-box">
-                                <label>验证码</label>
-                                <Input onChange={e => this.setState({ veri_code: e.target.value })}
-                                type="text" className="veri-input" placeholder="请输入验证码" />
-                                <img src="/img/veri.png" className="veri-code" />
-                                <div className={"prompt "+(this.state.err==3?'':'hide')}>验证码错误!</div>
-                            </div>
                         </div>
-                        <Button onClick={_=>this.submit()}
+                        <Button onClick={_=>this.login()}
                         size="large" type="primary" className="submit" block>登录</Button>
                         <div className="login-prompt">
                             有问题请联系供应商!

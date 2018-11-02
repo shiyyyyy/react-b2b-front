@@ -81,6 +81,12 @@
   width: -webkit-fill-available;
   height: -webkit-fill-available;
 }
+/* text */
+.imp-text{
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(233, 13, 13, 0.986);
+}
 
 /* hide */
 .hide{
@@ -96,6 +102,15 @@
 }
 
 /* 多行文本省略 */
+.text-overflow{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.cursor{
+  cursor: pointer;
+}
+
 .text-overflow-2{
     overflow : hidden;
     text-overflow: ellipsis;

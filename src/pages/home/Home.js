@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link, Route, withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Col, Input, Avatar, Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';
 
 import '../../css/Home.css';
+
+import { loadIfEmpty } from '../../util/request';
+import { AppConst } from '../../util/const';
 
 const { Header, Content, Footer } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -47,6 +50,9 @@ class Home extends React.Component {
                 { name: '服务人次', id: '7', num: '23875862' },
             ],
         }
+
+        this.mod = '公开首页';
+        this.authType = AppConst.Pub;
     }
 
     // 城市 改变 回调
@@ -65,6 +71,15 @@ class Home extends React.Component {
     // 顶部搜索事件
     search(value,event){
         console.log(value)
+    }
+
+
+    afterLoad(){
+
+    }
+
+    componentDidMount() {
+        loadIfEmpty(this);
     }
 
 
@@ -135,7 +150,7 @@ class Home extends React.Component {
                         mode="horizontal"
                         defaultSelectedKeys={['2']}
                     >
-                        <Menu.Item key="1">nav 1</Menu.Item>
+                        <Menu.Item key="1"><Link to="/myProduct">nav 1</Link></Menu.Item>
                         <Menu.Item key="2">nav 2</Menu.Item>
                         <Menu.Item key="3">nav 3</Menu.Item>
                     </Menu>
@@ -175,6 +190,7 @@ class Home extends React.Component {
                 <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©2018 Created by Ant UED
                 </Footer>
+
             </Layout>
         )
     }

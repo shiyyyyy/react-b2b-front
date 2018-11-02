@@ -2,7 +2,7 @@ import Personal from './Personal';
 
 export default [
 	{
-		path:'/Personal',
+		path:'/personal',
 		exact: true,
 		component:Personal
 	}

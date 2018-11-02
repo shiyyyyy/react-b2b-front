@@ -5,6 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { History } from './core';
 
 import Swiper from 'swiper/dist/js/swiper.js';
+import { debug } from 'util';
+import { i18n } from './i18n';
+
+import { userInit,pubInit } from './data';
 
 export class HistoryBrowserRouter extends BrowserRouter {
     constructor() {
@@ -15,6 +19,8 @@ export class HistoryBrowserRouter extends BrowserRouter {
 }
 
 
+
+//  弹出框-轮播图 组件
 export class ModalCarousel extends React.Component {
 
     constructor(){
@@ -52,10 +58,10 @@ export class ModalCarousel extends React.Component {
                 )}
                 </Carousel>
                 <div className="modal-carousel-prev" onClick={_ => this.prevImg()}>
-                    <Icon type="left-circle" theme="outlined" />
+                    <Icon type="left-circle" theme="filled" />
                 </div>
                 <div className="modal-carousel-next" onClick={_ => this.nextImg()}>
-                    <Icon type="right-circle" theme="outlined" />
+                    <Icon type="right-circle" theme="filled" />
                 </div>
             </Modal>
         )
@@ -86,4 +92,59 @@ export class ModalCom extends React.Component {
             </Modal>
         )
     }
+}
+
+
+// 供应商页面 -> filter 条件过滤
+export class SupplierFilter extends React.Component{
+    constructor(){
+        super()
+        console.log(this)
+        this.state={
+            data:{}
+        }
+    }
+    componentWillMount(){
+        this.setState({data: this.props.info.data})
+        // 
+    }
+
+    render(){
+        console.log(this.state.data)
+        return(
+            <Col className="AllProduct-filter">
+                {this.state.data &&
+                    Object.keys(this.state.data).map(item =>
+                        <Col className="AllProduct-filter-item" key={item}>
+                            <Col span={2} className="AllProduct-filter-title">{this.state.data[item].title}:</Col>
+                            <Col span={22} className="AllProduct-filter-main">
+                            {Object.keys(this.state.data[item].data).map(key =>
+                                <Col key={key} onClick={_=>this.props.info.cb(item,key)}
+                                className={"AllProduct-filter-main-item " + (this.props.info.search[item] === key ? "active-filter-main-item" : "")}
+                                >{this.state.data[item].data[key]}</Col>
+                            )}
+                            </Col>
+                        </Col>
+                    )
+                }
+            </Col>
+        )
+    }
+}
+
+export function error(p) {
+    let m = {
+        content: p.message || p,
+        title: p.title || i18n.get('ERROR'),
+    };
+    if(p.onOk){
+        m.onOk = p.onOk;
+    }
+    return Modal.error(m);
+}
+
+export function masking() {
+    return (
+        <div className="mask">111</div>
+    );
 }

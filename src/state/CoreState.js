@@ -1,5 +1,5 @@
 import {AppCore} from '../util/core';
-import {buyerInit ,sellerInit} from '../util/data'
+import {userInit} from '../util/data'
 
 
 export const pub = (state = {}, action) => {
@@ -14,13 +14,12 @@ export const pub = (state = {}, action) => {
 export const user = (state = {}, action) => {
   switch (action.type) {
     case '更新用户':
-      if(state.id != action.user.id){
-        if(action.user.id){
-          if(action.user.isBuyer){
-            buyerInit();
-          }else if(action.user.isSeller){
-            sellerInit();
-          }
+    case '本地存储加载用户':
+      AppCore.sid = action.user.sid;
+
+      if(state.sid != action.user.sid){
+        if(action.type == '更新用户'){
+          localStorage[AppCore.APP_NAME] = JSON.stringify(action.user);
         }
       }
       return action.user;
@@ -28,3 +27,13 @@ export const user = (state = {}, action) => {
       return state;
   }
 }
+
+export const routes = (state = [], action) => {
+  switch (action.type) {
+    case '更新路由':
+      return action.routes;
+    default:
+      return state;
+  }
+}
+

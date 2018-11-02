@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 
-import { Icon, Row, Col, Button, Tag, Rate, Avatar, DatePicker, Input, Pagination, Tooltip, Badge, Dropdown } from 'antd';
+import { Icon, Row, Col, Button, Tag, Rate, Avatar, DatePicker, Select, Input, InputNumber , Pagination, Tooltip, Badge, Dropdown } from 'antd';
 // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -11,12 +11,14 @@ import "../../css/AllProduct.css";
 
 moment.locale('zh-cn');
 
+const InputGroup = Input.Group;
+const Option = Select.Option;
 
 class AllProduct extends React.Component {
     constructor() {
         super()
         this.state = {
-            cur_page: 1,
+            page: 1,
             total: 998,
             dep_date: moment(),
             back_date: moment(),
@@ -53,10 +55,9 @@ class AllProduct extends React.Component {
     setBack_date(date, dateString) {
         this.setState({ back_date: date, search: { ...this.state.search, cur_back_date: dateString } })
     }
-    setPrice(key,e){
-        console.log(e.target.value)
+    setPrice(key,price){
         let search = this.state.search
-        search[key] = e.target.value
+        search[key] = price
         this.setState({search: search})
     }
     setSupplier(e){
@@ -64,8 +65,57 @@ class AllProduct extends React.Component {
         search.supplier = e.target.value
         this.setState({search: search})
     }
+    closeSelect(key){
+        let search = this.state.search;
+        search[key] = '';
+        console.log(key)
+        console.log(search)
+        console.log(this.state.search)
+        this.setState({search: search})
+    }
     search(){
         console.log(this)
+    }
+    userSelectModel(key){
+        if(this.state.search[key]==='')return;
+        let keysMenu;
+        debugger
+        switch (key) {
+            case 'cur_city':
+            console.log('city')
+                keysMenu = 'dep_city'
+                break;
+            case 'cur_one':
+                console.log('one')
+                keysMenu = 'level_one'
+                break;
+            case 'cur_two':
+                keysMenu = 'level_two'
+                console.log(this.state.search.cur_one, this.state.search[key])
+                return(
+                    <div key={key}
+                        className={(this.state.search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect')}>
+                        <span style={{ marginRight: '8px' }}>{this.state.level_two[this.state.search.cur_one][this.state.search.cur_two]}</span>
+                        <Icon type="close-circle" theme="outlined" className="AllProduct-filter-userSelect-close"
+                            onClick={_ => this.closeSelect(key)} />
+                    </div>
+                )
+            case 'cur_theme':
+                console.log('theme')
+                keysMenu = 'theme'
+                break;
+            default:
+                console.log('default')
+                break;
+        }
+        return(
+            <div key={key}
+                className={(this.state.search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect')}>
+                <span style={{ marginRight: '8px' }}>{this.state[keysMenu][this.state.search[key]]}</span>
+                <Icon type="close-circle" theme="outlined" className="AllProduct-filter-userSelect-close"
+                    onClick={_ => this.closeSelect(key)} />
+            </div>
+        )
     }
     // 展开折叠
     open_eva(index) {
@@ -78,7 +128,7 @@ class AllProduct extends React.Component {
     // 切换不同 pages
     pageChange(page) {
         console.log(page)
-        this.setState({ cur_page: page })
+        this.setState({ page: page })
     }
 
     render() {
@@ -151,32 +201,68 @@ class AllProduct extends React.Component {
                             )}
                             </Col>
                         </Col>
+
                         <Col className="AllProduct-filter-item">
-                            <Col span={2} className="AllProduct-filter-title">其他条件:</Col>
+                            <Col span={2} className="AllProduct-filter-title">您已选择:</Col>
                             <Col span={22} className="AllProduct-filter-main">
-                                <Col span={3} style={{marginRight: '12px'}}>
+                                {Object.keys(this.state.search).map(key => this.userSelectModel(key))}
+                                {/* {Object.keys(this.state.search).map(key =>
+                                    <div key={key}
+                                    className={(this.state.search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect')}>
+                                        <span style={{marginRight: '8px'}}>{this.state.search[key]}</span>
+                                        <Icon type="close-circle" theme="outlined" className="AllProduct-filter-userSelect-close"
+                                        onClick={_ => this.closeSelect(key)} />
+                                    </div>
+                                )} */}
+                            </Col>
+                        </Col>
+
+                        <Col className="AllProduct-filter-item">
+                            {/* <Col span={2} className="AllProduct-filter-title">其他条件:</Col> */}
+                            <Col className="AllProduct-filter-main">
+                                <Col span={8} className="AllProduct-filter-main-block" style={{marginRight: '12px', marginLeft: '16px'}}>
                                     <DatePicker defaultValue={this.state.date} placeholder="出团日起"
                                     onChange={this.setDep_date.bind(this)} />
-                                </Col>
-                                <Col span={3} style={{marginRight: '12px'}}>
+                                    <span> &nbsp;~&nbsp; </span> 
                                     <DatePicker defaultValue={this.state.date} placeholder="出团日止"
                                     onChange={this.setBack_date.bind(this)} />
                                 </Col>
-                                <Col span={3} style={{marginRight: '12px'}}>
-                                    <Input placeholder="最低价格" onChange={this.setPrice.bind(this, 'min_price')} />
+                                <Col span={6} className="AllProduct-filter-main-block">
+                                    {/* <Input placeholder="最低价格" prefix={<Icon type="property-safety" theme="outlined"
+                                    style={{color: 'rgba(0,0,0,.25)', fontSize: '16px'}} />}
+                                    onChange={this.setPrice.bind(this, 'min_price')} /> */}
+                                    <InputNumber style={{width:'45%'}}
+                                        defaultValue={this.state.search.min_price}
+                                        formatter={value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        parser={value => value.replace(/\￥\s?|(,*)/g, '')}
+                                        onChange={this.setPrice.bind(this, 'min_price')}
+                                    />
+                                    <span> &nbsp;~&nbsp; </span> 
+                                    {/* <Input placeholder="最高价格" prefix={<Icon type="property-safety" theme="outlined"
+                                    style={{color: 'rgba(0,0,0,.25)', fontSize: '16px'}} />}
+                                    onChange={this.setPrice.bind(this, 'max_price')} />  */}
+                                    <InputNumber style={{width: '45%' }}
+                                        defaultValue={this.state.search.max_price}
+                                        formatter={value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                        parser={value => value.replace(/\￥\s?|(,*)/g, '')}
+                                        onChange={this.setPrice.bind(this, 'max_price')}
+                                    />                             
                                 </Col>
-                                <Col span={3} style={{marginRight: '12px'}}>
-                                    <Input placeholder="最高价格" onChange={this.setPrice.bind(this, 'max_price')} />                                
-                                </Col>
-                                <Col span={3} style={{marginRight: '12px'}}>
-                                    <Input placeholder="供应商名称" onChange={this.setSupplier.bind(this)} />
+                                <Col span={6} className="AllProduct-filter-main-block">
+                                    {/* <Input placeholder="供应商名称" onChange={this.setSupplier.bind(this)} /> */}
+                                    <InputGroup compact>
+                                        <Select defaultValue="Zhejiang">
+                                            <Option value="Zhejiang">供应商名称</Option>
+                                            <Option value="Jiangsu">产品名称</Option>
+                                            <Option value="Jiangsu">订单号</Option>
+                                        </Select>
+                                        <Input style={{ width: '50%' }} defaultValue="Xihu District, Hangzhou" />
+                                    </InputGroup>
                                 </Col>
                                 <Col span={3}>
                                     <Button type="primary" icon="search" 
                                     onClick={_=>this.search()}>搜索</Button>
                                 </Col>
-
-                                
                             </Col>
                         </Col>
                     </Col>
@@ -185,7 +271,7 @@ class AllProduct extends React.Component {
                 {/* 分页 */}
                 <Row>
                     <Col className="history-pages">
-                        <Pagination defaultCurrent={this.state.cur_page} total={this.state.total}
+                        <Pagination defaultCurrent={this.state.page} total={this.state.total}
                             onChange={(page) => this.pageChange(page)} />
                     </Col>
                 </Row>

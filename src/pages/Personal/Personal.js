@@ -75,8 +75,8 @@ class Personal extends React.Component {
 
             // 如果需要前进后退按钮
             navigation: {
-                nextEl: '.index-prev',
-                prevEl: '.index-next',
+                nextEl: '.Personal-prev',
+                prevEl: '.Personal-next',
             },
             // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
             observer: true,
@@ -134,7 +134,7 @@ class Personal extends React.Component {
         return(
             <div className="Personal-index">
                 {/* 评分 && 标签 */}
-                <Row>
+                <Row style={{fontSize:'12px'}}>
                     <Col span={12} style={{ borderRight: '1px solid #d9d9d9'}}>
                         <div className="index-impress-tags">商家评分</div>
                         <Col span={6}>
@@ -146,10 +146,10 @@ class Personal extends React.Component {
                             <div className="index-comment">圈内综合评分</div>
                         </Col>
                         <Col span={17} className="index-comment-contrast">
-                            <Col>买家评分<Rate allowHalf defaultValue={4.6} disabled />4.8分  打败全国98%的同行从业人员</Col>
-                            <Col>卖家评分<Rate allowHalf defaultValue={4.4} disabled />4.8分  打败全国98%的同行从业人员</Col>
-                            <Col>资历评分<Rate allowHalf defaultValue={4.8} disabled />4.8分  打败全国98%的同行从业人员</Col>
-                            <Col>口碑评分<Rate allowHalf defaultValue={3.5} disabled />4.8分  打败全国98%的同行从业人员</Col>
+                            <Col>买家评分<Rate className="rate-color" allowHalf defaultValue={4.6} disabled />4.8分  打败全国98%的同行从业人员</Col>
+                            <Col>卖家评分<Rate className="rate-color" allowHalf defaultValue={4.4} disabled />4.8分  打败全国98%的同行从业人员</Col>
+                            <Col>资历评分<Rate className="rate-color" allowHalf defaultValue={4.8} disabled />4.8分  打败全国98%的同行从业人员</Col>
+                            <Col>口碑评分<Rate className="rate-color" allowHalf defaultValue={3.5} disabled />4.8分  打败全国98%的同行从业人员</Col>
                         </Col>
                     </Col>
                     <Col span={12} style={{paddingLeft: '16px'}}>
@@ -191,8 +191,8 @@ class Personal extends React.Component {
                                     ))
                                 }
                             </div>
-                            <div className="swiper-button-prev index-prev"></div>
-                            <div className="swiper-button-next index-next"></div>
+                            <div className="swiper-button-prev Personal-prev"><Icon type="left-circle" theme="filled" /></div>
+                            <div className="swiper-button-next Personal-next"><Icon type="right-circle" theme="filled" /></div>
 
                         </div>
                     </Col>
@@ -219,7 +219,7 @@ class Personal extends React.Component {
                                 <Col className="index-message-content">{item.content}</Col>
                                 <Col className="index-message-footer">
                                     <span className="index-message-footer-zan"><Icon type="like" theme="outlined" /> {item.zan}</span>
-                                    <span className="index-message-footer-qa"><Icon type="select" theme="outlined" /> {item.qa}</span>
+                                    <span className="index-message-footer-qa"><Icon type="form" theme="outlined" /> {item.qa}</span>
                                 </Col>
                             </Col>
                         </Col>

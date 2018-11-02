@@ -70,7 +70,6 @@ class Personal extends React.Component {
     }
 
     componentDidMount() {
-        console.log(Swiper)
         new Swiper('#swiper', {
             loop: true, // 循环模式选项
             slidesPerView: 4,

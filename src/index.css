@@ -6,11 +6,29 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F2F5 !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+#root{
+  width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 1200px){ 
+  #root{
+    width: 980px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 1200px) {
+  #root{
+    width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 /*============================================ 设置 浏览器滚动条 =================================================== */
