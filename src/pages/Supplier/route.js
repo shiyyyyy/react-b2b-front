@@ -2,7 +2,7 @@ import Supplier from './Supplier';
 
 export default [
     {
-        path: '/Supplier',
+        path: '/supplier',
         exact: true,
         component: Supplier
     }

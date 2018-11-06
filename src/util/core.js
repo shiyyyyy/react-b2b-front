@@ -5,6 +5,7 @@ import {actions} from '../action';
 import createHistory from 'history/createBrowserHistory';
 import { Enum } from './enum';
 import { request } from './request';
+import { debug } from 'util';
 
 export const History = createHistory();
 

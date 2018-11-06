@@ -1,5 +1,6 @@
 import { AppCore ,trigger,AppMeta } from  './core';
 import { error } from './com';
+import { debug } from 'util';
 
 export function userInit(){
 	if(!AppCore.HOST){

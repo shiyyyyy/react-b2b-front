@@ -56,7 +56,7 @@
     justify-content: flex-end;
 }
 .home-info-right-top-item{
-    padding: 0 12px;
+    padding: 0 8px;
 }
 .home-info-right-top-item:nth-child(-n+3){
     line-height: 18px;

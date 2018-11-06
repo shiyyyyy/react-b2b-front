@@ -8,6 +8,7 @@ import { masking ,error} from './util/com';
 import { userInit,pubInit} from './util/data';
 import { trigger ,AppCore} from './util/core';
 import { withRouter } from 'react-router-dom';
+import { debug } from 'util';
 
 
 class App extends Component {
@@ -21,29 +22,30 @@ class App extends Component {
     }
 
     componentDidMount() {
-    	if(localStorage[AppCore.APP_NAME]){
-			let user = JSON.parse(localStorage[AppCore.APP_NAME]);
-			trigger('本地存储加载用户',user);
+    	// if(localStorage[AppCore.APP_NAME]){
+		// 	let user = JSON.parse(localStorage[AppCore.APP_NAME]);
+		// 	trigger('本地存储加载用户',user);
+		// 	pubInit().then(r=>{
+		// 		userInit().then(_r=>{
+		// 			trigger('更新路由',routes);
+		// 			this.setState({inited:true});
+		// 		},_e=>{
+		// 			trigger('更新路由',Pubroutes);
+		// 			this.setState({inited:true});
+		// 			//error(_e);
+		// 		})
+		// 	},e=>{
+		// 		error(e);
+		// 	})
+		// }else{
 			pubInit().then(r=>{
-				userInit().then(_r=>{
-					trigger('更新路由',routes);
-					this.setState({inited:true});
-				},_e=>{
-					trigger('更新路由',Pubroutes);
-					this.setState({inited:true});
-					//error(_e);
-				})
-			},e=>{
-				error(e);
-			})
-		}else{
-			pubInit().then(r=>{
-				trigger('更新路由',Pubroutes);
+				// trigger('更新路由', Pubroutes);
+				trigger('更新路由', routes);
 				this.setState({inited:true});
 			},e=>{
 				error(e);
 			})
-		}
+		// }
     }
 
 
@@ -51,11 +53,12 @@ class App extends Component {
     	return (
 	        <div className="App">
 	          { 
-	          	this.state.inited &&
+	          	// this.state.inited &&
 	          	renderRoutes(this.props.s.routes)
-	          }{
+			  }
+			  {/* {
 	          	!this.state.inited && masking()
-	          }
+	          } */}
 	        </div>
 	    );
   }

@@ -12,20 +12,23 @@ class Recommend extends React.Component{
         super()
         this.state = {
             cur_pro_id: '', // 当前展开列表id
-            recommend: [
-                {id:'1',group:[{id:'0'},{id:'1'},{id:'2'}]},
-                {id:'2',group:[{id:'0'},{id:'1'},{id:'2'}]},
-                {id:'3',group:[{id:'0'},{id:'1'},{id:'2'}]},
-                {id:'4',group:[{id:'0'},{id:'1'},{id:'2'}]},
-            ],
-            discount: [
-                {url:'http://bbsfiles.vivo.com.cn/vivobbs/attachment/forum/201604/30/210143sw8cxrbffnxf6zyf.jpg', id: '1', path:'lalalla'},
-                {url:'http://attachments.gfan.com/forum/201504/15/202327b405oo5c0bgz01oo.jpg', id: '2', path:'lalalla'},
-                {url:'http://t1.niutuku.com/960/45/45-439758.jpg', id: '3', path:'lalalla'},
-                {url:'http://pic25.photophoto.cn/20121211/0005018603291216_b.jpg', id: '4', path:'lalalla'},
-                {url:'http://img.bbs.wisenjoy.com/forum/201505/28/193924b37jm9t64hlkd6mp.jpg', id: '5', path:'lalalla'},
-                {url:'http://img2.imgtn.bdimg.com/it/u=1033197597,3656846721&fm=26&gp=0.jpg', id: '6', path:'lalalla'},
-            ],
+            data:{
+                recommend:[
+                    { id: '1', group: [{ id: '0' }, { id: '1' }, { id: '2' }] },
+                    { id: '2', group: [{ id: '0' }, { id: '1' }, { id: '2' }] },
+                    { id: '3', group: [{ id: '0' }, { id: '1' }, { id: '2' }] },
+                    { id: '4', group: [{ id: '0' }, { id: '1' }, { id: '2' }] },
+                ],
+                discount: [
+                    { url: 'http://bbsfiles.vivo.com.cn/vivobbs/attachment/forum/201604/30/210143sw8cxrbffnxf6zyf.jpg', id: '1', path: 'lalalla' },
+                    { url: 'http://attachments.gfan.com/forum/201504/15/202327b405oo5c0bgz01oo.jpg', id: '2', path: 'lalalla' },
+                    { url: 'http://t1.niutuku.com/960/45/45-439758.jpg', id: '3', path: 'lalalla' },
+                    { url: 'http://pic25.photophoto.cn/20121211/0005018603291216_b.jpg', id: '4', path: 'lalalla' },
+                    { url: 'http://img.bbs.wisenjoy.com/forum/201505/28/193924b37jm9t64hlkd6mp.jpg', id: '5', path: 'lalalla' },
+                    { url: 'http://img2.imgtn.bdimg.com/it/u=1033197597,3656846721&fm=26&gp=0.jpg', id: '6', path: 'lalalla' },
+                ],
+            },
+            
         }
         console.log(222)
     }
@@ -51,7 +54,7 @@ class Recommend extends React.Component{
                         <span className="index-title-right">更多<Icon type="right" /></span>
                     </div>
                     <Col className="Recommend-pro-info">
-                    {this.state.recommend.map((item,index)=>
+                    {this.state.data.recommend.map((item,index)=>
                         <Col className="Recommend-pro-info-item" key={item.id}>
                             <Col className="Recommend-top">
                                 <Col span={3} className="Recommend-pro-img-box">
@@ -116,7 +119,7 @@ class Recommend extends React.Component{
                                     {item.group.map(list =>
                                         <Col className="Recommend-pro-group-list" key={list.id}>
                                             <Col className="Recommend-pro-group-list-main">
-                                                <Col span={4}>RNG-GZ-HZ-SM-S8</Col>
+                                                <Col span={4}>RNG-60E-HZ-SM-S8</Col>
                                                 <Col span={3}>2018-08-12</Col>
                                                 <Col span={3}>2018-08-20</Col>
                                                 <Col span={3}>￥24000</Col>
@@ -146,7 +149,7 @@ class Recommend extends React.Component{
                     </div>
                     <Col className="Recommend-pro-discount-content">
                         {
-                            this.state.discount.map((item,index) =>
+                            this.state.data.discount.map((item,index) =>
                             <Col className={"Recommend-pro-discount-item " + (index > 4 ? "hide" : "")} key={item.id}>
                                 <Col className="Recommend-pro-discount-item-photo" key={item.id}>
                                     <img src={item.url ? item.url : 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'}

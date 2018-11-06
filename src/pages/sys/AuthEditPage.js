@@ -45,7 +45,7 @@ class AuthEditPage extends React.Component{
         return(
             <div>
                 {
-                    this.state.loading && masking()
+                    // this.state.loading && masking()
                 }
                 {
                  

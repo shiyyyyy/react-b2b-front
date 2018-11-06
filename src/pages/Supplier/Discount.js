@@ -1,10 +1,13 @@
 // 尾货甩卖
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { Icon, Row, Col, Button, Pagination, Checkbox } from 'antd';
 import { SupplierFilter } from '../../util/com';
 
 import '../../css/Discount.css';
+import { debug } from 'util';
+import { get } from 'http';
 
 const CheckboxGroup = Checkbox.Group;
 class Discount extends React.Component{
@@ -20,7 +23,7 @@ class Discount extends React.Component{
                 }, 
                 level_one:{
                     title: '一级标签',
-                    data: { 1: '北美', 2: '南美', 3: '欧洲', 4: '东南亚', 5: '非洲', 6: '大洋洲', 7: '南北极', 8: '国内', 9: '日韩朝鲜', 10: '全球游轮', 11: '全球签证', },
+                    data: { 1: '北美', 2: '南美', 3: '欧洲', 4: '东南亚', 5: '非洲', 6: '大洋洲', 7: '南北极', 8: '国内', 9: '日韩朝鲜', 10: '全球游轮', 11: '全球签证', 12: '月球登陆', 13: '太空美景', 14: '太阳系环游' },
                 },
                 // level_two:{
                 //     title: '二级标签',
@@ -32,16 +35,20 @@ class Discount extends React.Component{
                 }, 
                 travel_date:{
                     title: '出行月份',
-                    data: { 1: '一月', 2: '二月', 3: '三月', 4: '四月', 5: '五月', 6: '六月', 7: '七月', 8: '八月', 9: '九月', 10: '十月', 11: '十一月', 12: '十二月' },
+                    data: { 1: '一月', 2: '二月', 3: '三月', 4: '四月', 5: '五月', 6: '六月', 7: '七月', 8: '八月', 9: '九月', 10: '十月', 11: '十一月', 12: '十二月', 13: '十三月', 14: '星期八' },
                 }, 
             },
 
             search: {
-                cur_city: '',
-                cur_one: '',
-                cur_two: '',
-                cur_theme: '',
-                cur_travel_date: '',
+                // cur_city: '',
+                // cur_one: '',
+                // cur_two: '',
+                // cur_theme: '',
+                // cur_travel_date: '',
+                dep_city: [],
+                level_one: [],
+                theme: [],
+                travel_date: [],
             },
             discount: [
                 { path: 'http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg', name: '东南亚4国连游', id: '1', origin: '29999', present: '28888' },
@@ -80,6 +87,66 @@ class Discount extends React.Component{
         }
         this.setState({ search: search })
     }
+    setCheckbox(e,item,key){
+        let search = this.state.search
+        // 想办法关联起来(选项true和fales=>当前选中)
+        if (search[item].indexOf(key)!==-1){
+            search[item].splice(search[item].indexOf(key),1)
+        }else{
+            search[item].push(key)
+        }
+        this.setState({search: search})
+    }
+    setAllCheckbox(item){
+        let search = this.state.search
+        let data = this.state.data
+        if (Object.keys(data[item].data).length === search[item].length){
+            search[item] = []
+        }else{
+            search[item] = []
+            search[item] = search[item].concat(Object.keys(data[item].data))
+        }
+        this.setState({search: search})
+    }
+    // more filter
+    moreFilter(item){
+        let dom = ReactDOM.findDOMNode(this[item])
+        if (dom.offsetHeight > 40){
+            dom.style.height = '40px'
+            dom.style.overflow = 'hidden'
+            this.setState({[item+'Text']: '展开'})
+        }else{
+            dom.style.height = 'auto';
+            dom.style.overflow = 'auto';
+            this.setState({ [item + 'Text']: '收起' })
+        }
+    }
+    //  取消 您已选择
+    closeSelect(key){
+        let search = this.state.search
+        search[key] = []
+        this.setState({search: search})
+    }
+
+    // 如果 高度大于40 则隐藏并显示 more
+    judgeMore(){
+        Object.keys(this.state.data).map(item=>{
+            let dom = ReactDOM.findDOMNode(this[item])
+            if(dom.offsetHeight > 40){
+                dom.style.height = '40px'
+                dom.style.overflow = 'hidden'
+                this.setState({[item+'More']: true})
+            }
+        })
+    }
+
+    componentDidMount(){
+        console.log(this)
+        Object.keys(this.state.data).map(item=>{
+            this[item] = document.getElementById(item)
+        })
+        this.judgeMore()
+    }
 
     // 切换不同 pages
     pageChange(page) {
@@ -96,7 +163,8 @@ class Discount extends React.Component{
                     {/* {this.state.data && this.SupplierFilterFunc()} */}
 
                     <Col className="AllProduct-filter">
-                    {this.state.data &&
+                    {/* 抽象-单写出来 */}
+                    {/* {this.state.data &&
                     Object.keys(this.state.data).map(item =>
                         <Col className="AllProduct-filter-item" key={item}>
                             <Col span={2} className="AllProduct-filter-title">{this.state.data[item].title}:</Col>
@@ -108,17 +176,59 @@ class Discount extends React.Component{
                             )}
                             </Col>
                         </Col>
-                    )}
+                    )} */}
                     </Col>
-                    {/* <Checkbox
-                        indeterminate={this.state.indeterminate}
-                        onChange={this.onCheckAllChange}
-                        checked={this.state.checkAll}
-                    >
-                        Check all
-                    </Checkbox>
-                    <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} /> */}
+
+                    <Col className="AllProduct-filter">
+                        {/* 抽象-多选 */}
+                        {this.state.data &&
+                        Object.keys(this.state.data).map(item =>
+                        <Row style={{borderBottom: '1px #d9d9d9 dashed'}} key={item}>
+                            <Col className="AllProduct-filter-item">
+                                <Col span={2} className="AllProduct-filter-title">{this.state.data[item].title}:</Col>
+                                <Col span={21} className="AllProduct-filter-main" id={[item]} ref={ref=>this[item]=ref}>
+                                <Checkbox checked={this.state.search[item].length === Object.keys(this.state.data[item].data).length}
+                                onChange={this.setAllCheckbox.bind(this,item)} style={{marginLeft: '8px'}} >不限</Checkbox>
+                                {Object.keys(this.state.data[item].data).map(key =>
+                                    <Checkbox key={key}
+                                        checked={this.state.search[item].indexOf(key) !== -1}
+                                        onChange={e=>this.setCheckbox(e,item,key)}
+                                    >{this.state.data[item].data[key]}</Checkbox>
+                                )}
+                                </Col>
+                                {this.state[item+"More"] && 
+                                <Col span={1} className={'AllProduct-filter-more ' + (this.state[item+"More"]?'':'hide')} onClick={_ => this.moreFilter(item)}>
+                                    {this.state[item+'Text']?this.state[item+'Text']:'展开'}<Icon type={this.state[item+'Text']==='收起'?"up":'down'} theme="outlined" />
+                                </Col>
+                                }
+                            </Col>
+                        </Row>
+                        )}
+                        <Col className="AllProduct-filter-item">
+                            <Col span={2} className="AllProduct-filter-title">您已选择:</Col>
+                            <Col span={22} className="AllProduct-filter-main">
+                                {Object.keys(this.state.search).map(key =>
+                                    <div key={key}
+                                        className={(this.state.search[key].length === 0 ? 'hide' : 'AllProduct-filter-userSelect')}>
+                                        <span style={{ marginRight: '8px' }} >
+                                            {this.state.search[key].map((itemText,index) => {
+                                                if ((index + 1) === this.state.search[key].length){
+                                                    return this.state.data[key].data[itemText]
+                                                }
+                                                else{
+                                                    return this.state.data[key].data[itemText] + '、'
+                                                }
+                                            })}
+                                        </span>
+                                        <Icon type="close-circle" theme="outlined" className="AllProduct-filter-userSelect-close"
+                                            onClick={_ => this.closeSelect(key)} />
+                                    </div>
+                                )}
+                            </Col>
+                        </Col>
+                    </Col>
                 </Row>
+                
                 {/*  */}
                 <Row type="flex">
                     <div className="index-title">
