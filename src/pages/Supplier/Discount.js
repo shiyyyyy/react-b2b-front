@@ -159,7 +159,7 @@ class Discount extends React.Component{
             <div className="Discount">
                 {/*  */}
                 <Row>
-                    {/* 抽象 filter */}
+                    {/* 抽象 filter 单选 */}
                     {/* {this.state.data && this.SupplierFilterFunc()} */}
 
                     <Col className="AllProduct-filter">
