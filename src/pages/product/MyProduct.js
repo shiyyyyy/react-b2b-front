@@ -1,7 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import { loadIfEmpty } from '../../util/request';
-import { masking } from  '../../util/com';
 import { AppConst } from '../../util/const';
 
 class MyProduct extends React.Component{
@@ -23,9 +22,6 @@ class MyProduct extends React.Component{
     render(){
         return(
             <div>
-                {
-                    // this.state.loading && masking()
-                }
                 {
                     !this.state.loading &&
                     <div>123</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Fragment} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Col, Input, Avatar, Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';
 
@@ -6,6 +6,7 @@ import '../../css/Home.css';
 
 import { loadIfEmpty } from '../../util/request';
 import { AppConst } from '../../util/const';
+import { nonBlockLoading } from '../../util/com';
 
 const { Header, Content, Footer } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -85,114 +86,128 @@ class Home extends React.Component {
 
     render(){
         return(
-            <Layout className="Home">
-                <div className="home-header">
-                    <div className="home-logo"></div>
-                    <div className="home-search">
+            <Fragment>
+            {
+                !this.state.data && nonBlockLoading()
+            }
+            {
+                this.state.data &&
+                <Layout className="Home">
+                    <div className="home-header">
+                        <div className="home-logo"></div>
+                        <div className="home-search">
 
-                        <Select defaultValue={this.state.cur_city} className="home-search-city"
-                            onChange={(value, option) => this.cityChange(value, option)}>
-                            {this.state.cityArr.map(item=>
-                                <Option value={item.id} key={item.id}>{item.value}</Option>
-                            )}
-                        </Select>
-
-                        <InputGroup compact className="home-search-input">
-                            <Select defaultValue={"东南亚"} onChange={(value, option) => this.lineChange(value, option)}>
-                                {this.state.lineArr.map(item =>
+                            <Select defaultValue={this.state.cur_city} className="home-search-city"
+                                onChange={(value, option) => this.cityChange(value, option)}>
+                                {this.state.cityArr.map(item=>
                                     <Option value={item.id} key={item.id}>{item.value}</Option>
                                 )}
                             </Select>
-                            <Search
-                                placeholder={'请输入产品名称'}
-                                onSearch={(value, event) => this.search(value, event)}
-                                enterButton
-                            />
-                        </InputGroup>
-                    </div>
-                    <div className="home-info">
-                        <div span={6} push={1} className="home-info-right-top">
-                            <div className="home-info-right-top-item">
-                                <span className="home-info-right-top-item-text">设为首页</span>
-                                {/* <a href='#' onClick={"this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.baidu.com')}"}>设为首页</a> */}
-                            </div>
-                            <div className="home-info-right-top-item">
-                                <span className="home-info-right-top-item-text">加入收藏</span>
-                                {/* <a target='_top' href="javascript:window.external.AddCollection('http://www.baidu.com','百度');">加入收藏</a> */}
-                            </div>
-                            <div className="home-info-right-top-item">
-                                <span className="home-info-right-top-item-text">官方微信</span>
-                            </div>
-                            <div className="home-info-right-top-item" style={{paddingRight:'0'}}>
-                                <span className="home-info-right-top-item-text">在线帮助</span>
-                            </div>
-                        </div>
-                        <div className="home-info-right-btm">
-                            <div className="home-info-right-btm-serv">
-                                <div className="home-header-icon-box"><Icon type="customer-service" theme="outlined" /></div>
-                                <div>
-                                    <div>欢迎使用</div><div>在线客服</div>
-                                </div>
-                            </div>
-                            <div className="home-info-right-btm-mobile">
-                                <div className="home-header-icon-box"><Icon type="phone" theme="outlined" /></div>
-                                <div>
-                                    <div>24h客户服务电话</div><div>400-800-8888</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <Header>
-                    <div className="logo" />
-                    <Menu
-                        theme="dark"
-                        mode="horizontal"
-                        defaultSelectedKeys={['2']}
-                    >
-                        <Menu.Item key="1"><Link to="/myProduct">nav 1</Link></Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
-                    </Menu>
-                </Header>
-                <Content className="home-content">
-                    <Row>
-                        <Col span={3} className="home-content-left">
-                        {this.state.lineType.map( item =>
-                            <Col className="home-content-left-item" key={item.id}>
-                                <img src='/img/avatar1.png'
-                                className="home-content-left-img" />
-                                <span className="home-content-left-text">{item.name}</span>
-                            </Col>
-                        )}
-                        </Col>
-                        <Col span={17}>
-                            <img src="/img/Login-bg.jpg" style={{width: '98%'}} />
-                        </Col>
-                        <Col span={4} className="home-content-right">
-                        {this.state.weInfo.map((item,index) =>
-                            <Col className="home-content-left-item" key={item.id}>
-                                    <Col className={"home-content-left-item-top "+('bgc-'+index)}>
-                                    {item.name}
-                                    <div className="home-content-left-item-top-circle"></div>
-                                    <div className="home-content-left-item-top-step">STEP</div>
-                                    <div className="home-content-left-item-top-num">{"0" + (index + 1)}</div>
-                                </Col>
-                                <Col className="home-content-left-item-btm">
-                                    <span>{item.num}条</span>
-                                    <span><Button size={'small'}>查看</Button></span>
-                                </Col>
-                            </Col>
-                        )}
-                        </Col>
-                    </Row>
-                </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©2018 Created by Ant UED
-                </Footer>
 
-            </Layout>
-        )
+                            <InputGroup compact className="home-search-input">
+                                <Select defaultValue={"东南亚"} onChange={(value, option) => this.lineChange(value, option)}>
+                                    {this.state.lineArr.map(item =>
+                                        <Option value={item.id} key={item.id}>{item.value}</Option>
+                                    )}
+                                </Select>
+                                <Search
+                                    placeholder={'请输入产品名称'}
+                                    onSearch={(value, event) => this.search(value, event)}
+                                    enterButton
+                                />
+                            </InputGroup>
+                        </div>
+                        <div className="home-info">
+                            <div span={6} push={1} className="home-info-right-top">
+                                <div className="home-info-right-top-item">
+                                    <span className="home-info-right-top-item-text">设为首页</span>
+                                    {/* <a href='#' onClick={"this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.baidu.com')}"}>设为首页</a> */}
+                                </div>
+                                <div className="home-info-right-top-item">
+                                    <span className="home-info-right-top-item-text">加入收藏</span>
+                                    {/* <a target='_top' href="javascript:window.external.AddCollection('http://www.baidu.com','百度');">加入收藏</a> */}
+                                </div>
+                                <div className="home-info-right-top-item">
+                                    <span className="home-info-right-top-item-text">官方微信</span>
+                                </div>
+                                <div className="home-info-right-top-item" style={{paddingRight:'0'}}>
+                                    <span className="home-info-right-top-item-text">在线帮助</span>
+                                </div>
+                            </div>
+                            <div className="home-info-right-btm">
+                                <div className="home-info-right-btm-serv">
+                                    <div className="home-header-icon-box"><Icon type="customer-service" theme="outlined" /></div>
+                                    <div>
+                                        <div>欢迎使用</div><div>在线客服</div>
+                                    </div>
+                                </div>
+                                <div className="home-info-right-btm-mobile">
+                                    <div className="home-header-icon-box"><Icon type="phone" theme="outlined" /></div>
+                                    <div>
+                                        <div>24h客户服务电话</div><div>400-800-8888</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <Header>
+                        <div className="logo" />
+                        <Menu
+                            theme="dark"
+                            mode="horizontal"
+                            defaultSelectedKeys={['1']}
+                        >
+                            <Menu.Item key="1"><Link to="/home">平台首页</Link></Menu.Item>
+                            <Menu.Item key="2"><Link to="/retail">批零分销</Link></Menu.Item>
+                            <Menu.Item key="3"><Link to="/myProduct">尾货专区</Link></Menu.Item>
+                            <Menu.Item key="4"><Link to="/myProduct">问答论坛</Link></Menu.Item>
+                            <Menu.Item key="5"><Link to="/myProduct">大神学院</Link></Menu.Item>
+                            <Menu.Item key="6"><Link to="/myProduct">业内招聘</Link></Menu.Item>
+                            <Menu.Item key="7"><Link to="/myProduct">产品软件</Link></Menu.Item>
+                            <Menu.Item key="8"><Link to="/myProduct">开放接口</Link></Menu.Item>
+                            <Menu.Item key="9"><Link to="/myProduct">关于我们</Link></Menu.Item>
+                        </Menu>
+                    </Header>
+                    <Content className="home-content">
+                        <Row>
+                            <Col span={3} className="home-content-left">
+                            {this.state.lineType.map( item =>
+                                <Col className="home-content-left-item" key={item.id}>
+                                    <img src='/img/avatar1.png'
+                                    className="home-content-left-img" />
+                                    <span className="home-content-left-text">{item.name}</span>
+                                </Col>
+                            )}
+                            </Col>
+                            <Col span={17}>
+                                <img src="/img/Login-bg.jpg" style={{width: '98%'}} />
+                            </Col>
+                            <Col span={4} className="home-content-right">
+                            {this.state.weInfo.map((item,index) =>
+                                <Col className="home-content-left-item" key={item.id}>
+                                        <Col className={"home-content-left-item-top "+('bgc-'+index)}>
+                                        {item.name}
+                                        <div className="home-content-left-item-top-circle"></div>
+                                        <div className="home-content-left-item-top-step">STEP</div>
+                                        <div className="home-content-left-item-top-num">{"0" + (index + 1)}</div>
+                                    </Col>
+                                    <Col className="home-content-left-item-btm">
+                                        <span>{item.num}条</span>
+                                        <span><Button size={'small'}>查看</Button></span>
+                                    </Col>
+                                </Col>
+                            )}
+                            </Col>
+                        </Row>
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>
+                        Ant Design ©2018 Created by Ant UED
+                    </Footer>
+
+                </Layout>
+            }
+            </Fragment>
+        );
     }
 }
 

@@ -1,5 +1,5 @@
 import {AppCore} from '../util/core';
-import {userInit} from '../util/data'
+import {userInit} from '../util/data';
 
 
 export const pub = (state = {}, action) => {

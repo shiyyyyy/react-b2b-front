@@ -191,8 +191,8 @@ class Discount extends React.Component{
                                 onChange={this.setAllCheckbox.bind(this,item)} style={{marginLeft: '8px'}} >不限</Checkbox>
                                 {Object.keys(this.state.data[item].data).map(key =>
                                     <Checkbox key={key}
-                                        checked={this.state.search[item].indexOf(key) !== -1}
-                                        onChange={e=>this.setCheckbox(e,item,key)}
+                                        checked={this.state.search[item].indexOf(key-0) !== -1}
+                                        onChange={e=>this.setCheckbox(e,item,key-0)}
                                     >{this.state.data[item].data[key]}</Checkbox>
                                 )}
                                 </Col>

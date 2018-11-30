@@ -30,7 +30,6 @@ class Recommend extends React.Component{
             },
             
         }
-        console.log(222)
     }
 
     // 点击查看详情 展开团期列表

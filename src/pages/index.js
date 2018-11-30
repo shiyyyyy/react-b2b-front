@@ -3,7 +3,7 @@ import PersonalRoute from './personal/route';
 import HomeRoute from './home/route';
 import ProductRoute from './product/route';
 import SupplierRoute from './supplier/route';
-import SysRoute from './sys/route';
+import RetailRoute from './retail/route';
 import NoMatch from './NoMatch';
 
 export const routes = [
@@ -12,7 +12,7 @@ export const routes = [
 	...HomeRoute,
 	...ProductRoute,
 	...SupplierRoute,
-	...SysRoute,
+	...RetailRoute,
 	{
 		component:NoMatch
 	}

@@ -144,8 +144,8 @@ class Personal extends React.Component {
                                     ))
                                 }
                             </div>
-                            <div className="swiper-button-prev Supplier-index-prev"></div>
-                            <div className="swiper-button-next Supplier-index-next"></div>
+                            <div className="swiper-button-prev Supplier-index-prev"> <Icon type="left-circle" theme="filled" /></div>
+                            <div className="swiper-button-next Supplier-index-next"> <Icon type="right-circle" theme="filled" /></div>
 
                         </div>
                     </Col>

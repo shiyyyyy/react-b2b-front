@@ -79,7 +79,7 @@
     border-radius: 50%;
     position: absolute;
     top: 47%;
-    left: 1%;
+    left: 2%;
 }
 .modal-carousel-prev:hover,.modal-carousel-next:hover{
     color: #fff;
@@ -98,5 +98,5 @@
     border-radius: 50%;
     position: absolute;
     top: 47%;
-    right: 1%;
+    right: 2%;
 }

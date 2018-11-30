@@ -5,14 +5,11 @@ import { Layout, Menu, Icon, Row, Col, Avatar, Button, Tabs, Rate, Tag, Modal } 
 
 import Swiper from 'swiper/dist/js/swiper.js';
 import 'swiper/dist/css/swiper.min.css';
-
-
-// modal 
+// modal
 export class ComModal extends React.Component{
     constructor(){
         super();
         this.state = {}
-        console.log(this)
         this.swiperId = null
     }
 

@@ -58,6 +58,35 @@
     height: 130px;
     padding: 12px 4px;
 }
+.Supplier-index-prev{
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: rgba(255,255,255,.5);
+    background: none;
+    /* background-color: rgba(255,255,255,.4); */
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top: 49%;
+    left: 1%;
+}
+.Supplier-index-next{
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: rgba(255,255,255,.5);
+    background: none;
+    /* background-color: rgba(255,255,255,.4); */
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top: 49%;
+    right: 1%;
+}
+.Supplier-index-prev:hover, .Supplier-index-next:hover{
+    color: rgba(255,255,255,.7);
+}
 
 
 

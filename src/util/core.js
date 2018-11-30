@@ -40,7 +40,7 @@ export function goBack() {
 }
 
 export function get_mod_cfg(mod) {
-    if (AppMeta.mods[mod].read) {
+    if (AppMeta.mods[mod] && AppMeta.mods[mod].read) {
         return AppMeta.mods[mod];
     }
 

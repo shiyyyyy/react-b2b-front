@@ -1,6 +1,6 @@
 import { AppCore ,trigger,AppMeta } from  './core';
 import { error } from './com';
-import { debug } from 'util';
+import { routes,Pubroutes } from '../pages';
 
 export function userInit(){
 	if(!AppCore.HOST){
@@ -29,6 +29,7 @@ export function userInit(){
                     return;
                 }
                 metaInit(r.data);
+                routeInit(r.data);
                 rs(r);
 			},e=>{
 				rj(e);
@@ -39,6 +40,22 @@ export function userInit(){
 
 function metaInit(meta) {
 	Object.assign(AppMeta,meta);
+}
+
+
+//meta中包含path信息 只有与path相匹配的路由会被render
+//不在权限中的路由不可访问
+function routeInit(meta){
+    let paths = meta['path'] || [];
+    let rs = [];
+   	// routes.map((item,key)=>{
+   	// 	if(paths.indexOf(item['path'])!==-1){
+   	// 		rs.push(item);
+   	// 	}
+   	// });
+   	// rs = [...rs,...Pubroutes];
+   	rs = [...routes];
+   	trigger('更新路由',rs);
 }
 
 export function pubInit(){
@@ -63,6 +80,7 @@ export function pubInit(){
 	                    return;
 	                }
 	                metaInit(r.data);
+	                routeInit(r.data);
 	                rs(r);
 				},e=>{
 					rj(e);

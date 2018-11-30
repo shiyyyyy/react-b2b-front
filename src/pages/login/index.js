@@ -24,7 +24,6 @@ class Login extends React.Component{
           r => {
                 trigger('更新用户',r.user);
                 userInit().then(r=>{
-                    trigger('更新路由',routes);
                     goTo('/home');
                 },e=>{
                     console.log(e);

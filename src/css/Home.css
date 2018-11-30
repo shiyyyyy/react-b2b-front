@@ -1,6 +1,14 @@
 .Home{
 
 }
+.Home-content{
+    margin-top: 16px;
+    background: #fff;
+}
+
+.Home-Tabs{
+    padding: 0 50px 50px 50px;
+}
 
 /* 覆盖 menu 样式 */
 .Home .ant-menu-dark, .ant-menu-dark .ant-menu-sub{
@@ -39,6 +47,7 @@
 }
 .home-search-city{
     height: 32px;
+    min-width: 72px;
     margin-right: 16px;
 }
 .home-search-input{

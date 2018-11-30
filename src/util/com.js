@@ -143,8 +143,11 @@ export function error(p) {
     return Modal.error(m);
 }
 
-export function masking() {
+//icon 待定
+export function nonBlockLoading() {
     return (
-        <div className="mask">111</div>
+        <div className="after-list text-center">
+          
+        </div>
     );
 }

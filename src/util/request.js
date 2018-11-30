@@ -2,12 +2,13 @@ import {AppCore,AppMeta,trigger,goTo,goBack,get_mod_cfg,get_action_cfg,haveModAu
 import { error } from './com';
 import { Enum } from './enum';
 import { AppConst } from './const';
-import nprogress from 'nprogress';
 import { userInit ,pubInit} from './data';
+import { debug } from 'util';
 
 const loadDelay = 300;
 
 export function request(url, body, cfg) {
+
     cfg = cfg || {};
     body = body || {};
     if (url.indexOf('http') !== 0) {
@@ -16,7 +17,6 @@ export function request(url, body, cfg) {
         }
         url = AppCore.HOST + url;
     }
-
 
 
     if (AppCore.sid) {
@@ -95,7 +95,6 @@ export function loadIfEmpty(view, done) {
 
 export function reload(view, done) {
     view.setState({ loading: true });
-    nprogress.start();
     setTimeout(_ => _reload(view, done), loadDelay);
 }
 
@@ -216,11 +215,9 @@ function _reload(view, done) {
     request(url,undefined,{rj:1}).then(
         r => {
             view.setState({ filled: true, loading: false, data: r.data }, done);
-            nprogress.done();
         },
         e =>{
             goBack();
-            nprogress.done();
         }
     )
 }
