@@ -5,7 +5,7 @@ import { NormalRegimentProduct } from "./NormalRegimentProduct";
 export default [
     {
         path: '/retail',
-        component: Retail
+        component: Retail,
     },
     {
         path: '/normalRegimentProduct',

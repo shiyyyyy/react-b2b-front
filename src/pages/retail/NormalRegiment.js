@@ -9,6 +9,8 @@ class NormalRegiment extends React.Component{
     constructor(){
         super();
         this.state = {
+            // id 是为了让filter组件里面的id不同,否则会有影响(应为都是固定id不同页面会影响,每个页面加特色前缀就OK)
+            id: 'Normal',
             cur_page: 1,
             total: 110,
             filterObj:{

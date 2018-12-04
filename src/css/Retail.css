@@ -1,10 +1,6 @@
 
 
 
-
-
-
-
 /* 左菜单-右轮播图 模块 */
 .Scattered-col{
 }
@@ -32,7 +28,7 @@
     justify-content: center;
     flex-wrap: nowrap;
 }
-/*  轮播图模块样式变更 => 专属 Scattered-right-carousel */
+/* ================= 轮播图模块样式变更 => 专属 Scattered-right-carousel ================= */
 
 .Scattered-right-carousel .ant-carousel{
     width: 100%;
@@ -55,4 +51,142 @@
 }
 .Scattered-right-carousel .slick-slide div{
     height: 100%;
+}
+
+/* ================= ========     左轮播图,右产品信息 ProInfo-header      ======================*/
+.ProInfo-header{
+    background: #fff;
+    border-radius: 6px;
+    padding: 24px;
+}
+/* -------------------------左边轮播图--------------------- */
+.ProInfo-left{
+
+}
+.ProInfo-left-big{
+
+}
+.ProInfo-left-big-item{
+    height: 350px;
+}
+.ProInfo-left-small-box{
+    background: #fff;
+    border-radius: 4px;
+    padding: 6px 0;
+    margin-top: 12px;
+}
+.ProInfo-left-small{
+    height: 100px;
+}
+.ProInfo-left-small-item{
+    padding: 0px 6px;
+    border-radius: 4px;
+    opacity: .5;
+}
+.ProInfo-left-small-item-active{
+    opacity: 1;
+}
+.ProInfo-left-small-img{
+    height: 100%;
+}
+.ProInfo-right{
+
+}
+/* ----------=---------------右边信息------------- ------------*/
+.ProInfo-right{
+    padding-left: 12px;
+}
+.ProInfo-right-name{
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 24px;
+}
+.ProInfo-right-info{
+    font-size: 12px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.ProInfo-right-info-item{
+    width: 20%;
+    padding: 2px 4px;
+    border: 1px solid #9FBF4D;
+    border-radius: 2px;
+    color: #9FBF4D;
+}
+.ProInfo-right-info-item div{
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.ProInfo-right-detail{
+    font-size: 13px;
+    text-align: left;
+    line-height: 40px;
+    margin-left: 12px;
+    margin-top: 24px;
+}
+.ProInfo-right-detail-item{
+
+}
+.ProInfo-right-detail-title{
+    color: #999;
+    width: 72px;
+    display: inline-block;
+}
+.ProInfo-right-detail-main{
+    
+}
+.ProInfo-right-detail-main strong{
+    font-size: 18px;
+    font-weight: normal;
+    color: #D74B4B;
+}
+/* -----------------------如果有预定 ---------------------- */
+.ProInfo-num{
+    clear: both;
+    overflow: hidden;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 2px solid #DEE4EA;
+}
+/* 左边 */
+.ProInfo-num-left{
+    height: 40px;
+    line-height: 40px;
+    padding: 0 100px;
+    display: flex;
+}
+.ProInfo-num-left-Adult{
+    /* width: 175px; */
+    width: 50%;
+}
+.ProInfo-num-left-Children{
+    /* width: 175px; */
+    width: 50%;
+}
+/* 右边 */
+.ProInfo-num-right{
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.ProInfo-num-right-price{
+    color: #D74B4B;
+}
+.ProInfo-num-right-price span{
+    font-size: 20px;
+    font-weight: bold;
+}
+.ProInfo-num-right-Reserve{
+    font-size: 18px;
+    margin: 0 20px;
+    width: 150px;
+    height: 40px;
+    background: #D74B4B;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
 }

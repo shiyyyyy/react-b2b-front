@@ -184,7 +184,7 @@ export class FilterDefault extends React.Component{
     componentDidMount() {
         let that = this
         Object.keys(this.view.state.filterObj).map(item => {
-            that[item] = document.getElementById(item)
+            that[item] = document.getElementById(that.view.state.id+item)
         })
         this.judgeMore(that)
     }
@@ -199,7 +199,7 @@ export class FilterDefault extends React.Component{
                             <Row style={{ borderBottom: '1px #d9d9d9 dashed' }} key={item}>
                                 <Col className="AllProduct-filter-item">
                                     <Col span={2} className="AllProduct-filter-title">{this.view.state.filterObj[item].title}:</Col>
-                                    <Col span={21} className="AllProduct-filter-main" id={[item]} ref={ref => this[item] = ref}>
+                                    <Col span={21} className="AllProduct-filter-main" id={this.view.state.id+item} ref={ref => this[item] = ref}>
                                         <Checkbox checked={this.view.state.filterSearch[item].length === Object.keys(this.view.state.filterObj[item].data).length}
                                             onChange={e=>this.setAllCheckbox(e,item)} style={{ marginLeft: '8px' }} >不限</Checkbox>
                                         {Object.keys(this.view.state.filterObj[item].data).map(key =>
@@ -269,8 +269,8 @@ export class MultiCarousel extends React.Component{
 
             // 如果需要前进后退按钮
             navigation: {
-                nextEl: '.Supplier-index-prev',
-                prevEl: '.Supplier-index-next',
+                nextEl: `#${this.props.swiperCfg.id}prevCtrl`,
+                prevEl: `#${this.props.swiperCfg.id}nextCtrl`,
             },
             // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
             observer: true,
@@ -297,8 +297,8 @@ export class MultiCarousel extends React.Component{
                                 ))
                             }
                         </div>
-                        <div className="swiper-button-prev Supplier-index-prev "> <Icon type="left-circle" theme="filled" /></div>
-                        <div className="swiper-button-next Supplier-index-next"> <Icon type="right-circle" theme="filled" /></div>
+                        <div className="swiper-button-prev Supplier-index-prev" id={this.props.swiperCfg.id+'prevCtrl'}> <Icon type="left-circle" theme="filled" /></div>
+                        <div className="swiper-button-next Supplier-index-next" id={this.props.swiperCfg.id+'nextCtrl'}> <Icon type="right-circle" theme="filled" /></div>
 
                     </div>
                 </Col>
@@ -477,5 +477,197 @@ export class FormAndCarsou extends React.Component{
             </Row>
         )
     }
+}
 
+
+// 左 轮播图/  右 商品详情
+export class ProductHeaderInfo extends React.Component{
+    constructor(){
+        super();
+        // 这个已经做了,但是好像有个更好用的方式(swiper官网双向控制 controller )
+        this.state = {
+            // big控制small的index
+            SwiperIndex: 0,
+            // 如果有预定模块, 则成人和儿童人数
+            AdultNum: 1,
+            ChildrenNum: 0,
+        }
+
+    }
+
+    componentDidMount(){
+        let that = this
+        // big
+        this.state.bigSwiper = new Swiper(`#${this.props.param.bigId+'big-id'}`, {
+            // loop: true, // 循环模式选项
+            slidesPerView: 1,
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: `#${this.props.param.bigId}big-prevCtrl`,
+                prevEl: `#${this.props.param.bigId}big-nextCtrl`,
+            },
+            on: {
+                slideChangeTransitionEnd: function (event) {
+                    that.bigToSmall()
+                },
+            },
+            // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
+            observer: true,
+        });
+        // small
+        let smallSwiper = new Swiper(`#${this.props.param.smallId + 'small-id'}`, {
+            // loop: true, // 循环模式选项
+            slidesPerView: 4,
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: `#${this.props.param.smallId}small-prevCtrl`,
+                prevEl: `#${this.props.param.smallId}small-nextCtrl`,
+            },
+            // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
+            observer: true,
+        });
+    }
+
+    smallToBig(i){
+        // small控制big
+        this.state.bigSwiper.slideTo(i, 1000, false); //切换到第一个slide，速度为1秒
+        this.setState({SwiperIndex: i})
+    }
+    bigToSmall(){
+        let bigBox = document.getElementById('big-box');
+        for(let i = 0, len = bigBox.children.length; i < len; i++){
+            if (bigBox.children[i].className === 'swiper-slide ProInfo-left-big-item swiper-slide-active'){
+                this.setState({ SwiperIndex: i })
+            }
+        }
+    }
+    // 改变 成人/儿童 人数
+    onChangeAdult(val){
+        console.log(val)
+        this.setState({ AdultNum: val })
+    }
+    onChangeChildren(val){
+        console.log(val)
+        this.setState({ ChildrenNum: val })
+    }
+
+
+
+    render(){
+        return(
+            <Row className="ProInfo-header">
+                <Col style={{overflow: 'hidden'}}>
+                    <Col span={14} className="ProInfo-left">
+                        <Col>
+                            {/* 大图 */}
+                            <div className="swiper-container" id={this.props.param.bigId + 'big-id'}>
+                                <div className="swiper-wrapper ProInfo-left-big" id="big-box">
+                                    {
+                                        this.props.param.data.map((item, index) => (
+                                            <div className="swiper-slide ProInfo-left-big-item" key={index} index={index}>
+                                                <img onClick={_ => this.setState({ photoWallShow: true })}
+                                                    src={item} className="img-size border-radius" />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                                <div className="swiper-button-prev Supplier-index-prev" id={this.props.param.bigId+"big-prevCtrl"}
+                                onClick={_=>this.bigToSmall()}> 
+                                    <Icon type="left-circle" theme="filled" />
+                                </div>
+                                <div className="swiper-button-next Supplier-index-next" id={this.props.param.bigId+"big-nextCtrl"}
+                                onClick={_=>this.bigToSmall()}> 
+                                    <Icon type="right-circle" theme="filled" />
+                                </div>
+                            </div>
+                        </Col>
+                        <Col>
+                            {/* 小图 */}
+                            <div className="swiper-container ProInfo-left-small-box" id={this.props.param.smallId + 'small-id'}>
+                                <div className="swiper-wrapper ProInfo-left-small">
+                                    {
+                                        this.props.param.data.map((item, index) => (
+                                            <div className={"swiper-slide ProInfo-left-small-item "+ (this.state.SwiperIndex === index?'ProInfo-left-small-item-active':'')} key={index} 
+                                            onClick={_ => this.smallToBig(index)} >
+                                                <img onClick={_ => this.setState({ photoWallShow: true })}
+                                                    src={item} className="index-photo-item img-size" />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                                <div className="swiper-button-prev Supplier-index-prev" id={this.props.param.smallId + "small-prevCtrl"}>
+                                    <Icon type="left-circle" theme="filled" />
+                                </div>
+                                <div className="swiper-button-next Supplier-index-next" id={this.props.param.smallId + "small-nextCtrl"}>
+                                    <Icon type="right-circle" theme="filled" />
+                                </div>
+                            </div>
+                        </Col>  
+                    </Col>
+                    <Col span={10} className="ProInfo-right">
+                        <Col className="ProInfo-right-name text-overflow-2">法意瑞三国13日连游,万人出游,林志颖同款,一价全含,4星到五星任选,至尊奢享,你想要的全都有,你还在等什么?赶快报名让我赚钱!</Col>
+                        <Col className="ProInfo-right-info">
+                            <div className="ProInfo-right-info-item">
+                                <div>供应商</div><div>广西桂林甲天下之旅</div>
+                            </div>
+                            <div className="ProInfo-right-info-item">
+                                <div>在售团期</div><div>82个</div>
+                            </div>
+                            <div className="ProInfo-right-info-item">
+                                <div>访问次数</div><div>19998次</div>
+                            </div>
+                            <div className="ProInfo-right-info-item">
+                                <div>产品评分</div><div>9.8</div>
+                            </div>
+                        </Col>
+                        <Col className="ProInfo-right-detail">
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">产品编号 : </span><span className="ProInfo-right-detail-main">DC929844</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">出&nbsp;&nbsp;发&nbsp;&nbsp;地 : </span><span className="ProInfo-right-detail-main">北京发团</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">分类标签 : </span><span className="ProInfo-right-detail-main">跟团游-东南亚-泰一地</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">行程天数 : </span><span className="ProInfo-right-detail-main">6晚7天</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">往返交通 : </span><span className="ProInfo-right-detail-main">飞机去 自行车回</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">自费购物 : </span><span className="ProInfo-right-detail-main">有自费 无购物</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">游玩主题 : </span><span className="ProInfo-right-detail-main">古镇游 山水游 蜜月游</span>
+                            </div>
+                            <div className="ProInfo-right-detail-item">
+                                <span className="ProInfo-right-detail-title">销&nbsp;&nbsp;售&nbsp;&nbsp;价 : </span>
+                                <span className="ProInfo-right-detail-main"><strong>￥28889</strong>起/人</span>
+                                <span className="ProInfo-right-detail-title" style={{marginLeft: '32px'}}>同&nbsp;&nbsp;行&nbsp;&nbsp;价 : </span>
+                                <span className="ProInfo-right-detail-main"><strong>￥16698</strong>起/人</span>
+                            </div>
+                        </Col>
+                    </Col>
+                </Col>
+                {/* 预定 */}
+                {this.props.param && this.props.param.reserve && 
+                    <Col className="ProInfo-num">
+                        <Col span={16} className="ProInfo-num-left">
+                            <div className="ProInfo-num-left-Adult">成人 : &nbsp;&nbsp;<InputNumber min={1} max={100} defaultValue={1} onChange={val => this.onChangeAdult(val)} /></div>
+                            <div className="ProInfo-num-left-Children">儿童 : &nbsp;&nbsp;<InputNumber min={0} max={100} defaultValue={0} onChange={val => this.onChangeChildren(val)} /></div>
+                        </Col>
+                        <Col span={8} className="ProInfo-num-right">
+                            <div className="ProInfo-num-right-price">总价: ￥ <span>29998</span>&nbsp;&nbsp;<Icon type="exclamation-circle" className="pointer" /></div>
+                            <div className="ProInfo-num-right-Reserve">立即预定</div>
+                        </Col>
+                    </Col>
+                }
+
+            </Row>
+        )
+    }
 }

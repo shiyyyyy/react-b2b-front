@@ -115,6 +115,12 @@
 .cursor{
   cursor: pointer;
 }
+.border-radius{
+  border-radius: 4px;
+}
+.pointer{
+  cursor: pointer;
+}
 
 .text-overflow-2{
     overflow : hidden;

@@ -1,5 +1,4 @@
-// 批零分销 => 团偏散买(车票/机票)
-// 批零分销 => 当地参团
+// 批零分销 => 团房散买(车票/机票)
 import React from 'react';
 import { Link, withRouter, Switch, Route } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Pagination, Col, Input, Radio, Avatar, Carousel, DatePicker , Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';

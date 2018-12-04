@@ -5,10 +5,12 @@ import { Layout, Menu, Icon, Row, Pagination, Col, Input, Avatar, Button, Tabs, 
 
 import { FilterDefault, MultiCarousel, ProductList } from '../../util/common';
 
-export default class LocalTour extends React.Component {
+class LocalTour extends React.Component {
     constructor() {
         super();
         this.state = {
+            // id 是为了让filter组件里面的id不同,否则会有影响(应为都是固定id不同页面会影响,每个页面加特色前缀就OK)
+            id: 'Local',
             cur_page: 1,
             total: 110,
             filterObj: {
@@ -80,8 +82,14 @@ export default class LocalTour extends React.Component {
         )
     }
     productList() {
+        let that = this
         let param = {
-            data: this.state.recommend
+            data: this.state.recommend,
+            toPage(id){
+                console.log(that)
+                console.log(id)
+                that.props.history.push(`/normalRegimentProduct`);
+            }
         }
         return (
             <ProductList view={this} param={param} />
@@ -113,3 +121,5 @@ export default class LocalTour extends React.Component {
         )
     }
 }
+
+export default withRouter(LocalTour);
