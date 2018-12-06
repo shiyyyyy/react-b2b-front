@@ -111,7 +111,7 @@
     width: 20%;
     padding: 2px 4px;
     border: 1px solid #9FBF4D;
-    border-radius: 2px;
+    border-radius: 4px;
     color: #9FBF4D;
 }
 .ProInfo-right-info-item div{
@@ -149,7 +149,7 @@
     overflow: hidden;
     padding-top: 24px;
     margin-top: 24px;
-    border-top: 2px solid #DEE4EA;
+    border-top: 1px solid #DEE4EA;
 }
 /* 左边 */
 .ProInfo-num-left{
@@ -181,7 +181,7 @@
     font-weight: bold;
 }
 .ProInfo-num-right-Reserve{
-    font-size: 18px;
+    font-size: 17px;
     margin: 0 20px;
     width: 150px;
     height: 40px;
@@ -189,4 +189,271 @@
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
+    user-select: none;
+}
+
+/* ============================= 时间/人数 预定按钮 DateAndNumReserve ============================= */
+.DateAndNumReserve{
+    clear: both;
+    overflow: hidden;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid #DEE4EA;
+}
+/* left */
+.DateAndNumReserve-num-left{
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    text-align: left;
+}
+.DateAndNumReserve-num-left-date{
+    width: 35%;
+    white-space: nowrap;
+}
+.DateAndNumReserve-num-left-Adult{
+    width: 25%;
+    text-align: center;
+}
+.DateAndNumReserve-num-left-Children{
+    width: 45%;
+}
+.DateAndNumReserve-num-left-Children span{
+    color: #F0AB26;
+}
+
+/* right */
+.DateAndNumReserve-num-right{
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.DateAndNumReserve-num-right-price{
+    color: #D74B4B;
+}
+.DateAndNumReserve-num-right-price span{
+    font-size: 20px;
+    font-weight: bold;
+}
+.DateAndNumReserve-num-right-Reserve{
+    font-size: 17px;
+    margin: 0 20px;
+    width: 150px;
+    height: 40px;
+    background: #D74B4B;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+
+/* ============================== NormalRegimentPro-calendar(常规团产品详情) ============================= */
+
+.NormalRegimentPro-calendar{
+    padding: 24px;
+    border-radius: 4px;
+    background: #fff;
+}
+.NormalRegimentPro-calendar-left{
+    padding-right: 12px;
+}
+.NormalRegimentPro-calendar-right{
+    padding-left: 12px;
+}
+.NormalRegimentPro-calendar-reserve{
+    clear: both;
+}
+
+
+/* ============================  散房 产品详情 =RoomstatusAndPrice   =========================== */
+.RoomstatusAndPrice{
+    padding: 24px;
+    overflow: hidden;
+}
+/* 顶部 时间选择部分 */
+.RoomstatusAndPrice-title{
+    line-height: 48px;
+    font-size: 18px;
+    color: #333;
+    text-align: left;
+}
+.RoomstatusAndPrice-date{
+    padding: 12px 0;
+    /* margin-bottom: 24px; */
+    border-bottom: 1px solid #DEE4EA;
+    overflow: hidden;
+}
+.RoomstatusAndPrice-date-btn{
+    width: 140px;
+}
+/* 中间表格部分 */
+
+.RoomstatusAndPrice-info{
+
+}
+.RoomstatusAndPrice-info-dateMore{
+    cursor: pointer;
+}
+.RoomstatusAndPrice-info-dateMore .dateMore-open{
+    transform: rotate(90deg);
+}
+.RoomstatusAndPrice-info-dateMore .dateMore-fold{
+    transform: rotate(-90deg);
+}
+.RoomstatusAndPrice-info-dateMore:hover{
+    color: #2D9DFF;
+    background: #fbfbfb;
+}
+.RoomstatusAndPrice-info-box{
+    padding: 16px 32px;
+    margin: 24px;
+    box-shadow: 1px 1px 10px #ccc;
+    border-radius: 4px;
+}
+.RoomstatusAndPrice-info-header{
+    font-size: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #d9d9d9;
+    display: flex;
+    justify-content: space-between;
+}
+.RoomstatusAndPrice-info-header span i{
+    margin-left: 24px;
+    font-style: normal;
+}
+.RoomstatusAndPrice-info-header-more{
+    font-size: 13px;
+}
+.RoomstatusAndPrice-info-content{
+
+}
+.RoomstatusAndPrice-info-title{
+    height: 40px;
+    line-height: 40px;
+    background: #F6FAFA;
+    display: flex;
+    justify-content: space-between;
+}
+.RoomstatusAndPrice-info-main{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px dashed #DEE4EA;
+    display: flex;
+    justify-content: space-between;
+}
+.RoomstatusAndPrice-info-main > div{
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
+/* 底部预定按钮 */
+.RoomstatusAndPrice-reserve{
+    clear: both;
+    overflow: hidden;
+    padding-top: 16px;
+    margin-top: 24px;
+    border-top: 1px solid #DEE4EA;
+    display: flex;
+    align-items: center;
+}
+.RoomstatusAndPrice-reserve-left{
+    padding: 0 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.RoomstatusAndPrice-reserve-left-info{
+    /* width: 98px; */
+    min-width: 98px;
+    font-size: 13px;
+    border: 1px solid #d9d9d9;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 8px 16px 8px 0;
+}
+.RoomstatusAndPrice-reserve-left-info-date{
+
+}
+.RoomstatusAndPrice-reserve-left-info-type{
+
+}
+.RoomstatusAndPrice-reserve-right{
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.RoomstatusAndPrice-reserve-right-price{
+    color: #D74B4B;
+}
+.RoomstatusAndPrice-reserve-right-price span {
+    font-size: 20px;
+    font-weight: bold;
+}
+.RoomstatusAndPrice-reserve-right-Reserve{
+    font-size: 17px;
+    margin: 0 20px;
+    width: 150px;
+    height: 40px;
+    background: #D74B4B;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+}
+
+
+/* ===================================== 单机票 ScheduleAndPrice 机票散卖 ========================================*/
+.ScheduleAndPrice{
+    padding: 0 32px 24px;
+    overflow: hidden;
+}
+/* 标题 */
+.ScheduleAndPrice-title{
+    line-height: 72px;
+    font-size: 18px;
+    color: #333;
+    text-align: left;
+}
+
+/* 表格 */
+.ScheduleAndPrice-table{
+    overflow: hidden;
+}
+.ScheduleAndPrice-table-title{
+    line-height: 48px;
+    color: #333;
+    background: #F6FAFA;
+    overflow: hidden;
+}
+.ScheduleAndPrice-table-main{
+    overflow: hidden;
+}
+.ScheduleAndPrice-table-main-top{
+    color: #999;
+    line-height: 40px;
+    overflow: hidden;
+}
+.ScheduleAndPrice-table-main-top-total{
+    color: #2D9DFF;
+}
+.ScheduleAndPrice-table-main-top-Surplus{
+    color: #D74B4B;
+}
+.ScheduleAndPrice-table-main-btm{
+    color: #333;
+    line-height: 40px;
+    background: #F6FAFA;
+    overflow: hidden;
+}
+
+
+/* 预定按钮 */
+.ScheduleAndPrice-reserve{
+
 }

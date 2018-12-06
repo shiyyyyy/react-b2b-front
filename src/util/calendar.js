@@ -135,16 +135,25 @@ export class Calendar extends React.Component{
         if(cell.group.length === 0) return
         if(cell.group.length > 1){
             // 一天多团,打开团期弹窗选择团期
-            this.setState({ visible: true, much_groups: cell, user_select: cell.date })
+            // this.setState({ visible: true, much_groups: cell, user_select: cell.date })
+
+            this.setState({ visible: true, much_groups: cell})
+            this.props.param.selectDateCb(cell.date)
         }else{
-            this.setState({ user_select: cell.date, user_select_id: cell.group[0].id })
+            // 这个是内部自己控制当前,每个日历组件都会有一个自己的当前日期
+            // this.setState({ user_select: cell.date, user_select_id: cell.group[0].id })
+            // 但是对于两个日历组件一起使用的情况,显然是由父组件统一一个当前日期更好
+            this.props.param.selectDateCb(cell.date)
+            this.props.param.selectIdCb(cell.group[0].id)
         }
     }
 
     // 弹出框(一天多团选团期)
     handleOk(e){
         console.log(e)
-        this.setState({ visible: false, user_select_id: this.state._user_select_id })        
+        // this.setState({ visible: false, user_select_id: this.state._user_select_id })        
+        this.setState({ visible: false })
+        this.props.param.selectIdCb(this.state._user_select_id)
     }
     handleCancel(e){
         console.log(e)
@@ -184,30 +193,31 @@ export class Calendar extends React.Component{
                             <Col className="Calendar-day-col" key={i}>   
                             {
                                 item.map(cell=>
-                                <Col className={"Calendar-day-col-item " + (this.state.user_select === cell.date?'Calendar-day-col-item-active':'') + 
+                                <Col className={"Calendar-day-col-item " + (this.props.param.selectDateString === cell.date?'Calendar-day-col-item-active':'') + 
                                 (cell.month == this.state.month?'cur_month':'')} key={cell.date}
                                 onClick={this.selectDate.bind(this,cell)}>
-                                    <span className={"Calendar-day-col-day " + (this.state.user_select === cell.date?'Calendar-day-col-day-active':'')}>{cell.day}</span>
+                                    <span className={"Calendar-day-col-day " + (this.props.param.selectDateString === cell.date && cell.month === this.state.month?'Calendar-day-col-day-active':'')}>{cell.day}</span>
                                     {cell.group && cell.group.length <= 1 && 
-                                        <div style={{height: '28px'}}>
-                                            <span className={"Calendar-day-col-Surplus " + (this.state.user_select === cell.date ? 'Calendar-day-col-Surplus-active' : '') + 
+                                        <div style={{height: '28px'}} className={cell.month !== this.state.month ? "opcity0":""}>
+                                            <span className={"Calendar-day-col-Surplus " + (this.props.param.selectDateString === cell.date ? 'Calendar-day-col-Surplus-active' : '') + 
                                             (this.state.month === cell.month? '':'hide')}>{(cell.group[0]?'余: '+ cell.group[0].seat_surplus:'')}</span>
-                                            <span className={"Calendar-day-col-price " + (this.state.user_select === cell.date ? 'Calendar-day-col-price-active' : '') + 
+                                            <span className={"Calendar-day-col-price " + (this.props.param.selectDateString === cell.date ? 'Calendar-day-col-price-active' : '') + 
                                             (this.state.month === cell.month? '':'hide')}>{(cell.group[0]?'￥' + cell.group[0].price:'')}</span>
                                         </div>
                                     }
+                                    {/* 一天多团 */}
                                     {cell.group && cell.group.length > 1 && 
-                                        <div style={{height: '28px', lineHeight: '28px'}}>
-                                            {this.state.user_select === cell.date && 
+                                        <div style={{height: '28px', lineHeight: '28px'}} className={cell.month !== this.state.month ? "opcity0":""}> 
+                                            {this.props.param.selectDateString === cell.date && 
                                                 cell.group.map(group => 
-                                                    <div style={{ height: '28px' }} key={group.id} className={group.id === this.state.user_select_id ? '':'hide'}>
+                                                    <div style={{ height: '28px' }} key={group.id} className={group.id === this.props.param.selectId ? '':'hide'}>
                                                         <span className={"Calendar-day-col-Surplus Calendar-day-col-Surplus-active"}>
                                                             {(group ? '余: ' + group.seat_surplus : '')}</span>
                                                         <span className={"Calendar-day-col-price Calendar-day-col-price-active"}>
                                                             {(group ? '￥' + group.price : '')}</span>
                                                     </div>   
                                             )}
-                                            {this.state.user_select !== cell.date &&
+                                            {this.props.param.selectDateString !== cell.date &&
                                                 <div>多团</div>
                                             }
                                         </div>
@@ -231,7 +241,7 @@ export class Calendar extends React.Component{
                                 <div className={"Calendar-modal-list " + 
                                 (this.state._user_select_id?
                                     (this.state._user_select_id===item.id?'Calendar-modal-list-active':''):
-                                    (this.state.user_select_id===item.id?'Calendar-modal-list-active':''))}
+                                    (this.props.param.selectId===item.id?'Calendar-modal-list-active':''))}
                                 key={item.id}
                                 onClick={this.selectMuch_groups.bind(this,item)}>
                                     <span className="Calendar-modal-list-item">日期: {this.state.much_groups.date}</span>    

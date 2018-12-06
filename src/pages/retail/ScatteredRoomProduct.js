@@ -3,11 +3,11 @@ import React, { Fragment } from 'react';
 import { Layout, Menu, Icon, Row, Pagination, Col, Input, Avatar, Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';
 import moment from 'moment';
 
-import {Calendar} from "../../util/calendar";
-import { ProductHeaderInfo, DateAndNumReserve } from '../../util/common';
+import { Calendar } from "../../util/calendar";
+import { ProductHeaderInfo, RoomstatusAndPrice } from '../../util/common';
 
-export class NormalRegimentProduct extends React.Component{
-    constructor(){
+export class ScatteredRoomProduct extends React.Component {
+    constructor() {
         super();
         this.state = {
             date: moment(),
@@ -35,17 +35,17 @@ export class NormalRegimentProduct extends React.Component{
     }
 
     // 顶部 信息
-    productheaderInfo(){
+    productheaderInfo() {
         let param = {
             // 用 id 区分相同组件不同轮播图
             id: 'Normal',
-            reserve: true,
+            // reserve: true,
             data: ['http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg', 'http://pic2.16pic.com/00/07/65/16pic_765577_b.jpg',
                 'http://img9.cache.hxsd.com/hxsdmy/gallery/2013/01/88/66/36/04/08/134038560/134038560_9.jpg', 'http://uploads.5068.com/allimg/1712/151-1G20PU024.jpg',
                 'http://pic1.win4000.com/wallpaper/8/58589052d4f01.jpg'
             ]
         }
-        return(
+        return (
             <ProductHeaderInfo param={param} >
                 <Col>
                     <Col className="ProInfo-right-name text-overflow-2">法意瑞三国13日连游,万人出游,林志颖同款,一价全含,4星到五星任选,至尊奢享,你想要的全都有,你还在等什么?赶快报名让我赚钱!</Col>
@@ -68,22 +68,22 @@ export class NormalRegimentProduct extends React.Component{
                             <span className="ProInfo-right-detail-title">产品编号 : </span><span className="ProInfo-right-detail-main">DC929844</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">出&nbsp;&nbsp;发&nbsp;&nbsp;地 : </span><span className="ProInfo-right-detail-main">北京发团</span>
+                            <span className="ProInfo-right-detail-title">所在城市 : </span><span className="ProInfo-right-detail-main">北京</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">分类标签 : </span><span className="ProInfo-right-detail-main">跟团游-东南亚-泰一地</span>
+                            <span className="ProInfo-right-detail-title">酒店级别 : </span><span className="ProInfo-right-detail-main">豪华型</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">行程天数 : </span><span className="ProInfo-right-detail-main">6晚7天</span>
+                            <span className="ProInfo-right-detail-title">酒店星级 : </span><span className="ProInfo-right-detail-main">4星级</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">往返交通 : </span><span className="ProInfo-right-detail-main">飞机去 自行车回</span>
+                            <span className="ProInfo-right-detail-title">酒店地址 : </span><span className="ProInfo-right-detail-main">北京市朝阳区东三环华为前西500米陕西大厦</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">自费购物 : </span><span className="ProInfo-right-detail-main">有自费 无购物</span>
+                            <span className="ProInfo-right-detail-title">酒店网址 : </span><span className="ProInfo-right-detail-main">www.shanxidasha.com</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
-                            <span className="ProInfo-right-detail-title">游玩主题 : </span><span className="ProInfo-right-detail-main">古镇游 山水游 蜜月游</span>
+                            <span className="ProInfo-right-detail-title">前台电话 : </span><span className="ProInfo-right-detail-main">400-8888-6666</span>
                         </div>
                         <div className="ProInfo-right-detail-item">
                             <span className="ProInfo-right-detail-title">销&nbsp;&nbsp;售&nbsp;&nbsp;价 : </span>
@@ -97,95 +97,20 @@ export class NormalRegimentProduct extends React.Component{
         )
     }
 
-
-    // 两个 日历
-    calendarFun1(){
+    // 房间选择
+    RoomstatusAndPriceRender(){
         let that = this
         let param = {
-            // 多个日历时需要统一控制当前日期(否则多个日历都会有自己的当前日期)
-            selectDateString: this.state.selectDateString,
-            selectId: this.state.selectId,
-            prev() {
-                let date = that.state.date.subtract(1, 'M')
-                let NextDate = that.state.NextDate.subtract(1, 'M')
-                that.setState({ date: date, NextDate: NextDate })
-            },
-            next() {
-                let date = that.state.date.add(1, 'M')
-                let NextDate = that.state.NextDate.add(1, 'M')
-                that.setState({ date: date, NextDate: NextDate })
-            },
-            nextCtrl: false,
-            selectDateCb(date){
-                that.setState({ selectDateString: date })
-            },
-            selectIdCb(id){
-                that.setState({ selectId: id })
-            }
+            
         }
-
-        return(
-            <Calendar date={this.state.date} data={this.state.data} param={param} />
-        )
-    }
-    calendarFun2() {
-        let that = this
-        let param = {
-            selectDateString: this.state.selectDateString,
-            selectId: this.state.selectId,
-            prev(){
-                let date = that.state.date.subtract(1, 'M')
-                let NextDate = that.state.NextDate.subtract(1, 'M')
-                that.setState({ date: date, NextDate: NextDate})
-            },
-            prevCtrl: false,
-            next() {
-                let date = that.state.date.add(1, 'M')
-                let NextDate = that.state.NextDate.add(1, 'M')
-                that.setState({ date: date, NextDate: NextDate })
-            },
-            selectDateCb(date) {
-                that.setState({ selectDateString: date })
-            },
-            selectIdCb(id) {
-                that.setState({ selectId: id })
-            }
-        }
-        
-        return(
-            <Calendar date={this.state.NextDate} data={this.state.data} param={param} />
+        return (
+            <RoomstatusAndPrice param={param} />
         )
     }
 
-    // 日历 下 预定按钮
-    dateReverve(){
-        let that = this
-        let param = {
-            defaultDate: that.state.selectDateString || '',
-            ChildrenNum: that.state.ChildrenNum,
-            AdultNum: that.state.AdultNum,
-            // 回调函数
-            AdultNumChange(val){
-                console.log(val)
-                that.setState({ AdultNum: val })
-            },
-            ChildrenNumChange(val) {
-                console.log(val)
-                that.setState({ ChildrenNum: val })
-            },
-            reserve(){
-                console.log('预定')
-                console.log(that)
-                console.log(moment(that.state.selectDateString))
-            }
-        }
-        return(
-            <DateAndNumReserve param={param} />
-        )
-    }
 
-    render(){
-        return(
+    render() {
+        return (
             <Fragment>
                 <Row>
                     <Col>
@@ -193,17 +118,8 @@ export class NormalRegimentProduct extends React.Component{
                     </Col>
                 </Row>
                 <Row className="mod">
-                    <Col className="NormalRegimentPro-calendar">
-                        <Col>NormalRegimentProduct</Col>
-                        <Col span={12} className="NormalRegimentPro-calendar-left">
-                            {this.calendarFun1()}
-                        </Col>
-                        <Col span={12} className="NormalRegimentPro-calendar-right">
-                            {this.calendarFun2()}
-                        </Col>
-                        <Col className="NormalRegimentPro-calendar-reserve">
-                            {this.dateReverve()}
-                        </Col>   
+                    <Col className="">
+                        {this.RoomstatusAndPriceRender()}
                     </Col>
                 </Row>
             </Fragment>

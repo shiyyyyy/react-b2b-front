@@ -1,6 +1,8 @@
 import Retail from './Retail';
 
 import { NormalRegimentProduct } from "./NormalRegimentProduct";
+import { ScatteredRoomProduct } from "./ScatteredRoomProduct";
+import { ScatteredTicketProduct } from "./ScatteredTicketProduct";
 
 export default [
     {
@@ -10,5 +12,13 @@ export default [
     {
         path: '/normalRegimentProduct',
         component: NormalRegimentProduct
+    },
+    {
+        path: '/scatteredRoomProduct',
+        component: ScatteredRoomProduct
+    },
+    {
+        path: '/scatteredTicketProduct',
+        component: ScatteredTicketProduct
     }
 ];

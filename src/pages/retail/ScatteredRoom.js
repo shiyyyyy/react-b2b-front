@@ -10,7 +10,7 @@ import 'moment/locale/zh-cn';
 
 const Option = Select.Option;
 
-export default class ScatteredTicket extends React.Component {
+class ScatteredTicket extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -106,8 +106,14 @@ export default class ScatteredTicket extends React.Component {
         )
     }
     productList() {
+        let that = this
         let param = {
-            data: this.state.recommend
+            data: this.state.recommend,
+            toPage(id) {
+                console.log(that)
+                console.log(id)
+                that.props.history.push(`/scatteredRoomProduct`);
+            }
         }
         return (
             <ProductList view={this} param={param} />
@@ -139,3 +145,5 @@ export default class ScatteredTicket extends React.Component {
         )
     }
 }
+
+export default withRouter(ScatteredTicket)
