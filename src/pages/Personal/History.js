@@ -12,10 +12,10 @@ class History extends React.Component{
     constructor(){
         super()
         this.state = {
-            cur_tag: 1,
-            cur_page: 1,
             total: 666, // 评论总条数
             cur_page: 1, // 当前第几页
+            // 
+            cur_tag: 1,
             open_eva_index: '', // 展开的是第几条评论
 
             evaluate: [

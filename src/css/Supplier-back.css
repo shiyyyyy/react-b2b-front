@@ -1,0 +1,254 @@
+/* ========================================通用 CSS========================================== */
+.Supplier-back-title{
+    overflow: hidden;
+    line-height: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Supplier-back-title-text{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+.Supplier-back-title-more{
+    font-size: 12px;
+    color: #999;
+    padding-right: 12px;
+    cursor: pointer;
+}
+.Supplier-back-title-other{
+    
+}
+
+
+
+
+
+/* =========================== ThreeEqualBlock = 三等块  供应商后台 => 平台首页==================== */
+.ThreeEqualBlock{
+    overflow: hidden;
+    margin-bottom: 24px;
+}   
+.ThreeEqualBlock-block{
+
+}
+.ThreeEqualBlock-block-content{
+    height: 154px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+    padding: 12px 24px;
+}
+/* 三等块 第一块 */
+.ThreeEqualBlock-block-content-1{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.ThreeEqualBlock-block-content-left-text{
+    font-size: 12px;
+    color: #71ACEC;
+    line-height: 20px;
+    cursor: pointer;
+}
+.ThreeEqualBlock-block-content-right{
+    /* margin-top: 48px; */
+}
+.ThreeEqualBlock-block-company{
+    font-size: 13px;
+    color: #333;
+    padding: 0 12px;
+}
+.ThreeEqualBlock-block-brand{
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+    padding-right: 24px;
+}
+/* 三等块 第二块 */
+.ThreeEqualBlock-block-2-item{
+    padding: 6px;
+}
+.ThreeEqualBlock-block-content-icon{
+    width: 32px;
+    height: 32px;
+}
+.ThreeEqualBlock-block-content-icon-text{
+
+}
+
+
+/* 三等块 第三块 */
+.ThreeEqualBlock-block-content-3-item{
+    height: 43px;
+    line-height: 43px;
+    display: flex;
+    justify-content: space-between;
+}
+.ThreeEqualBlock-block-content-3-left{
+    font-size: 13px;
+    color: #999;
+}
+.ThreeEqualBlock-block-content-3-left span{
+    font-size: 14px;
+    color: #333;
+}
+.ThreeEqualBlock-block-content-3-right{
+
+}
+
+
+
+
+/* ===================== 供应商后台 => 平台首页=> 平台公告&官方活动(2不等块) ======================== */
+.NoticeAndActivity{
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.NoticeAndActivity-content{
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+    padding: 12px 24px;
+}
+.NoticeAndActivity-content-item{
+    overflow: hidden;
+    line-height: 24px;
+}
+.NoticeAndActivity-content-item-left{
+    font-size: 13px;
+    color: #999;
+}
+.NoticeAndActivity-content-item-right{
+    font-size: 12px;
+    text-align: left;
+}
+
+
+/* ===================== 供应商后台 => 平台首页=> title带filter(订单管理) ======================== */
+.TitleFliterOrder{
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.TitleFliterOrder-title-tilter{
+    flex: 1;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 64px;
+    display: flex;
+}
+.TitleFliterOrder-title-tilter-item{
+    padding: 0 6px;
+    margin: 0 6px;
+    cursor: pointer;
+    user-select: none;
+}
+.TitleFliterOrder-title-tilter-item-active{
+    color: #71ACEC;
+    border-bottom: 1px solid #71ACEC;
+}
+
+
+/* ===================== 供应商后台 => 平台首页=> 机会跟踪 OpportunityTracking ======================== */
+.OpportunityTracking{
+    overflow: hidden;
+}
+/* left 左边的block 机会跟踪 */
+.OpportunityTracking-left{
+
+}
+.OpportunityTracking-left-content{
+    padding: 12px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+}
+.OpportunityTracking-left-content-item{
+    padding: 12px;
+    display: flex;
+    align-items: center;
+}
+.OpportunityTracking-left-content-item-left{
+
+}
+.OpportunityTracking-left-item-left-avatar{
+
+}
+.OpportunityTracking-left-item-left-name{
+    font-size: 13px;
+    margin-top: 8px;
+}
+.OpportunityTracking-left-item-left-mobile{
+
+}
+.OpportunityTracking-content-item-right{
+
+}
+.OpportunityTracking-left-item-right-top{
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+}
+.OpportunityTracking-left-item-right-top span:first-child{
+    font-size: 14px;
+    color: #333;
+}
+.OpportunityTracking-left-item-right-top span:last-child{
+    font-size: 12px;
+    color: #999;
+}
+.OpportunityTracking-left-item-right-search-box{
+    max-height: 68px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.OpportunityTracking-left-item-right-search-item{
+    font-size: 12px;
+    color: #666;
+    margin: 2px 4px;
+    cursor: pointer;
+}
+/* right  右边的模块 热门问答 */
+.OpportunityTracking-right{
+
+}
+.OpportunityTracking-right-qa{
+    overflow: hidden;
+    height: 100%;
+    padding: 24px;
+    background: #fff;
+    border-radius: 4px;
+}
+.OpportunityTracking-right-qa-item{
+
+}
+.OpportunityTracking-right-qa-item-q{
+    font-size: 13px;
+    color: #777;
+    text-align: left;
+}
+.OpportunityTracking-right-qa-item-btn{
+    padding: 8px 0;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.OpportunityTracking-right-qa-item-like{
+    margin-right: 16px;
+    width: 65px;
+    text-align: left;
+    cursor: pointer;
+}
+.OpportunityTracking-right-qa-item-a{
+    width: 65px;
+    font-size: 13px;
+    text-align: left;
+    color: #999;
+    cursor: pointer;
+}

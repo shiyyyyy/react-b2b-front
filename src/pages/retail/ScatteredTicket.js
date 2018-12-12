@@ -7,7 +7,7 @@ import { Layout, Menu, Icon, Row, Pagination, Col, Input, Radio, Avatar, Carouse
 import { FilterDefault, MultiCarousel, ProductList, FormAndCarsou } from '../../util/common';
 
 import '../../css/Retail.css';
-export default class ScatteredTicket extends React.Component {
+class ScatteredTicket extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -82,8 +82,14 @@ export default class ScatteredTicket extends React.Component {
         )
     }
     productList() {
+        let that = this
         let param = {
-            data: this.state.recommend
+            data: this.state.recommend,
+            toPage(id) {
+                console.log(that)
+                console.log(id)
+                that.props.history.push(`/scatteredTicketProduct`);
+            }
         }
         return (
             <ProductList view={this} param={param} />
@@ -115,3 +121,6 @@ export default class ScatteredTicket extends React.Component {
         )
     }
 }
+
+
+export default withRouter(ScatteredTicket);

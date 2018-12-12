@@ -53,6 +53,77 @@
     height: 100%;
 }
 
+
+/* ================= ========    多图轮播图 (热卖推介/特价/打折/尾货)      ======================*/
+.MultiCarousel{
+
+}
+.MultiCarousel-title{
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 24px;
+    line-height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.MultiCarousel-title-left{
+    font-size: 16px;
+    font-weight: bold;
+}
+.MultiCarousel-title-right{
+    font-size: 12px;
+    cursor: pointer;
+}
+.MultiCarousel-content{
+
+}
+.MultiCarousel-content-item{
+    height: 130px;
+    padding: 12px 4px;
+    position: relative;
+    overflow: hidden;
+}
+.MultiCarousel-content-item-img{
+    border-radius: 4px;
+}
+/* 隐藏的名字和简介 */
+.MultiCarousel-content-item-text-box{
+    padding: 12px 4px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: top .3s;
+}
+.MultiCarousel-content-item:hover .MultiCarousel-content-item-text-box{
+    position: absolute;
+    top: 0%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: top .3s;
+}
+.MultiCarousel-content-item-text{
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    color: #fff;
+    background: rgba(80,130, 190, .85);
+    border-radius: 4px;
+    padding: 12px;
+    cursor: pointer;
+} 
+
+.MultiCarousel-content-item-text-name{
+    margin: 12px 0;
+}
+.MultiCarousel-content-item-text-synopsis{
+    margin: 12px 0;
+}
+
+
 /* ================= ========     左轮播图,右产品信息 ProInfo-header      ======================*/
 .ProInfo-header{
     background: #fff;
@@ -409,6 +480,7 @@
 
 
 /* ===================================== 单机票 ScheduleAndPrice 机票散卖 ========================================*/
+/* ------------------ 班期价格 --------------------*/
 .ScheduleAndPrice{
     padding: 0 32px 24px;
     overflow: hidden;
@@ -456,4 +528,354 @@
 /* 预定按钮 */
 .ScheduleAndPrice-reserve{
 
+}
+/* ------------------ 航班详情 --------------------*/
+.FlightDetail{
+    padding: 24px;
+    overflow: hidden;
+}
+.FlightDetail-title{
+    line-height: 40px;
+    text-align: left;
+    font-size: 18px;
+    color: #333;
+}
+.FlightDetail-content{
+    margin-top: 12px;
+}
+.FlightDetail-con-cell{
+    border-radius: 4px;
+    padding: 0 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, .15);
+}
+.FlightDetail-con-cell:last-child{
+    margin-bottom: 0px;
+}
+/* 上边 */
+.FlightDetail-con-cell-top{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #DEE4EA;
+    overflow: hidden;
+}
+.FlightDetail-con-cell-top > div{
+    color: #999;
+    text-align: right;
+}
+.FlightDetail-con-cell-top > div:first-child{
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+}
+.FlightDetail-con-cell-top > div:first-child img{
+    width: 24px;
+    height: 24px;
+    margin-right: 24px;
+}
+.FlightDetail-con-cell-top > div:first-child span{
+    margin-right: 24px;
+}
+/* 下边 */
+.FlightDetail-con-cell-btm{
+    padding: 32px 0;
+    overflow: hidden;
+        display: flex;
+    align-items: center;
+}
+.FlightDetail-con-cell-btm-left{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 机场 */
+.FlightDetail-con-cell-btm-left-Airport{
+    padding: 0 12px;
+}
+.FlightDetail-con-cell-btm-left-Airport > div:nth-child(1){
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+.FlightDetail-con-cell-btm-left-Airport > div:nth-child(2){
+    color: #333;
+}
+.FlightDetail-con-cell-btm-left-Airport > div:nth-child(3){
+    color: #999;
+}
+/* 路过 */
+.FlightDetail-con-cell-btm-left-Pass{
+    width: 300px;
+    text-align: center;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(1){
+    color: #999;
+    font-size: 13px;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(2){
+    width: 100%;
+    border-bottom: 1px dashed #DEE4EA;
+    margin: 4px 0;
+    position: relative;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(2) > div{
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #999;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(2) > div:nth-child(1){
+    position: absolute;
+    top: -2px;
+    left: 0;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(2) > div:nth-child(2){
+    position: absolute;
+    top: -2px;
+    left: 50%;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(2) > div:nth-child(3){
+    position: absolute;
+    top: -2px;
+    left: 98%;
+}
+.FlightDetail-con-cell-btm-left-Pass > div:nth-child(3){
+    
+}
+/* 中间的飞行时间 */
+.FlightDetail-con-cell-btm-center{
+
+}
+.FlightDetail-con-cell-btm-center > span:nth-child(2){
+    color: #333;
+}
+/* 价格 */
+.FlightDetail-con-cell-btm-right{
+    font-size: 13px;
+}
+
+.FlightDetail-con-cell-btm-right > div:nth-child(1) span:nth-child(1){
+    font-size: 18px;
+    color: #D85656;
+    font-weight: bold;
+}
+.FlightDetail-con-cell-btm-right > div:nth-child(2){
+    color: #999;
+}
+
+
+
+/* ================================== ProductEvaluation  产品评价 ================================= */
+.ProductEvaluation{
+    padding: 0 24px 24px;
+    overflow: hidden;
+}
+.ProductEvaluation-title{
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ProductEvaluation-title-text{
+    text-align: left;
+    font-size: 17px;
+    color: #333;
+}
+.ProductEvaluation-title-more{
+    font-size: 13px;
+    color: #999;
+    cursor: pointer;
+}
+/* 搜索条件 */
+.ProductEvaluation-tag{
+    height: 40px;
+}
+.ProductEvaluation-tag-radio{
+    text-align: left;
+    padding-left: 32px;
+}
+.ProductEvaluation-tag-radio:hover{
+    margin-right: 16px;
+    color: #1890ff;
+    cursor: pointer;
+}
+.ProductEvaluation-tag-radio-active{
+    color: #1890ff;
+}
+/* 评论列表 */
+.ProductEvaluation-list{
+
+}
+.ProductEvaluation-cell-box{
+    color: #666;
+    padding: 16px 24px 16px 0;
+    border-radius: 4px;
+}
+.ProductEvaluation-cell-box:hover{
+    box-shadow: 0 0 15px rgba(0, 0, 0, .25);
+}
+.ProductEvaluation-cell{
+
+}
+.ProductEvaluation-cell-info{
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+}
+.ProductEvaluation-cell-type{
+    text-align: center;
+    margin-right: 16px;
+}
+.ProductEvaluation-cell-com-emp{
+    max-width: 600px;
+    color: #333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 16px;
+}
+
+.ProductEvaluation-cell-pro_name-box{
+    font-weight: 500;
+    clear: both;
+    display: flex;
+}
+.ProductEvaluation-cell-pro_name{
+    max-width: 730px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: 24px;
+}
+.ProductEvaluation-cell-dep_date{
+    margin-right: 16px;
+}
+.ProductEvaluation-cell-num{
+
+}
+.ProductEvaluation-cell-time{
+    font-size: 16px;
+    color: #999;
+    text-align: right;
+}
+.ProductEvaluation-cell-main{
+    margin-top: 8px;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    /* 展开 干掉这个属性就行 */
+    -webkit-line-clamp: 2;
+}
+.ProductEvaluation-cell-main-open{
+    margin-top: 8px;
+}
+.ProductEvaluation-cell-open{
+    line-height: 28px;
+    text-align: right;
+    color: #1890FF;
+    user-select: none;
+}
+.ProductEvaluation-cell-open span{
+    display: inline-block;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+.ProductEvaluation-cell-open-icon{
+    transform: rotate(-90deg);
+}
+.ProductEvaluation-cell-fold-icon{
+    transform: rotate(90deg);
+}
+.ProductEvaluation-cell-sell{
+    font-size: 12px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+.ProductEvaluation-cell-sell span{
+    color:#999;
+    font-weight: 300;
+}
+.ProductEvaluation-cell-sell strong{
+    color:#DC1D0E;
+    font-weight: 500;
+}
+.ProductEvaluation-cell-sell .ProductEvaluation-cell-sell-title{
+    color:#666;
+    font-weight: 500;
+}
+.ProductEvaluation-cell-praise{
+    font-size: 12px;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ================================ 打折产品/类似产品/挥泪专区 Discount =============================== */
+.DiscountProduct{
+    padding: 0 24px 24px;
+}
+.DiscountProduct-title{
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.DiscountProduct-title-text{
+    text-align: left;
+    font-size: 17px;
+    color: #333;
+}
+.DiscountProduct-title-more{
+    font-size: 13px;
+    color: #999;
+    cursor: pointer;
+}
+.DiscountProduct-content{
+    display: flex;
+}
+.DiscountProduct-content-cell{
+    /* width: 19%; */
+    height: 100%;
+    margin: 0 .5%;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.DiscountProduct-content-cell:hover{
+    box-shadow: 0 2px 20px rgba(0, 0, 0, .25);
+}
+/* 图片 */
+.DiscountProduct-content-cell-photo{
+    width: 100%;
+    height: 150px;
+}
+.DiscountProduct-content-cell-photo img{
+}
+/* 信息 */
+.DiscountProduct-content-cell-pro-info{
+    padding: 2px 8px;
+    overflow: hidden;
+}
+.DiscountProduct-content-info{
+    font-size: 12px;
+    text-align: left;
+}
+.DiscountProduct-content-name{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.DiscountProduct-content-origin-price{
+    text-decoration: line-through;
+}
+.DiscountProduct-content-price{
+    color: #DB3232;
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, withRouter, Switch, Route } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Pagination, Col, Input, Radio, Avatar, Carousel, DatePicker , Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';
 
-import { FilterDefault, MultiCarousel, ProductList, FormAndCarsou } from '../../util/common';
+import { FilterDefault, MultiCarousel, ProductCalendarList, FormAndCarsou } from '../../util/common';
 
 import moment from 'moment';
 import 'moment/locale/zh-cn';
@@ -95,7 +95,7 @@ class ScatteredTicket extends React.Component {
     }
     hotRecommend() {
         let swiperCfg = {
-            id: 'ScatteredTicket',
+            id: 'ScatteredRoom',
             loop: true,
             numSwiper: 5,
             height: '180px',
@@ -116,7 +116,7 @@ class ScatteredTicket extends React.Component {
             }
         }
         return (
-            <ProductList view={this} param={param} />
+            <ProductCalendarList view={this} param={param} />
         )
     }
 

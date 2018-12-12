@@ -26,7 +26,6 @@ export class NormalRegimentProduct extends React.Component{
                 { id: 10, dep_date: '2019-01-12', price: 8888, seat_surplus: 3 },
             ],
             // 用户选择的东西
-            selectDate: '',
             selectDateString: '',
             selectId: '',
             AdultNum: 1,

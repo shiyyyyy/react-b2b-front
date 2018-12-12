@@ -69,7 +69,7 @@ export default class VisaAgent extends React.Component {
     }
     hotRecommend() {
         let swiperCfg = {
-            id: 'LocalTour',
+            id: 'VisaAgent',
             loop: true,
             numSwiper: 5,
             height: '180px',

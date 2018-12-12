@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { Layout, Menu, Icon, Row, Pagination, Col, Input, Avatar, Button, Tabs, Rate, Select, Tooltip, Badge, Dropdown } from 'antd';
 import moment from 'moment';
 
-import { ProductHeaderInfo, ScheduleAndPrice, FlightDetail } from '../../util/common';
+import { ProductHeaderInfo, ScheduleAndPrice, FlightDetail, ProductEvaluation, DiscountProduct } from '../../util/common';
 
 export class ScatteredTicketProduct extends React.Component {
     constructor() {
@@ -112,6 +112,27 @@ export class ScatteredTicketProduct extends React.Component {
         )
     }
 
+    productEvaluation(){
+        let that = this;
+        let param = {
+
+        }
+        return(
+            <ProductEvaluation />
+        )
+    }
+
+    // 类似产品
+    discountProduct(){
+        let that = this
+        let param = {
+            
+        }
+        return(
+            <DiscountProduct />
+        )
+    }
+
 
     render() {
         return (
@@ -129,6 +150,16 @@ export class ScatteredTicketProduct extends React.Component {
                 <Row className="mod">
                     <Col className="">
                         {this.flightDetail()}
+                    </Col>
+                </Row>
+                <Row className="mod">
+                    <Col className="">
+                        {this.productEvaluation()}
+                    </Col>
+                </Row>
+                <Row className="mod">
+                    <Col className="">
+                        {this.discountProduct()}
                     </Col>
                 </Row>
             </Fragment>
