@@ -87,7 +87,15 @@
   font-weight: bold;
   color: rgba(233, 13, 13, 0.986);
 }
-
+/* text-align */
+.text-left{
+  text-align: left;
+}
+.text-center{
+  text-align: center;
+}.text-right{
+  text-align: right;
+}
 /* hide */
 .hide{
   display: none !important;
@@ -168,3 +176,8 @@
 
 
 /* ==========================================全局 覆盖 antd 样式============================================= */
+/* antd dropdown(下拉列表)  样式覆盖 (添加最大高度 300px) */
+.ant-dropdown-menu{
+    max-height: 300px;
+    overflow: auto;
+}

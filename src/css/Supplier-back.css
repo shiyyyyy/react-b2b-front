@@ -22,8 +22,15 @@
     
 }
 
+/* ============================ 通用布局样式 ============================ */
+.supplier-back-right{
 
-
+}
+.supplier-back-right-content{
+    background: #fff;
+    border-radius: 4px;
+    padding: 0 24px;
+}
 
 
 /* =========================== ThreeEqualBlock = 三等块  供应商后台 => 平台首页==================== */
@@ -161,6 +168,7 @@
 
 }
 .OpportunityTracking-left-content{
+    height: 432px;
     padding: 12px;
     overflow: hidden;
     background: #fff;
@@ -218,6 +226,7 @@
 
 }
 .OpportunityTracking-right-qa{
+    max-height: 432px;
     overflow: hidden;
     height: 100%;
     padding: 24px;
@@ -243,12 +252,101 @@
     margin-right: 16px;
     width: 65px;
     text-align: left;
+    color: #aaa;
     cursor: pointer;
 }
 .OpportunityTracking-right-qa-item-a{
     width: 65px;
     font-size: 13px;
     text-align: left;
-    color: #999;
+    color: #bbb;
     cursor: pointer;
 }
+
+
+/* // ====================================== 供应商后台 => 店铺管理=> 左侧Tabs ========== */
+.LeftTabs{
+    background: #fff;
+    border-radius: 4px;
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.LeftTabs-title{
+    width: 100%;
+    font-size: 14px;
+    line-height: 24px;
+    color: #333;
+    padding-right: 32px;
+}
+
+/* ================= leftTabs 覆盖TABS ================= */
+.LeftTabs .ant-tabs-nav-container{
+    font-size: 13px;
+}
+.LeftTabs .ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar{
+    border-right: none;
+}
+.LeftTabs .ant-tabs-vertical > .ant-tabs-bar .ant-tabs-tab{
+    padding: 2px 4px;
+    margin: 4px 0px;
+}
+/* Tabs滑块 隐藏(因为位置不对) */
+.LeftTabs .ant-tabs-vertical > .ant-tabs-bar .ant-tabs-ink-bar{
+    display: none !important;    
+}
+
+/* ====================================== 供应商后台 => 店铺管理=> 右侧头部 面包屑(级别导航) ========== */
+.RightHeaderBreadcrumb{
+    padding: 12px 0;
+}
+/* ================================== 供应商后台 => 店铺管理=> 右侧头部 设置和按钮 ================= */
+.RightSetAndBtn{
+    border-bottom: 1px solid #E2E8ED;
+    text-align: left;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* =============================== 供应商后台 => 店铺管理=> 右侧头部 过滤和搜索 ===================== */
+.RightFilterAndSearch{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.RightFilterAndSearch-left{
+
+}
+.RightFilterAndSearch-left-item-box{
+    display: flex;
+    align-items: center;
+}
+.RightFilterAndSearch-left-item{
+    padding: 0 12px;
+}
+
+.RightFilterAndSearch-right{
+    padding: 12px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.RightFilterAndSearch-right-icon{
+    font-size: 16px;
+    margin: 0 8px;
+    cursor: pointer;
+}
+.RightFilterAndSearch-right-icon:hover i{
+    animation: rotate 1s;
+}
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(180deg);}
+}
+.RightFilterAndSearch-right-icon:active i{
+    border-radius: 50%;
+    box-shadow: 0px 0px 6px RGBA(0,0,0,.6);
+}
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link, withRouter, Switch, Route } from 'react-router-dom';
-import { Layout, Menu, Icon, Row, Col, Input, Avatar, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
+import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
 
 import Swiper from 'swiper/dist/js/swiper.js';
 import 'swiper/dist/css/swiper.min.css';
@@ -1462,13 +1462,7 @@ export class DiscountProduct extends React.Component{
 export class UserBackDeskHeader extends React.Component{
     constructor(){
         super();
-        this.state = {
-            Menu: [
-                { key: 1, icon: 'home', name: '平台首页', path: '/' },
-                { key: 2, icon: 'home', name: '供应商中心', children: [{ key: 21, path: 'Gailun', icon: 'home', name: '盖伦' }, { key: 22, path: 'Timor', icon: 'home', name: '提莫' }, { key: 23, path: 'Eyu', icon: 'home', name: '鳄鱼' }] },
-                { key: 3, icon: 'home', name: '分销商中心', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
-            ],
-        }
+        this.state = { }
 
     }
 
@@ -1520,7 +1514,7 @@ export class UserBackDeskHeader extends React.Component{
                             <Col span={21} className="personal-header">
                                 <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}
                                     mode='horizontal' className="personal-header-menu">
-                                    {this.state.Menu.map((item, index) =>
+                                    {this.props.param.Menu.map((item, index) =>
                                         item.children ?
                                             (
                                                 <SubMenu title={<span><Icon type={item.icon} /><span>{item.name}</span></span>} key={item.key}>
@@ -1779,6 +1773,8 @@ export class OpportunityTracking extends React.Component {
                     { id: 2, like: 427 },
                     { id: 3, like: 247 },
                     { id: 5, like: 1432 },
+                    { id: 6, like: 1432 },
+                    { id: 7, like: 1432 },
                 ]
             }
         }
@@ -1798,7 +1794,7 @@ export class OpportunityTracking extends React.Component {
                             </Col>
                             <Col className="OpportunityTracking-left-content">
                             {this.state.data.Opportunity.map( (item,index) =>
-                            { return ( index <= 5 &&
+                                { return ( index <= 5 &&
                                 <Col span={12} className="OpportunityTracking-left-content-item" key={item.id}>
                                     <Col span={6} className="OpportunityTracking-left-content-item-left">
                                         <Col className="OpportunityTracking-left-item-left-avatar">
@@ -1819,8 +1815,8 @@ export class OpportunityTracking extends React.Component {
                                             )}
                                         </div>
                                     </Col>
-                                </Col>)
-                            }
+                                </Col>
+                                )}
                             )}
                             </Col>
                         </Row>
@@ -1833,24 +1829,196 @@ export class OpportunityTracking extends React.Component {
                                 <Col className="Supplier-back-title-more">更多<Icon type="right" /></Col>
                             </Col>
                             <Col className="OpportunityTracking-right-qa">
-                            {this.state.data.qa.map(item =>
-                                <Col className="OpportunityTracking-right-qa-item">
-                                    <Col className="OpportunityTracking-right-qa-item-q text-overflow-2">
-                                        死神里面的实力设定是不是很乱?没有一个统一的标准?反正主角开挂就完事了?
-                                    </Col>
-                                    <Col className="OpportunityTracking-right-qa-item-btn">
-                                        <Col className="OpportunityTracking-right-qa-item-like">
-                                            <Icon type="like" style={{fontSize: '16px', color: '#D34646'}} /> <span>({item.like})</span>
+                            {this.state.data.qa.map((item,index) =>
+                                {return ( index < 5 && 
+                                    <Col className="OpportunityTracking-right-qa-item">
+                                        <Col className="OpportunityTracking-right-qa-item-q text-overflow-2">
+                                            死神里面的实力设定是不是很乱?没有一个统一的标准?反正主角开挂就完事了?
                                         </Col>
-                                        <Col className="OpportunityTracking-right-qa-item-a">
-                                            <Icon type="form" style={{fontSize: '16px', color: '#17BC37'}} /> <span>回答</span>
+                                        <Col className="OpportunityTracking-right-qa-item-btn">
+                                            <Col className="OpportunityTracking-right-qa-item-like">
+                                                <Icon type="like" style={{ fontSize: '16px', color: '#D34646' }} /> <span>({item.like})</span>
+                                            </Col>
+                                            <Col className="OpportunityTracking-right-qa-item-a">
+                                                <Icon type="form" style={{ fontSize: '16px', color: '#17BC37' }} /> <span>回答</span>
+                                            </Col>
                                         </Col>
                                     </Col>
-                                </Col>
+                                )}
                             )}
                             </Col>
                         </Row>
                     </Col>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+
+
+// ====================================== 供应商后台 => 店铺管理=> 左侧Tabs ==========
+export class LeftTabs extends React.Component{
+    constructor(){
+        super();
+        this.state = {}
+
+    }
+
+    render(){
+        return(
+            <Row>
+                <Col className="LeftTabs">
+                    <div className="LeftTabs-title">供应商中心</div>
+                    <Tabs defaultActiveKey="1" onChange={e => this.TabsChange(e)} tabPosition='left'>
+                        <TabPane tab="平台首页" key="1">
+                        </TabPane>
+                        <TabPane tab="个人首页" key="2">
+                        </TabPane>
+                        <TabPane tab="店铺管理" key="3">
+                        </TabPane>
+                        <TabPane tab="账号管理" key="4">
+                        </TabPane>
+                        <TabPane tab="产品管理" key="5">
+                        </TabPane>
+                        <TabPane tab="交易管理" key="6">
+                        </TabPane>
+                    </Tabs>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+// ====================================== 供应商后台 => 店铺管理=> 右侧头部 面包屑(级别导航) ==========
+export class RightHeaderBreadcrumb extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            // 面包屑
+            Breadcrunmb: [
+                { text: '平台首页', path: '/supplier-back/platform' },
+                { text: '个人首页', path: '/supplier-back/personalHomePage' },
+                { text: '首页', path: '/home' },
+            ]
+        }
+
+    }
+
+    render(){
+        return(
+            <Row>
+                <Col className="RightHeaderBreadcrumb">
+                    <Breadcrumb className="text-left">
+                        {this.state.Breadcrunmb.map((item, index) =>
+                            <Breadcrumb.Item key={index}>
+                                <Link to={item.path}>{item.text}</Link>
+                            </Breadcrumb.Item>
+                        )}
+                    </Breadcrumb>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+// ====================================== 供应商后台 => 店铺管理=> 右侧头部 设置和按钮 ==========
+export class RightSetAndBtn extends React.Component {
+    constructor() {
+        super();
+        this.state = {}
+
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col className="RightSetAndBtn">
+                    <Icon type="appstore" style={{ fontSize: '24px', marginRight: '24px' }} />
+                    <Button size="small">新增</Button>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+// ====================================== 供应商后台 => 店铺管理=> 右侧头部 过滤和搜索 ==========
+export class RightFilterAndSearch extends React.Component{
+    constructor() {
+        super();
+        this.state = {
+            filter: [
+                {text: "北京" ,id: 0}, {text: "上海" ,id: 1}, {text: "深圳" ,id: 2},
+            ],
+            search: {
+                filter: 0,
+                search: '',
+            }
+        }
+
+    }
+
+    // 右边搜索 
+    selectChange(val){
+
+    }
+    inputChange(val){
+        let search = this.state.search
+        search.search = val
+        this.setState({ search: search})
+    }
+    inputSearch(){
+        console.log(this)
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col className="RightFilterAndSearch">
+                    <Col span={12} className="RightFilterAndSearch-left">
+                        {this.props.children}
+                    </Col>
+                    <Col span={12} className="RightFilterAndSearch-right">
+                        <Col>
+                            <InputGroup compact size="small">
+                                <Select defaultValue={this.state.search.filter}
+                                size="small"
+                                onChange={this.selectChange.bind(this)}>
+                                {this.state.filter.map( item =>
+                                    <Option value={item.id} key={item.id}>{item.text}</Option>
+                                )}
+                                </Select>
+                                <Input style={{ width: '50%' }} value={this.state.search.search} 
+                                onChange={this.inputChange.bind(this)} />
+                                <Button type="primary" size="small" 
+                                onClick={_=>this.inputSearch()}>搜索</Button>
+                            </InputGroup>
+                        </Col>
+                        <Col className="RightFilterAndSearch-right-icon" style={{color:'#E13E3E'}}>
+                            <Icon type="close-circle" />
+                        </Col>
+                        <Col className="RightFilterAndSearch-right-icon" style={{color:'#3FB50B'}}>
+                            <Icon type="sync" />
+                        </Col>
+                    </Col>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+// ====================================== 供应商后台 => 店铺管理=> 右侧 产品列表 ==========
+export class RightProList extends React.Component {
+    constructor() {
+        super();
+        this.state = {}
+
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col className="RightProList">
                 </Col>
             </Row>
         )

@@ -47,9 +47,18 @@ export default class Retail extends React.Component {
     }
 
     header() {
-
+        let param = {
+            Menu: [
+                { key: 1, icon: 'home', name: '平台首页', path: '/supplier-back/platform' },
+                { key: 2, icon: 'home', name: '个人首页', path: '/supplier-back/personalHomePage' },
+                { key: 3, icon: 'home', name: '店铺管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
+                { key: 4, icon: 'home', name: '产品管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
+                { key: 5, icon: 'home', name: '账号管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
+                { key: 6, icon: 'home', name: '交易管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
+            ],
+        }
         return (
-            <UserBackDeskHeader ></UserBackDeskHeader>
+            <UserBackDeskHeader param={param}></UserBackDeskHeader>
         )
     }
 
@@ -63,33 +72,26 @@ export default class Retail extends React.Component {
         return (
             <Layout className="">
                 {this.header()}
-                <Content className="">
+                <Content className="" style={{marginTop: '24px'}}>
                     <Row>
                         <Col>
-                            <Tabs defaultActiveKey="1" onChange={e => this.TabsChange(e)}>
+                            {<Platform />}
+
+                            {/* <Tabs defaultActiveKey="1" onChange={e => this.TabsChange(e)}>
                                 <TabPane tab="平台首页" key="1">
                                     {<Platform />}
                                 </TabPane>
                                 <TabPane tab="个人首页" key="2">
-                                    {/* <NormalRegiment /> */}
                                 </TabPane>
                                 <TabPane tab="店铺管理" key="3">
-                                    {/* <LocalTour /> */}
-                                    {/* <Route path="/Personal/History" component={History} /> */}
                                 </TabPane>
                                 <TabPane tab="账号管理" key="4">
-                                    {/* <ScatteredTicket /> */}
-                                    {/* <Route path="/Personal/QA" component={QA} /> */}
                                 </TabPane>
                                 <TabPane tab="产品管理" key="5">
-                                    {/* <ScatteredRoom /> */}
-                                    {/* <Route path="/Personal/LatestNews" component={LatestNews} /> */}
                                 </TabPane>
                                 <TabPane tab="交易管理" key="6">
-                                    {/* <VisaAgent /> */}
-                                    {/* <Route path="/Personal/LatestNews" component={LatestNews} /> */}
                                 </TabPane>
-                            </Tabs>
+                            </Tabs> */}
                         </Col>
                     </Row>
 
