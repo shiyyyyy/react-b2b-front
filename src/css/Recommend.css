@@ -144,6 +144,7 @@
 }
 .Recommend-pro-group-list{
     padding: 0 16px;
+    overflow: hidden;
 }
 .Recommend-pro-group-list:hover{
     background: #FAFBFC;

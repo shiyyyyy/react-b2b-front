@@ -5,7 +5,7 @@ import PersonalRoute from './personal/route';
 import HomeRoute from './home/route';
 import ProductRoute from './product/route';
 import SupplierRoute from './supplier/route';
-import RetailRoute from './retail/route';
+import UserFrontRoute from './userFront/route';
 import Supplier_back from './supplier-back/route';
 
 export const routes = [
@@ -14,7 +14,7 @@ export const routes = [
 	...HomeRoute,
 	...ProductRoute,
 	...SupplierRoute,
-	...RetailRoute,
+	...UserFrontRoute,
 	...Supplier_back,
 	{
 		component:NoMatch

@@ -6,8 +6,6 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import Personal from '../personal';
 import Supplier from '../supplier';
 
-const { Header, Content, Footer } = Layout;
-
 class index extends React.Component{
 
 

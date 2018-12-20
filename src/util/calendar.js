@@ -193,8 +193,8 @@ export class Calendar extends React.Component{
                             <Col className="Calendar-day-col" key={i}>   
                             {
                                 item.map(cell=>
-                                <Col className={"Calendar-day-col-item " + (this.props.param.selectDateString === cell.date?'Calendar-day-col-item-active':'') + 
-                                (cell.month == this.state.month?'cur_month':'')} key={cell.date}
+                                <Col className={"Calendar-day-col-item " + (this.props.param.selectDateString === cell.date?'Calendar-day-col-item-active ':'') + 
+                                (cell.month == this.state.month?'cur_month ':'') + (cell.group.length > 0 ?'cursor':'')} key={cell.date}
                                 onClick={this.selectDate.bind(this,cell)}>
                                     <span className={"Calendar-day-col-day " + (this.props.param.selectDateString === cell.date && cell.month === this.state.month?'Calendar-day-col-day-active':'')}>{cell.day}</span>
                                     {cell.group && cell.group.length <= 1 && 

@@ -10,7 +10,7 @@ import moment from 'moment';
 import { debug } from 'util';
 
 // 供应商前台 组件 => css (零批分销)
-import '../css/Retail.css';
+import '../css/UserFront.css';
 // 供应商后台 => 供应商后台 组件 => css 
 import '../css/Supplier-back.css';
 
@@ -108,7 +108,7 @@ export class UserFrontDeskHeader extends React.Component{
             <Menu
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={[this.props.param.index]}
             >
                 <Menu.Item key="1"><Link to="/home">平台首页</Link></Menu.Item>
                 <Menu.Item key="2"><Link to="/retail">批零分销</Link></Menu.Item>
@@ -422,7 +422,7 @@ export class ProductList extends React.Component{
 
                             <Col className={"Recommend-btm " + (this.state.cur_pro_id === item.id ? '' : 'hide')}>
                                 <Col className="Recommend-pro-group-list-box">
-                                    <Col className="Recommend-pro-group-title">
+                                    <Col span={24} className="Recommend-pro-group-title">
                                         <Col span={4}>团号</Col>
                                         <Col span={3}>出团日期</Col>
                                         <Col span={3}>回团日期</Col>
@@ -629,7 +629,7 @@ export class ProductCalendarList extends React.Component {
                                     <Col span={12} style={{margin: '12px 0'}}>
                                         {this.calendarFun2()}
                                     </Col>
-                                    <Col className="Recommend-pro-group-title">
+                                    <Col span={24} className="Recommend-pro-group-title">
                                         <Col span={3}>房型</Col>
                                         <Col span={2}>床型</Col>
                                         <Col span={2}>面积</Col>
@@ -1512,7 +1512,7 @@ export class UserBackDeskHeader extends React.Component{
                         <Row style={{ height: '64px' }} gutter={16}>
                             <Col span={3} className="personal-logo" ></Col>
                             <Col span={21} className="personal-header">
-                                <Menu theme="light" mode="inline" defaultSelectedKeys={['1']}
+                                <Menu theme="light" mode="inline" defaultSelectedKeys={[this.props.param.index]}
                                     mode='horizontal' className="personal-header-menu">
                                     {this.props.param.Menu.map((item, index) =>
                                         item.children ?
@@ -1858,7 +1858,8 @@ export class OpportunityTracking extends React.Component {
 
 
 // ====================================== 供应商后台 => 店铺管理=> 左侧Tabs ==========
-export class LeftTabs extends React.Component{
+export class 
+LeftTabs extends React.Component{
     constructor(){
         super();
         this.state = {}
@@ -1868,22 +1869,24 @@ export class LeftTabs extends React.Component{
     render(){
         return(
             <Row>
-                <Col className="LeftTabs">
+                {/* <Col className="LeftTabs">
                     <div className="LeftTabs-title">供应商中心</div>
                     <Tabs defaultActiveKey="1" onChange={e => this.TabsChange(e)} tabPosition='left'>
-                        <TabPane tab="平台首页" key="1">
+                    {this.props.param.tabs.map( item =>
+                        <TabPane tab={item.text} key={item.key}>
+                            <Link to={item.path}>{item.text}</Link>
                         </TabPane>
-                        <TabPane tab="个人首页" key="2">
-                        </TabPane>
-                        <TabPane tab="店铺管理" key="3">
-                        </TabPane>
-                        <TabPane tab="账号管理" key="4">
-                        </TabPane>
-                        <TabPane tab="产品管理" key="5">
-                        </TabPane>
-                        <TabPane tab="交易管理" key="6">
-                        </TabPane>
+                    )}
                     </Tabs>
+                </Col> */}
+                <Col className="LeftTabs">
+                    <div className="LeftTabs-title">供应商中心</div>
+                    <div className="LeftTabs-link">
+                        {this.props.param.tabs.map(item =>
+                            <Link to='/supplier-back/pro-manage/group-tour'
+                            className={"LeftTabs-link-item " + (item.key === 2?'LeftTabs-link-item-active':'')}>{111}</Link>
+                        )}
+                    </div>
                 </Col>
             </Row>
         )
@@ -1898,7 +1901,7 @@ export class RightHeaderBreadcrumb extends React.Component{
             // 面包屑
             Breadcrunmb: [
                 { text: '平台首页', path: '/supplier-back/platform' },
-                { text: '个人首页', path: '/supplier-back/personalHomePage' },
+                { text: '个人首页', path: '/supplier-back/pro-manage' },
                 { text: '首页', path: '/home' },
             ]
         }
@@ -2011,14 +2014,85 @@ export class RightFilterAndSearch extends React.Component{
 export class RightProList extends React.Component {
     constructor() {
         super();
-        this.state = {}
-
+        this.state = {
+            ProList:[
+                { id: 1, proId: 11, name: 'meiugo十年B1签证,出签率98.7%,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 2, proId: 22, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 3, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 4, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 5, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 6, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 7, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 8, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 9, proId: 33, name: '美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+                { id: 10, proId: 33, name:'美国十年B1签证,出签率98.7%,专家指导,不出退钱,美国十年B1签证,出签率98.7%,专家指导,不出退钱,', },
+            ]
+        }
     }
 
     render() {
         return (
             <Row>
                 <Col className="RightProList">
+                {this.state.ProList.map( item => 
+                    <Col className="RightProList-item">
+                        <Col span={3} className="RightProList-item-left">
+                            <img src="/img/Login-bg.jpg" />
+                            <span>编号: P04396</span>
+                        </Col>
+                        <Col span={21} className="RightProList-item-right">
+                            <Col className="RightProList-item-right-top">
+                                <span className="RightProList-item-right-top-name text-overflow" title={item.name}
+                                >{item.name}</span>
+                                <span className="RightProList-item-right-top-tag" style={{background: "#FECA76"}}>单签证</span>
+                                <span className="RightProList-item-right-top-tag" style={{background: "#84C1FF"}}>跟团游</span>
+                            </Col>
+                            <Col className="RightProList-item-right-btm">
+                                <Col span={12} className="RightProList-item-right-btm-left">
+                                    <div className="RightProList-item-right-btm-left-item">
+                                        <span>供 &nbsp;应 &nbsp;商 : </span>
+                                        <span style={{color: '#666'}}>&nbsp;恒信西部-张三</span>
+                                    </div>
+                                    <div className="RightProList-item-right-btm-left-item">
+                                        <span>送签国家 : </span>
+                                        <span style={{color: '#666'}}>&nbsp;澳大利亚</span>
+                                    </div>
+                                    <div className="RightProList-item-right-btm-left-item">
+                                        <span>送签类型 : </span>
+                                        <span style={{color: '#666'}}>&nbsp;个人旅游</span>
+                                    </div>
+                                </Col>
+                                <Col span={12} className="RightProList-item-right-btm-right">
+                                    <Col className="RightProList-item-right-btm-right-text">
+                                        <Col span={8} offset={6} className="RightProList-item-right-btm-left-item">
+                                            <span>在售团期 : </span>
+                                            <span style={{ color: '#E03737' }}>&nbsp; 76</span>个
+                                        </Col>
+                                        <Col span={8} offset={2} className="RightProList-item-right-btm-left-item">
+                                            <span>产品评分 : </span>
+                                            <span style={{ color: '#E03737' }}>&nbsp; 9.6</span>
+                                        </Col>
+                                        <Col span={8} offset={6} className="RightProList-item-right-btm-left-item">
+                                            <span>访问次数 : </span>
+                                            <span style={{ color: '#E03737' }}>&nbsp; 8265</span>次
+                                        </Col>
+                                        <Col span={8} offset={2} className="RightProList-item-right-btm-left-item">
+                                            <span>审批状态 : </span>
+                                            <span style={{ color: '#E03737' }}>&nbsp; 拒审批</span>
+                                        </Col>
+                                    </Col>
+                                    <Col className="RightProList-item-right-btm-right-btn">
+                                        <Button size="small">开团</Button>
+                                        <Button size="small">修改</Button>
+                                        <Button size="small">删除</Button>
+                                        <Button size="small">复制</Button>
+                                    </Col>
+                                </Col>
+                            </Col>
+                        </Col>
+                    </Col>
+                )}
+                    
                 </Col>
             </Row>
         )

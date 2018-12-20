@@ -280,7 +280,21 @@
     color: #333;
     padding-right: 32px;
 }
-
+.LeftTabs-link{
+    width: 100%;
+}
+.LeftTabs-link-item{
+    color: #666;
+    display: block;
+    text-align: left;
+    padding-left: 32px;
+}
+.LeftTabs-link-item-active{
+    color: #1890ff;
+}
+.LeftTabs-link-item:active{
+    border: none;
+}
 /* ================= leftTabs 覆盖TABS ================= */
 .LeftTabs .ant-tabs-nav-container{
     font-size: 13px;
@@ -309,6 +323,10 @@
     display: flex;
     align-items: center;
 }
+.RightSetAndBtn > i:hover{
+    cursor: pointer;
+    color: #1890ff;
+}
 
 /* =============================== 供应商后台 => 店铺管理=> 右侧头部 过滤和搜索 ===================== */
 .RightFilterAndSearch{
@@ -334,19 +352,112 @@
     align-items: center;
 }
 .RightFilterAndSearch-right-icon{
-    font-size: 16px;
-    margin: 0 8px;
+    width: 26px;
+    height: 26px;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    border-radius: 50%;
+    background: #fff;
+    margin: 0 4px;
     cursor: pointer;
 }
-.RightFilterAndSearch-right-icon:hover i{
-    animation: rotate 1s;
+.RightFilterAndSearch-right-icon:hover{
+    background-color: #efefef;
 }
-@keyframes rotate {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(180deg);}
+.RightFilterAndSearch-right-icon:hover i{
+    animation: RightFilterAndSearchAnimate 1s;
+}
+@keyframes RightFilterAndSearchAnimate {
+    from {transform: rotate(0deg) scale(1);}
+    to {transform: rotate(180deg) scale(1);}
 }
 .RightFilterAndSearch-right-icon:active i{
     border-radius: 50%;
     box-shadow: 0px 0px 6px RGBA(0,0,0,.6);
 }
 
+/* =============================== 供应商后台 => 店铺管理=> 右侧头部  ===================== */
+.RightProList{
+
+}
+.RightProList-item{
+    overflow: hidden;
+    padding: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    margin: 12px 0;
+}
+.RightProList-item:hover{
+    border-color: #71ACEC;
+}
+.RightProList-item-left{
+    border-radius: 4px;
+}
+.RightProList-item-left img{
+    width: 100%;
+    height: 70px;
+    border-radius: 4px 4px 0 0;
+    display: inline-block;
+}
+.RightProList-item-left span{
+    width: 100%;
+    font-size: 12px;
+    line-height: 20px;
+    color: #666;
+    border: 1px solid #eee;
+    border-radius: 0 0 4px 4px;
+    display: inline-block;
+}
+.RightProList-item-right{
+    padding-left: 16px;
+    text-align: left;
+}
+.RightProList-item-right-top{
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+}
+.RightProList-item-right-top-name{
+    max-width: 65%;
+    font-size: 15px;
+    color: #333;
+    display: inline-block;
+}
+.RightProList-item-right-top-tag{
+    font-size: 11px;
+    color: #fff;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 0px 6px;
+    margin: 0 8px;
+    cursor: pointer;
+}
+.RightProList-item-right-btm{
+    overflow: hidden;
+}
+.RightProList-item-right-btm-left{
+    font-size: 12px;
+    line-height: 20px;
+    margin-top: 6px;
+}
+.RightProList-item-right-btm-left-item{
+    color: #999;
+}
+.RightProList-item-right-btm-right{
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 6px;
+}
+.RightProList-item-right-btm-right-text{
+    overflow: hidden;
+}
+.RightProList-item-right-btm-right-btn{
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+.RightProList-item-right-btm-right-btn > button{
+    margin: 0 4px;
+}

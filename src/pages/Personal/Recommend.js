@@ -105,7 +105,7 @@ class Recommend extends React.Component{
 
                             <Col className={"Recommend-btm "+(this.state.cur_pro_id === item.id?'':'hide')}>
                                 <Col className="Recommend-pro-group-list-box">
-                                    <Col className="Recommend-pro-group-title">
+                                    <Col span={24} className="Recommend-pro-group-title">
                                         <Col span={4}>团号</Col>
                                         <Col span={3}>出团日期</Col>
                                         <Col span={3}>回团日期</Col>
