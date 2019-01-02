@@ -52,7 +52,7 @@ export default class SupplierBack extends React.Component {
             Menu: [
                 { key: 1, icon: 'home', name: '平台首页', path: '/supplier-back/platform' },
                 { key: 2, icon: 'home', name: '个人首页', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
-                { key: 3, icon: 'home', name: '店铺管理', path: '/supplier-back/ShopManage' },
+                { key: 3, icon: 'home', name: '店铺管理', path: '/supplier-back/shop-manage' },
                 { key: 4, icon: 'home', name: '产品管理', path: '/supplier-back/pro-manage' },
                 { key: 5, icon: 'home', name: '账号管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },
                 { key: 6, icon: 'home', name: '交易管理', children: [{ key: 31, path: 'Sabo', icon: 'home', name: '萨博' }, { key: 32, path: 'Aisi', icon: 'home', name: '艾斯' }, { key: 33, path: 'Lufei', icon: 'home', name: '路飞' }] },

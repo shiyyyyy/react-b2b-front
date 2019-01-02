@@ -6,6 +6,8 @@ import ShopManage from './shop-manage/ShopManage';
 // 产品管理
 import ProManage from './pro-manage/ProManage';
 import GroupTour from './pro-manage/GroupTour';
+import GroupTourAdd from './pro-manage/GroupTourAdd';
+import GroupTourOpenGroup from './pro-manage/GroupTourOpenGroup';
 
 import GroupTicket from './pro-manage/GroupTicket';
 
@@ -16,24 +18,29 @@ export default [
         component: Supplier_back
     },
     {
-        path: '/supplier-back/shop-manage/shop-manage',
+        path: '/supplier-back/shop-manage',
         exact: true,
         component: ShopManage
     },
     {
         path: '/supplier-back/pro-manage', 
-        component: ProManage,
-        // routes: [
-        //     {
-        //         path: '/supplier-back/pro-manage/group-tour',
-        //         component: GroupTour
-        //     }
-        // ]
+        exact: true,
+        component: ProManage
     },
     {
         path: '/supplier-back/pro-manage/group-tour',
+        exact: true,
         component: GroupTour
     },
+    {
+        path: '/supplier-back/pro-manage/group-tour/add',
+        component: GroupTourAdd
+    },
+    {
+        path: '/supplier-back/pro-manage/group-tour/open',
+        component: GroupTourOpenGroup
+    },
+
     {
         path: '/supplier-back/pro-manage/group-ticket',
         component: GroupTicket

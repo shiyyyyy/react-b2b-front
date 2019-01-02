@@ -15,6 +15,7 @@ export default class GroupTour extends React.Component {
         this.state = {
             
         }
+        console.log(this)
     }
 
     render() {

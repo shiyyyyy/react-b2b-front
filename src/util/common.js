@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link, withRouter, Switch, Route } from 'react-router-dom';
-import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
+import { Resizable } from 'react-resizable';
+import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Table, Popconfirm, Divider, Upload, Spin, message, Form, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
 
 import Swiper from 'swiper/dist/js/swiper.js';
 import 'swiper/dist/css/swiper.min.css';
 import { Calendar } from './calendar';
 import moment from 'moment';
 import { debug } from 'util';
+
+import locale from 'antd/lib/date-picker/locale/zh_CN';
 
 // 供应商前台 组件 => css (零批分销)
 import '../css/UserFront.css';
@@ -20,7 +23,10 @@ const SubMenu = Menu.SubMenu;
 const TabPane = Tabs.TabPane;
 const Search = Input.Search;
 const InputGroup = Input.Group;
+const { TextArea } = Input;
 const Option = Select.Option;
+const FormItem = Form.Item;
+
 
 
 // =====================================   用户前台页面 => 通用顶部
@@ -332,7 +338,6 @@ export class MultiCarousel extends React.Component{
                             </div>
                             <div className="swiper-button-prev Supplier-index-prev" id={this.props.swiperCfg.id + 'prevCtrl'}> <Icon type="left-circle" theme="filled" /></div>
                             <div className="swiper-button-next Supplier-index-next" id={this.props.swiperCfg.id + 'nextCtrl'}> <Icon type="right-circle" theme="filled" /></div>
-
                         </div>
                     </Col>
                 </Col>
@@ -1748,7 +1753,7 @@ export class TitleFliterOrder extends React.Component{
 }
 
 
-// ====================================== 供应商后台 => 平台首页=> 机会跟踪 ==========
+// ====================================== 供应商后台 => 平台首页 => 机会跟踪 ==========
 export class OpportunityTracking extends React.Component {
     constructor() {
         super();
@@ -1831,7 +1836,7 @@ export class OpportunityTracking extends React.Component {
                             <Col className="OpportunityTracking-right-qa">
                             {this.state.data.qa.map((item,index) =>
                                 {return ( index < 5 && 
-                                    <Col className="OpportunityTracking-right-qa-item">
+                                    <Col className="OpportunityTracking-right-qa-item" key={item.id}>
                                         <Col className="OpportunityTracking-right-qa-item-q text-overflow-2">
                                             死神里面的实力设定是不是很乱?没有一个统一的标准?反正主角开挂就完事了?
                                         </Col>
@@ -1857,7 +1862,7 @@ export class OpportunityTracking extends React.Component {
 
 
 
-// ====================================== 供应商后台 => 店铺管理=> 左侧Tabs ==========
+// ====================================== 供应商后台 =>  menu页面  => 左侧Tabs ==========
 export class 
 LeftTabs extends React.Component{
     constructor(){
@@ -1883,7 +1888,7 @@ LeftTabs extends React.Component{
                     <div className="LeftTabs-title">供应商中心</div>
                     <div className="LeftTabs-link">
                         {this.props.param.tabs.map(item =>
-                            <Link to='/supplier-back/pro-manage/group-tour'
+                            <Link to='/supplier-back/pro-manage/group-tour' key={item.key}
                             className={"LeftTabs-link-item " + (item.key === 2?'LeftTabs-link-item-active':'')}>{111}</Link>
                         )}
                     </div>
@@ -1893,7 +1898,7 @@ LeftTabs extends React.Component{
     }
 }
 
-// ====================================== 供应商后台 => 店铺管理=> 右侧头部 面包屑(级别导航) ==========
+// ====================================== 供应商后台 =>  menu页面  => 右侧头部 面包屑(级别导航) ==========
 export class RightHeaderBreadcrumb extends React.Component{
     constructor() {
         super();
@@ -1925,7 +1930,7 @@ export class RightHeaderBreadcrumb extends React.Component{
     }
 }
 
-// ====================================== 供应商后台 => 店铺管理=> 右侧头部 设置和按钮 ==========
+// ====================================== 供应商后台 =>  menu页面 => 右侧头部 设置和按钮 ==========
 export class RightSetAndBtn extends React.Component {
     constructor() {
         super();
@@ -1945,7 +1950,7 @@ export class RightSetAndBtn extends React.Component {
     }
 }
 
-// ====================================== 供应商后台 => 店铺管理=> 右侧头部 过滤和搜索 ==========
+// ====================================== 供应商后台 =>  menu页面 => 右侧头部 过滤和搜索 ==========
 export class RightFilterAndSearch extends React.Component{
     constructor() {
         super();
@@ -2010,7 +2015,7 @@ export class RightFilterAndSearch extends React.Component{
     }
 }
 
-// ====================================== 供应商后台 => 店铺管理=> 右侧 产品列表 ==========
+// ====================================== 供应商后台 =>  menu页面 => 右侧 产品列表 ==========
 export class RightProList extends React.Component {
     constructor() {
         super();
@@ -2035,7 +2040,7 @@ export class RightProList extends React.Component {
             <Row>
                 <Col className="RightProList">
                 {this.state.ProList.map( item => 
-                    <Col className="RightProList-item">
+                    <Col className="RightProList-item" key={item.id}>
                         <Col span={3} className="RightProList-item-left">
                             <img src="/img/Login-bg.jpg" />
                             <span>编号: P04396</span>
@@ -2096,5 +2101,756 @@ export class RightProList extends React.Component {
                 </Col>
             </Row>
         )
+    }
+}
+
+
+// ====================================== 供应商后台 =>  menu页面 => 新增页面 => 产品图片 ==========
+export class ProductPictures extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            loading: false
+        }
+    }
+
+    componentDidMount() {
+        new Swiper(`#${this.props.swiperCfg.id}`, {
+            loop: this.props.swiperCfg.loop, // 循环模式选项
+            slidesPerView: this.props.swiperCfg.numSwiper,
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: `#${this.props.swiperCfg.id}prevCtrl`,
+                prevEl: `#${this.props.swiperCfg.id}nextCtrl`,
+            },
+            // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
+            observer: true,
+        });
+        // let that = this
+        // let SwiperEl = document.getElementById(`${this.props.swiperCfg.id}`);
+        // this.slider = Array.from(SwiperEl.children[0].children);
+        // this.slider.forEach(item => {
+        //     item.addEventListener('click', function () {
+        //         (that.clickSwiper.bind(this, that))()
+        //     })
+        // })
+    }
+
+    // clickSwiper (循环swiper的时候,用这个,不是循环的不用)
+    // clickSwiper(that) {
+    //     // this 是 当前标签元素,that是组件
+    //     console.log(this)
+    //     console.log(that)
+    // }
+
+    clickPhotos(item, index){
+        console.log(item)
+        console.log(index)
+    }
+
+    // add photos
+    addPhotos(){
+        console.log('add')
+    }
+    // delete photos
+    deletePhotos(item){
+        console.log(item)
+    }
+    // 图片描述(备注)
+    photoComment(val,index){
+        console.log(val)
+        console.log(index)
+    }
+
+    render(){
+        return(
+            <Row>
+                <Col style={{overflow: 'hidden'}}>
+                    {/* 产品图片 */}
+                    <Col span={21} className="swiper-container" id={this.props.swiperCfg.id}>
+                        <div className="swiper-wrapper">
+                            {(this.props.swiperCfg.data.length >= 3 ? 
+                                this.props.swiperCfg.data : 
+                                this.props.swiperCfg.data.concat(new Array(3 - [this.props.swiperCfg.data].length).fill({})) 
+                                )
+                                .map((item, index) => (
+                                    <div className="swiper-slide ProductPictures-item" key={index} style={{ height: this.props.swiperCfg.height }}
+                                        id={item}>
+                                        <div className="ProductPictures-item-top">
+                                            <div>{index+1}</div>
+                                            <div><Icon type="minus-circle" onClick={_ => this.deletePhotos(item)} /></div>
+                                        </div>
+                                        <div className="ProductPictures-item-content">
+                                            <img onClick={_ => this.setState({ photoWallShow: true })}
+                                            onClick={_ => this.clickPhotos(item,index)}
+                                            src={item} className=" img-size" />    
+                                        </div>
+                                        <div className="ProductPictures-item-btm">
+                                            <Input placeholder="请输入图片文字描述" onChange={e=>this.photoComment(e.target.value,index)} />
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+
+                    </Col>
+                    {/* + */}
+                    <Col span={3} className="ProductPictures-add-btn">
+                        <Upload
+                            name="avatar"
+                            listType="text"
+                            className=""
+                            showUploadList={false}
+                            action="//jsonplaceholder.typicode.com/posts/"
+                            // beforeUpload={beforeUpload}
+                            // onChange={this.handleChange}
+                        >
+                            <Icon type="plus" className="ProductPictures-add-btn-icon" onClick={_ => this.addPhotos()} />
+                        </Upload>
+                    </Col>
+                    <div className="swiper-button-next ProductPictures-next" id={this.props.swiperCfg.id + 'nextCtrl'}> <Icon type="right-circle" theme="filled" /></div>
+                    <div className="swiper-button-prev ProductPictures-prev" id={this.props.swiperCfg.id + 'prevCtrl'}> <Icon type="left-circle" theme="filled" /></div>
+
+                </Col>
+            </Row>
+        )
+    }
+}
+
+
+// ====================================== 供应商后台 =>  menu页面 => 新增页面 => 产品特色 ==========
+
+export class ProductCharacteristic extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+
+        }
+    }
+    textAearChange(val){
+        console.log(val)
+    }
+    render(){
+        return(
+            <Row>
+                <Col>
+                    <TextArea placeholder="自适应高度文本域" autosize={{ minRows: 2, maxRows: 8 }} 
+                    // style={{fontSize: '13px'}}
+                    onChange={e => this.textAearChange(e.target.value)} />
+                </Col>
+            </Row>
+        )
+    }
+}
+
+// ====================================== 供应商后台 =>  menu页面 => 新增页面 => 产品行程 ==========
+
+export class ProductScheduling extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            page: 1,
+        }
+
+        this.maxPage = 12
+    }
+    chengePage = (val) => this.setState({page: val})
+    plusPage(){
+        if(this.state.page >= this.maxPage) return
+        this.setState({ page: ++this.state.page })
+    }
+    minusPage(){
+        if (this.state.page <= 1) return
+        this.setState({ page: --this.state.page })
+    }
+    blurPage(val){
+        console.log(val)
+    }
+
+    render() {
+        return (
+            <Row>
+                <Col className="ProductScheduling">
+                    <Col className="ProductScheduling-top">
+                        <Col className="ProductScheduling-top-btn">
+                            <Button shape="circle" icon="upload" />
+                            <Button shape="circle" icon="delete" />
+                        </Col>
+                        <Col className="ProductScheduling-top-pageNum">
+                            <Button shape="circle" icon="minus" disabled={this.state.page <= 1}
+                            onClick={_ => this.minusPage()} />
+                            <input value={this.state.page} className="ProductScheduling-top-pageNum-input"
+                                onChange={e => this.chengePage(e.target.value)}
+                                onBlur={e => this.blurPage(e.target.value)} />
+                            <Button shape="circle" icon="plus" disabled={this.state.page >= this.maxPage}
+                            onClick={_ => this.plusPage()} />
+                        </Col>                    
+                    </Col>
+                    <Col className="ProductScheduling-content">
+                        PDF
+                    </Col>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+
+// ============================================    供应商后台 =>  menu页面 => Table    =========================================== //
+ // =============================================   Table Table Table Table Table   ============================================ //
+  // ===============================================            Table             ============================================= //
+
+//   可编辑表格 =========
+const EditableContext = React.createContext();
+
+const EditableRow = ({ form, index, ...props }) => {
+    return (
+        <EditableContext.Provider value={form}>
+            <tr {...props} />
+        </EditableContext.Provider>
+    )
+};
+
+export const EditableFormRow = Form.create()(EditableRow);
+
+//   可伸缩列 =========
+export const ResizeableTitle = (props) => {
+    const { onResize, width, ...restProps } = props;
+    if (!width) {
+        return <th {...restProps} />;
+    }
+
+    return (
+        <Resizable width={width} height={0} onResize={onResize}>
+            <th {...restProps} />
+        </Resizable>
+    );
+};
+
+
+//   Table => 更改单元格 =============
+
+export class EditableCell extends React.Component {
+    state = {
+        editing: false,
+        openShow: false
+    }
+
+    openModal(status){
+        this.setState({openShow: status})
+    }
+
+    editHTML(id, options){
+        // console.log(this)
+        // console.log(options)
+        if (options.type === '' || options.type === null || options.type === 'text'){
+            return (
+                <FormItem style={{ margin: 0 }}>
+                    {this.form.getFieldDecorator(id, {
+                        rules: [{
+                            required: true,
+                            message: `${options.title} 是必填项.`,
+                        }],
+                        initialValue: options.record[id],
+                    })(<Input
+                        ref={node => (this.input = node)}
+                        // onPressEnter={this.save}
+                    />)}
+                </FormItem>
+            )
+        }
+        if (options.type === 'number') {
+            return (
+                <FormItem style={{ margin: 0 }}>
+                    {this.form.getFieldDecorator(id, {
+                        rules: [{
+                            required: true,
+                            message: `${options.title} 是必填项.`,
+                        }],
+                        initialValue: options.record[id],
+                    })(
+                        <InputNumber min={0} max={10000} style={{ width: '112px' }} Group
+                            ref={node => (this.input = node)}
+                        // onChange={this.save}
+                        />
+                    )}
+                </FormItem>
+            )
+        }
+        if (options.type === 'date') {
+            options.record[id] = moment(options.record[id])
+            return (
+                <FormItem style={{ margin: 0 }}>
+                    {this.form.getFieldDecorator(id, {
+                        rules: [{
+                            required: true,
+                            message: `${options.title} 是必填项.`,
+                        }],
+                        initialValue: options.record[id],
+                    })(
+                        <DatePicker ref={node => (this.input = node)}
+                        className="Table-DatePicker"
+                        format="YYYY-MM-DD"
+                        onOpenChange={status => this.openModal(status)}
+                        />
+                    )}
+                </FormItem>
+            )
+        }
+        if (options.type === 'time') {
+            return (
+                <FormItem style={{ margin: 0 }}>
+                    {this.form.getFieldDecorator(id, {
+                        rules: [{
+                            required: true,
+                            message: `${options.title} 是必填项.`,
+                        }],
+                        initialValue: moment(options.record[id]),
+                    })(
+                        <DatePicker
+                            locale={locale}
+                            ref={node => (this.input = node)}
+                            showTime
+                            className="Table-DatePicker"
+                            format="YYYY-MM-DD HH:mm:ss"
+                            placeholder="Select Time"
+                            onOpenChange={status => this.openModal(status)}
+                        />
+                    )}
+                </FormItem>
+            )
+        }
+
+        if (options.type === 'select') {
+            return (
+                <FormItem style={{ margin: 0 }}>
+                    {this.form.getFieldDecorator(id, {
+                        rules: [{
+                            required: true,
+                            message: `${options.title} 是必填项.`,
+                        }],
+                        initialValue: options.record[id],
+                    })(
+                        <Select style={{ width: 120 }} ref={node => (this.input = node)} 
+                        onDropdownVisibleChange={open => this.openModal(open)} >
+                            <Option className="Table-Dat" value="1">111</Option>
+                            <Option className="Table-Dat" value="2">222</Option>
+                            <Option className="Table-Dat" value="3">333</Option>
+                        </Select>
+                    )}
+                </FormItem>
+            )
+        }
+        
+    }
+    changeDate(date, dateString){
+        console.log(date)
+        console.log(dateString)
+    }
+
+    componentDidMount() {
+        if (this.props.editable) {
+            document.addEventListener('click', this.handleClickOutside, true);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.props.editable) {
+            document.removeEventListener('click', this.handleClickOutside, true);
+        }
+    }
+
+    toggleEdit = () => {
+        console.log(this)
+        const editing = !this.state.editing;
+        this.setState({ editing }, () => {
+            if (editing) {
+                this.input.focus();
+            }
+        });
+    }
+
+    handleClickOutside = (e) => {
+        const { editing, openShow } = this.state;
+        if (editing && this.cell !== e.target && !this.cell.contains(e.target) && !openShow) {
+            this.save();
+        }
+    }
+
+    save = () => {
+        const { record, handleSave } = this.props;
+        console.log(this.props)
+        if (this.props.type === 'date'){
+            this.form.validateFields((error, values) => {
+                console.log(values)
+                if (error) {
+                    return;
+                }
+                values[this.props.dataIndex] = values[this.props.dataIndex].format("YYYY-MM-DD")
+                console.log(values)
+                this.toggleEdit();
+                handleSave({ ...record, ...values });
+            });
+            return
+        }
+        if (this.props.type === 'time') {
+            this.form.validateFields((error, values) => {
+                console.log(values)
+                if (error) {
+                    return;
+                }
+                values[this.props.dataIndex] = values[this.props.dataIndex].format("YYYY-MM-DD HH:mm:ss")
+                console.log(values)
+                this.toggleEdit();
+                handleSave({ ...record, ...values });
+            });
+            return
+        }
+
+        this.form.validateFields((error, values) => {
+            console.log(error, values)
+            if (error) {
+                return;
+            }
+            this.toggleEdit();
+            handleSave({ ...record, ...values });
+        });
+    }
+
+    render() {
+        const { editing } = this.state;
+        const {
+            editable,
+            dataIndex,
+            title,
+            record,
+            index,
+            handleSave,
+            ...restProps
+        } = this.props;
+        const options = this.props;
+        return (
+            <td ref={node => (this.cell = node)} {...restProps}>
+                {editable ? (
+                    <EditableContext.Consumer>
+                        {(form) => {
+                            this.form = form;
+                            return (
+                                editing ? (this.editHTML(dataIndex, options)
+                                    // <FormItem style={{ margin: 0 }}>
+                                    //     {form.getFieldDecorator(dataIndex, {
+                                    //         rules: [{
+                                    //             required: true,
+                                    //             message: `${title} 是必填项.`,
+                                    //         }],
+                                    //         initialValue: record[dataIndex],
+                                    //     })(this.editHTML(dataIndex, options))}
+                                    // </FormItem>
+                                ) : (
+                                        <div
+                                            className="editable-cell-value-wrap"
+                                            style={{ paddingRight: 24, borderRadius: '4px' }}
+                                            onClick={this.toggleEdit}
+                                        >
+                                            {restProps.children}
+                                        </div>
+                                    )
+                            );
+                        }}
+                    </EditableContext.Consumer>
+                ) : restProps.children}
+            </td>
+        );
+    }
+}
+
+//   Table => 本体 =============
+export class TableRender extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            filteredInfo: null,
+            sortedInfo: null,
+        }
+    }
+
+    // 分页、排序、筛选变化时触发
+    TableChange(pagination, filters, sorter, extra){
+        console.log(this)
+        console.log(pagination)
+        console.log(filters)
+        console.log(sorter)
+        console.log(extra)
+        this.setState({
+            filteredInfo: filters,
+            sortedInfo: sorter,
+        });
+    }
+
+    //  ====  这里要求 父级页面的  数据源  名字叫做 data ====
+    handleSave = (row) => {
+        console.log(row)
+        const newData = [...this.props.param.data];
+        const index = newData.findIndex(item => row.key === item.key);
+        const item = newData[index];
+        newData.splice(index, 1, {
+            ...item,
+            ...row,
+        });
+        this.props.view.setState({ data: newData });
+    }
+    //  ====  这里要求 父级页面的  列配置  名字叫做 columns ====
+    handleResize = index => (e, { size }) => {
+        this.props.view.setState(({ columns }) => {
+            const nextColumns = [...columns];
+            nextColumns[index] = {
+                ...nextColumns[index],
+                width: size.width,
+            };
+            return { columns: nextColumns };
+        });
+    };
+
+    render(){
+        // 数据源
+        const data = this.props.param.data;
+        // 筛选和排序
+        const { sortedInfo, filteredInfo } = this.state;
+        // sortedInfo = sortedInfo || {};
+        // filteredInfo = filteredInfo || {};
+        // 固定的列 和 header
+        const components = {
+            header: {
+                cell: ResizeableTitle,
+            },
+            body: {
+                row: EditableFormRow,
+                cell: EditableCell,
+            },
+        };
+        // row 每一排的 className
+        const RowClassName = this.props.param.rowClassName || ''
+        // 需要不要滚动
+        const scroll = this.props.param.scroll ? {
+                            x: this.props.param.scroll.x || true,
+                            y: this.props.param.scroll.y || null
+                        } : null
+        console.log(scroll)
+        // 需不需要 可选择(单radio/多checkbox)
+        const rowSelection = this.props.param.rowSelection ? { ...this.props.param.rowSelection } : null
+                                
+        // 列配置
+        const columns = this.props.param.columns.map((col, index) => {
+            if (!col.editable) {
+                return {
+                    ...col,
+                    onHeaderCell: column => {
+                        return ({
+                            width: column.width,
+                            onResize: this.handleResize(index),
+                        })
+                    }
+                }
+            }
+
+            return {
+                ...col,
+                onCell: record => ({
+                    record,
+                    editable: col.editable,
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    handleSave: this.handleSave,
+                    type: col.type || null
+                }),
+                onHeaderCell: column => ({
+                    width: column.width,
+                    onResize: this.handleResize(index),
+                }),
+            };
+        });
+
+        return (
+            <Table
+                bordered
+                rowSelection={rowSelection}
+                components={components}
+                columns={columns}
+                dataSource={data}
+                scroll={scroll}
+                rowClassName={RowClassName}
+                onChange={this.TableChange.bind(this)}
+            />
+        )
+    }
+    
+}
+
+
+// ========================================      Table Filter      ================================= //
+export class TableFilter extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            filter: {
+
+            }
+        }
+    }
+
+    changeFilter(val, index){
+        console.log(val)
+        console.log(index)
+        console.log(this)
+    }
+
+    render(){
+        const { data, columns } = this.props.param;
+        const param = { data,columns }
+        const columnsCfg = columns.map((col, index) => {
+            console.log(col)
+            console.log(index)
+            if (col.type === null || col.type === undefined || col.type === 'text') {
+                return (
+                    <div className="Table-Filter-item" key={index}>
+                        <Input placeholder={`请填写${col.title}`}
+                        onChange={e => this.changeFilter(e.target.value, index)}
+                        />
+                    </div>
+                )
+            }
+            if (col.type === 'number') {
+                return (
+                    <div className="Table-Filter-item" key={index}>
+                        <InputNumber min={0} style={{ width: '120px' }}
+                        onChange={val => this.changeFilter(val,index)}
+                        />
+                    </div>
+                )
+            }
+            if (col.type === 'select') {
+                return (
+                    <div className="Table-Filter-item" key={index}>
+                        <Select style={{ width: 120 }} 
+                            onChange={(value, option) => this.changeFilter(value, index)} >
+                            <Option className="Table-Dat" value="1">111</Option>
+                            <Option className="Table-Dat" value="2">222</Option>
+                            <Option className="Table-Dat" value="3">333</Option>
+                        </Select>
+                    </div>
+                )
+            }
+            if (col.type === 'date') {
+                return (
+                    <div className="Table-Filter-item" key={index}>
+                        <DatePicker 
+                            className="Table-DatePicker"
+                            format="YYYY-MM-DD"
+                            onChange={(date, dateString) => this.changeFilter(dateString,index)}
+                        />
+                    </div>
+                )
+            }
+            if (col.type === 'time') {
+                return (
+                    <div className="Table-Filter-item" key={index}>
+                        <DatePicker
+                            showTime
+                            className="Table-DatePicker"
+                            format="YYYY-MM-DD HH:mm:ss"
+                            placeholder="Select Time"
+                            onChange={(date, dateString) => this.changeFilter(dateString,index)}
+                        />
+                    </div>
+                )
+            }
+        })
+
+        return (
+            <Row>
+                <Col className="TableFilter">
+                    <Col className="TableFilter-Ctrl">
+                        <div className="TableFilter-Ctrl-item"> <Button shape="circle" icon="bars" /> </div>
+                        <div className="TableFilter-Ctrl-item"> <Button shape="circle" icon="close" /> </div>
+                        <div className="TableFilter-Ctrl-item"> <Button shape="circle" icon="search" /> </div>
+                    </Col>
+                    <Col className="TableFilter-Filter-box">
+                        {columnsCfg}
+                    </Col>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+
+
+// Table 组件 使用的其他组件 =======================
+export class TableBtn extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            btn: [
+                {text: '添加', url: 'www.baidu.com', submit: 'www.zhifubao.com'},
+                {text: '保存', url: 'www.baidu.com', submit: 'www.zhifubao.com'},
+                {text: '删除', url: 'www.baidu.com', submit: 'www.zhifubao.com'},
+            ]
+        }
+        console.log(this)
+    }
+
+    handleBtn = (item) => {
+        console.log('按钮: ' + item.text)
+        console.log(this.props)
+    }
+
+    render(){
+        return(
+            <Row>
+                <Col>
+                {this.state.btn.map((item, index) => 
+                    <span key={index}>
+                        <Popconfirm title={`确定${item.text}?`} cancelText="取消" okText="确认"
+                        onConfirm={() => this.handleBtn(item)}>
+                            <a href="javascript:;">{item.text}</a>
+                        </Popconfirm>
+                        <Divider type="vertical" className={this.state.btn.length-1 === index ? 'hide' : '' } />
+                    </span>
+                )}
+                </Col>
+            </Row>
+        )
+    }
+    
+}
+
+
+
+// =====================================     Hoc 高阶组件部分     ===========================================
+// =====================================     Hoc 高阶组件部分     ===========================================
+// =====================================     Hoc 高阶组件部分     ===========================================
+
+// =====================================     Loading Hoc
+export const LoadingHoc = WrappedComponent => class extends React.Component {
+    constructor(){
+        super();
+        this.state = {
+            loading: true
+        }
+        console.log(this)
+        console.log('LoadingHoc')
+    }
+
+    render() {
+        if(this.state.loading){
+            return (
+                <div className="Spin-box">
+                    <Spin onClick={_ => this.setState({ loading: false })} />
+                </div>
+            )
+        }else{
+            return <WrappedComponent {...this.props} />
+        }
     }
 }

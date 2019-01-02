@@ -112,7 +112,7 @@ class EditableCell extends React.Component {
     }
 }
 
-class EditableTable extends React.Component {
+class GroupTicket extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
@@ -153,6 +153,8 @@ class EditableTable extends React.Component {
             }],
             count: 2,
         };
+
+        console.log(this)
     }
 
     handleDelete = (key) => {
@@ -224,4 +226,4 @@ class EditableTable extends React.Component {
 }
 
 
-export default EditableTable;
+export default GroupTicket;

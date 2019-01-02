@@ -186,8 +186,10 @@
 .editable-row .editable-cell-value-wrap{
   padding: 4px 11px;
   border: 1px solid #FFF;
+  white-space: initial;
 }
 .editable-row:hover .editable-cell-value-wrap{
   border: 1px solid #d9d9d9;
   border-radius: 4px;
+  white-space: initial;
 }
