@@ -55,7 +55,7 @@
 .supplier-hot{
 }
 .supplier-hot-item{
-    height: 130px;
+    height: 130px !important;
     padding: 12px 4px;
 }
 .Supplier-index-prev{

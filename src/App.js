@@ -10,6 +10,7 @@ import { trigger ,AppCore} from './util/core';
 import { withRouter } from 'react-router-dom';
 import { debug } from 'util';
 
+import 'swiper/dist/css/swiper.min.css';
 
 class App extends Component {
 

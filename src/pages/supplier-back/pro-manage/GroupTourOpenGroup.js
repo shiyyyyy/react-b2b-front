@@ -1,10 +1,9 @@
 
 import React from 'react';
-import 'antd/dist/antd.css';
 import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Table, Popconfirm, Divider, Upload, message, Form, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
 import { Resizable } from 'react-resizable';
 
-import { LoadingHoc, TableRender, TableFilter } from '../../../util/common';
+import { LoadingHoc, TableRender, TableFilter, G2Interval } from '../../../util/common';
 import moment from 'moment';
 import { debug } from 'util';
 
@@ -200,6 +199,19 @@ class GroupTourOpenGroup extends React.Component {
         )
     }
 
+    G2IntervalRender(){
+        let param = {
+            id: 'open',
+            forceFit: true,
+            width: 500,
+            height: 400,
+            
+        }
+        return(
+            <G2Interval param={param} />
+        )
+    }
+
     render() {
         return (
             <Row>
@@ -208,6 +220,9 @@ class GroupTourOpenGroup extends React.Component {
                 </Col>
                 <Col>
                     {this.TableRender()}
+                </Col>
+                <Col>
+                    {this.G2IntervalRender()}
                 </Col>
             </Row>
             

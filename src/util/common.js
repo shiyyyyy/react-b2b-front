@@ -4,8 +4,8 @@ import { Link, withRouter, Switch, Route } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
 import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Table, Popconfirm, Divider, Upload, Spin, message, Form, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Pagination, Tooltip, Badge, Dropdown } from 'antd';
 
+import G2 from '@antv/g2';
 import Swiper from 'swiper/dist/js/swiper.js';
-import 'swiper/dist/css/swiper.min.css';
 import { Calendar } from './calendar';
 import moment from 'moment';
 import { debug } from 'util';
@@ -2854,3 +2854,70 @@ export const LoadingHoc = WrappedComponent => class extends React.Component {
         }
     }
 }
+
+
+
+
+// =====================================     AntV G2     ===========================================
+// =====================================     AntV G2     ===========================================
+// =====================================     AntV G2     ===========================================
+
+//  使用矩形或者弧形，用面积来表示大小关系的图形，一般构成柱状图、饼图等图表===
+export class G2Interval extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            data: [
+                { genre: '广西甲天下之旅', sold: 275 },
+                { genre: '南亚风情', sold: 225 },
+                { genre: '众信旅游', sold: 120 },
+                { genre: '去哪儿', sold: 350 },
+                { genre: '途牛牛人专线', sold: 160 },
+            ]
+        }
+    }
+
+    componentDidMount(){
+        const chartCfg = this.props.param
+        // G2 对数据源格式的要求，仅仅是 JSON 数组，数组的每个元素是一个标准 JSON 对象。
+        // Step 1: 创建 Chart 对象
+        const chart = new G2.Chart({
+            container: chartCfg.id,
+            forceFit: chartCfg.forceFit || false, // 宽度自适应,为true会覆盖width
+            width: chartCfg.width,
+            height: chartCfg.height,
+            // 配置区
+            animate: chartCfg.animate || false,
+        });
+        const defs = chartCfg.defs || {
+            percent: {
+                formatter: function formatter(val) {
+                    val = val * 100 + '%';
+                    return val;
+                }
+            }
+        }
+        // Step 2: 载入数据源
+        chart.source(this.state.data, defs);
+        chart.coord('theta', {
+            redius: 0.75
+        })
+        // Step 3：创建图形语法，绘制图. position(只有两个坐标,就是柱状图)
+        // 通过坐标系的转置、变化，可以生成各种常见的图表类型；所有的图表都可以进行层叠、分组。
+        chart.interval().position('genre*sold').color('genre')
+        // Step 4: 渲染图表
+        chart.render();
+    }
+
+    render(){
+        return(
+            <Row>
+                <Col>
+                    <div id={this.props.param.id}></div>
+                </Col>
+            </Row>
+        )
+    }
+}
+
+//  饼图================================

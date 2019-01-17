@@ -239,7 +239,7 @@
     align-items: center;
 }
 .index-photo-box{
-    height: 200px;
+    height: 200px !important;
     padding: 12px 8px;
 }
 .index-photo-item {

@@ -3,9 +3,6 @@ import React from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { Layout, Menu, Icon, Row, Col, Avatar, Button, Tabs, Rate, Tag, Tooltip, Badge, Dropdown, Carousel } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
-import 'swiper/dist/css/swiper.min.css';
-
-import { ModalCarousel } from '../../util/com';
 
 import AllProduct from './AllProduct';
 import Discount from './Discount';
