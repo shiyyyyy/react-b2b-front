@@ -1,61 +1,44 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import { renderRoutes } from 'react-router-config';
-import { connect } from 'react-redux';
-import './App.css';
-import { routes , Pubroutes} from './pages';
-import { error} from './util/com';
-import { userInit,pubInit} from './util/data';
-import { trigger ,AppCore} from './util/core';
-import { withRouter } from 'react-router-dom';
-import { debug } from 'util';
+import fetch from 'dva/fetch';
 
-import 'swiper/dist/css/swiper.min.css';
+export const dva = {
+  config: {
+    onError(err) {
+      err.preventDefault();
+    },
+  },
+};
 
-class App extends Component {
+let authRoutes = {};
 
-	constructor(props){
-        super(props);
-
-        this.state = {
-        	inited:false,
-        };
+function ergodicRoutes(routes, authKey, authority) {
+  routes.forEach(element => {
+    if (element.path === authKey) {
+      if (!element.authority) element.authority = []; // eslint-disable-line
+      Object.assign(element.authority, authority || []);
+    } else if (element.routes) {
+      ergodicRoutes(element.routes, authKey, authority);
     }
-
-    componentDidMount() {
-    	if(localStorage[AppCore.APP_NAME]){
-			let user = JSON.parse(localStorage[AppCore.APP_NAME]);
-			trigger('本地存储加载用户',user);
-			pubInit().then(r=>{
-				userInit().then(_r=>{
-					this.setState({inited:true});
-				},_e=>{
-					this.setState({inited:true});
-					//error(_e);
-				})
-			},e=>{
-				error(e);
-			})
-		}else{
-			pubInit().then(r=>{
-				this.setState({inited:true});
-			},e=>{
-				error(e);
-			})
-		}
-    }
-
-
-    render() {
-    	return (
-	        <div className="App">
-		        { 
-		          	this.state.inited &&
-		          	renderRoutes(this.props.s.routes)
-		        }
-	        </div>
-	    );
-    }
+    return element;
+  });
 }
 
-export default withRouter(connect(s=>({s:s}))(App));
+export function patchRoutes(routes) {
+  Object.keys(authRoutes).map(authKey =>
+    ergodicRoutes(routes, authKey, authRoutes[authKey].authority)
+  );
+  window.g_routes = routes;
+}
+
+export function render(oldRender) {
+  fetch('/api/auth_routes')
+    .then(res => res.json())
+    .then(
+      ret => {
+        authRoutes = ret;
+        oldRender();
+      },
+      () => {
+        oldRender();
+      }
+    );
+}

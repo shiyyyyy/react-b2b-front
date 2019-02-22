@@ -1,0 +1,60 @@
+@import '~antd/lib/style/themes/default.less';
+
+/* 重置 评分 颜色 */
+.rate-color {
+  color: #f43266;
+}
+/*-------------------======================= Supplier index=======================-------------- */
+.index {
+  padding: 0 50px 100px 50px;
+
+  /* 大轮播图 */
+  .carousel {
+    width: 100%;
+    height: 480px;
+  }
+
+  /* 热卖推介 */
+  .hot {
+
+  }
+  .hot_item {
+    height: 130px !important;
+    padding: 12px 4px;
+  }
+  .Supplier_index_prev {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    background: none;
+    /* background-color: rgba(255,255,255,.4); */
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top: 49%;
+    left: 1%;
+  }
+  .Supplier_index_next {
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    color: rgba(255, 255, 255, 0.5);
+    background: none;
+    /* background-color: rgba(255,255,255,.4); */
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top: 49%;
+    right: 1%;
+  }
+  .Supplier_index_prev:hover,
+  .Supplier_index_next:hover {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* 尾货甩卖 */
+  .supplier_discount {
+    display: flex;
+  }
+}
