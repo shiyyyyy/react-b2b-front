@@ -1,4 +1,5 @@
-import fetch from 'dva/fetch';
+import fetch from 'dva/fetch'; import { routesInit } from
+'@/services/initSrvc';
 
 export const dva = {
   config: {
@@ -24,21 +25,21 @@ function ergodicRoutes(routes, authKey, authority) {
 
 export function patchRoutes(routes) {
   Object.keys(authRoutes).map(authKey =>
-    ergodicRoutes(routes, authKey, authRoutes[authKey].authority)
+    ergodicRoutes(routes, authKey, authRoutes[authKey])
   );
   window.g_routes = routes;
+  window.g_auth_config = routes;
 }
 
 export function render(oldRender) {
-  fetch('/api/auth_routes')
-    .then(res => res.json())
-    .then(
-      ret => {
-        authRoutes = ret;
-        oldRender();
-      },
-      () => {
-        oldRender();
-      }
-    );
+  routesInit().then(
+    ret => {
+      authRoutes = ret;
+      oldRender();
+    },
+    ()=>{
+      oldRender();
+    }
+  );
+
 }

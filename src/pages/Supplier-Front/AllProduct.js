@@ -1,34 +1,29 @@
 // 全部产品
 import React from 'react';
-import { Link, Route, withRouter } from 'react-router-dom';
 
 import {
   Icon,
   Row,
   Col,
   Button,
-  Tag,
-  Rate,
-  Avatar,
   DatePicker,
   Select,
   Input,
   InputNumber,
   Pagination,
-  Tooltip,
-  Badge,
-  Dropdown,
 } from 'antd';
 // 默认语言为 en-US，如果你需要设置其他语言，推荐在入口文件全局设置 locale
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+
+import styles from './AllProduct.less';
 
 // import '../../css/AllProduct.css';
 
 moment.locale('zh-cn');
 
 const InputGroup = Input.Group;
-const Option = Select.Option;
+const { Option } = Select;
 
 class AllProduct extends React.Component {
   constructor() {
@@ -37,7 +32,7 @@ class AllProduct extends React.Component {
       page: 1,
       total: 998,
       dep_date: moment(),
-      back_date: '',
+      back_date: moment().add(7, 'days'),
       dep_city: {
         1: '北京',
         2: '天津',
@@ -105,122 +100,146 @@ class AllProduct extends React.Component {
         ],
       },
     };
+
+    console.log(this)
   }
 
   // 设置 search 里的发搜索条件
   setSearch(key, val) {
-    let search = this.state.search;
+    const { search } = this.state;
     search[key] = val;
     if (key === 'cur_one') {
       search.cur_two = '';
     }
-    this.setState({ search: search });
+    const NewSearch = search
+    this.setState({ search: NewSearch });
   }
-  setDep_date(date, dateString) {
-    this.setState({ dep_date: date, search: { ...this.state.search, cur_dap_date: dateString } });
+
+  setDepDate(date, dateString) {
+    const { search } = this.state;
+    this.setState({ dep_date: date, search: { ...search, cur_dap_date: dateString } });
   }
-  setBack_date(date, dateString) {
-    this.setState({ back_date: date, search: { ...this.state.search, cur_back_date: dateString } });
+
+  setBackDate(date, dateString) {
+    const { search } = this.state;
+    this.setState({ back_date: date, search: { ...search, cur_back_date: dateString } });
   }
+  
   setPrice(key, price) {
-    let search = this.state.search;
+    const { search } = this.state;
     search[key] = price;
-    this.setState({ search: search });
+    const NewSearch = search
+    this.setState({ search: NewSearch });
   }
+
   setSupplier(e) {
-    let search = this.state.search;
+    const { search } = this.state;
     search.supplier = e.target.value;
-    this.setState({ search: search });
+    const NewSearch = search
+    this.setState({ search: NewSearch });
   }
+
   closeSelect(key) {
-    let search = this.state.search;
+    const { search } = this.state;
     search[key] = '';
     console.log(key);
     console.log(search);
-    console.log(this.state.search);
-    this.setState({ search: search });
+    const NewSearch = search
+    console.log(NewSearch);
+    this.setState({ search: NewSearch });
   }
+
   search() {
     console.log(this);
   }
-  userSelectModel(key) {
-    if (this.state.search[key] === '') return;
-    let keysMenu;
-    switch (key) {
-      case 'cur_city':
-        console.log('city');
-        keysMenu = 'dep_city';
-        break;
-      case 'cur_one':
-        console.log('one');
-        keysMenu = 'level_one';
-        break;
-      case 'cur_two':
-        keysMenu = 'level_two';
-        console.log(this.state.search.cur_one, this.state.search[key]);
-        return (
-          <div
-            key={key}
-            className={this.state.search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect'}
-          >
-            <span style={{ marginRight: '8px' }}>
-              {this.state.level_two[this.state.search.cur_one][this.state.search.cur_two]}
-            </span>
-            <Icon
-              type="close-circle"
-              theme="outlined"
-              className="AllProduct-filter-userSelect-close"
-              onClick={_ => this.closeSelect(key)}
-            />
-          </div>
-        );
-      case 'cur_theme':
-        console.log('theme');
-        keysMenu = 'theme';
-        break;
-      default:
-        console.log('default');
-        break;
-    }
-    return (
-      <div
-        key={key}
-        className={this.state.search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect'}
-      >
-        <span style={{ marginRight: '8px' }}>{this.state[keysMenu][this.state.search[key]]}</span>
-        <Icon
-          type="close-circle"
-          theme="outlined"
-          className="AllProduct-filter-userSelect-close"
-          onClick={_ => this.closeSelect(key)}
-        />
-      </div>
-    );
-  }
+
+  // userSelectModel(key) {
+  //   const { search } = this.state;
+  //   if (search[key] === '') return;
+  //   let keysMenu;
+  //   switch (key) {
+  //     case 'cur_city':
+  //       console.log('city');
+  //       keysMenu = 'dep_city';
+  //       break;
+  //     case 'cur_one':
+  //       console.log('one');
+  //       keysMenu = 'level_one';
+  //       break;
+  //     case 'cur_two':
+  //       keysMenu = 'level_two';
+  //       console.log(search.cur_one, search[key]);
+  //       break;
+  //     case 'cur_theme':
+  //       console.log('theme');
+  //       keysMenu = 'theme';
+  //       break;
+  //     default:
+  //       console.log('default');
+  //       break;
+  //   }
+  //   if (keysMenu === 'level_two'){
+  //     return (
+  //       <div
+  //         key={key}
+  //         className={search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect'}
+  //       >
+  //         <span style={{ marginRight: '8px' }}>
+  //           {this.state.level_two[search.cur_one][search.cur_two]}
+  //         </span>
+  //         <Icon
+  //           type="close-circle"
+  //           theme="outlined"
+  //           className="AllProduct-filter-userSelect-close"
+  //           onClick={_ => this.closeSelect(key)}
+  //         />
+  //       </div>
+  //     );
+  //   } else {
+  //     return (
+  //       <div
+  //         key={key}
+  //         className={search[key] === '' ? 'hide' : 'AllProduct-filter-userSelect'}
+  //       >
+  //         <span style={{ marginRight: '8px' }}>{this.state[keysMenu][search[key]]}</span>
+  //         <Icon
+  //           type="close-circle"
+  //           theme="outlined"
+  //           className="AllProduct-filter-userSelect-close"
+  //           onClick={_ => this.closeSelect(key)}
+  //         />
+  //       </div>
+  //     );
+  //   }
+  // }
   // 展开折叠
-  open_eva(index) {
-    if (index === this.state.open_eva_index) {
+
+  openEva(index) {
+    const { openEvaIndex } = this.state;
+    if (index === openEvaIndex) {
       this.setState({ open_eva_index: '' });
       return;
     }
     this.setState({ open_eva_index: index });
   }
+
   // 切换不同 pages
   pageChange(page) {
     console.log(page);
-    this.setState({ page: page });
+    const NewPage = page
+    this.setState({ page: NewPage });
   }
 
   render() {
+    const { data, group_type, dep_city, search, level_one, level_two, theme, dep_date, back_date, cur_pro_id, page, total } = this.state;
     return (
-      <div className="AllProduct">
+      <div className={styles.AllProduct}>
         {/* 团-类型 */}
         <Row>
-          <Col className="AllProduct-header-type">
+          <Col className={styles.headerType}>
             <Col
               className={
-                'AllProduct-header-type-item ' +
-                (this.state.group_type === 1 ? 'active-header-type-item' : '')
+                `${styles.headerTypeItem} ${(group_type === 1 ? styles.activeHeaderTypeItem : '')}`
               }
               onClick={_ => this.setState({ group_type: 1 })}
             >
@@ -228,8 +247,7 @@ class AllProduct extends React.Component {
             </Col>
             <Col
               className={
-                'AllProduct-header-type-item ' +
-                (this.state.group_type === 2 ? 'active-header-type-item' : '')
+                `${styles.headerTypeItem} ${(group_type === 2 ? styles.activeHeaderTypeItem : '')}`
               }
               onClick={_ => this.setState({ group_type: 2 })}
             >
@@ -237,8 +255,7 @@ class AllProduct extends React.Component {
             </Col>
             <Col
               className={
-                'AllProduct-header-type-item ' +
-                (this.state.group_type === 3 ? 'active-header-type-item' : '')
+                `${styles.headerTypeItem} ${(group_type === 3 ? styles.activeHeaderTypeItem : '')}`
               }
               onClick={_ => this.setState({ group_type: 3 })}
             >
@@ -246,8 +263,7 @@ class AllProduct extends React.Component {
             </Col>
             <Col
               className={
-                'AllProduct-header-type-item ' +
-                (this.state.group_type === 4 ? 'active-header-type-item' : '')
+                `${styles.headerTypeItem} ${(group_type === 4 ? styles.activeHeaderTypeItem : '')}`
               }
               onClick={_ => this.setState({ group_type: 4 })}
             >
@@ -255,8 +271,7 @@ class AllProduct extends React.Component {
             </Col>
             <Col
               className={
-                'AllProduct-header-type-item ' +
-                (this.state.group_type === 5 ? 'active-header-type-item' : '')
+                `${styles.headerTypeItem} ${(group_type === 5 ? styles.activeHeaderTypeItem : '')}`
               }
               onClick={_ => this.setState({ group_type: 5 })}
             >
@@ -266,93 +281,89 @@ class AllProduct extends React.Component {
         </Row>
         {/* filter */}
         <Row>
-          <Col className="AllProduct-filter">
-            <Col className="AllProduct-filter-item">
-              <Col span={2} className="AllProduct-filter-title">
+          <Col className={styles.filter}>
+            <Col className={styles.filterItem}>
+              <Col span={2} className={styles.filterTitle}>
                 出发城市:
               </Col>
-              <Col span={22} className="AllProduct-filter-main">
-                {Object.keys(this.state.dep_city).map(key => (
+              <Col span={22} className={styles.filterMain}>
+                {Object.keys(dep_city).map(key => (
                   <Col
                     className={
-                      'AllProduct-filter-main-item ' +
-                      (this.state.search.cur_city === key ? 'active-filter-main-item' : '')
+                      `${styles.filterMainItem} ${(search.cur_city === key ? styles.activeFilterMainItem : '')}`
                     }
                     onClick={_ => this.setSearch('cur_city', key)}
                     key={key}
                   >
-                    {this.state.dep_city[key]}
+                    {dep_city[key]}
                   </Col>
                 ))}
               </Col>
             </Col>
-            <Col className="AllProduct-filter-item">
-              <Col span={2} className="AllProduct-filter-title">
+            <Col className={styles.filterItem}>
+              <Col span={2} className={styles.filterTitle}>
                 一级导航:
               </Col>
-              <Col span={22} className="AllProduct-filter-main">
-                {Object.keys(this.state.level_one).map(key => (
+              <Col span={22} className={styles.filterMain}>
+                {Object.keys(level_one).map(key => (
                   <Col
                     className={
-                      'AllProduct-filter-main-item ' +
-                      (this.state.search.cur_one === key ? 'active-filter-main-item' : '')
+                      `${styles.filterMainItem} ${(search.cur_one === key ? styles.activeFilterMainItem : '')}`
                     }
                     onClick={_ => this.setSearch('cur_one', key)}
                     key={key}
                   >
-                    {this.state.level_one[key]}
+                    {level_one[key]}
                   </Col>
                 ))}
               </Col>
             </Col>
-            {this.state.search.cur_one && (
-              <Col className="AllProduct-filter-item">
-                <Col span={2} className="AllProduct-filter-title">
+            {search.cur_one && (
+              <Col className={styles.filterItem}>
+                <Col span={2} className={styles.filterTitle}>
                   二级导航:
                 </Col>
-                <Col span={22} className="AllProduct-filter-main">
-                  {this.state.search.cur_one &&
-                    Object.keys(this.state.level_two[this.state.search.cur_one]).map(key => (
+                <Col span={22} className={styles.filterMain}>
+                  {search.cur_one &&
+                    Object.keys(level_two[search.cur_one]).map(key => (
                       <Col
                         className={
-                          'AllProduct-filter-main-item ' +
-                          (this.state.search.cur_two === key ? 'active-filter-main-item' : '')
+                          `${styles.filterMainItem} ${(search.cur_two === key ? styles.activeFilterMainItem : '')}`
                         }
                         onClick={_ => this.setSearch('cur_two', key)}
                         key={key}
                       >
-                        {this.state.level_two[this.state.search.cur_one][key]}
+                        {level_two[search.cur_one][key]}
                       </Col>
                     ))}
                 </Col>
               </Col>
             )}
 
-            <Col className="AllProduct-filter-item">
-              <Col span={2} className="AllProduct-filter-title">
+            <Col className={styles.filterItem}>
+              <Col span={2} className={styles.filterTitle}>
                 游玩主题:
               </Col>
-              <Col span={22} className="AllProduct-filter-main">
-                {Object.keys(this.state.theme).map(key => (
+              <Col span={22} className={styles.filterMain}>
+                {Object.keys(theme).map(key => (
                   <Col
                     className={
-                      'AllProduct-filter-main-item ' +
-                      (this.state.search.cur_theme === key ? 'active-filter-main-item' : '')
+                      `${styles.filterMainItem} ${(search.cur_theme === key ? styles.activeFilterMainItem : '')}`
                     }
                     onClick={_ => this.setSearch('cur_theme', key)}
                     key={key}
                   >
-                    {this.state.theme[key]}
+                    {theme[key]}
                   </Col>
                 ))}
               </Col>
             </Col>
 
-            <Col className="AllProduct-filter-item">
-              <Col span={2} className="AllProduct-filter-title">
+            <Col className={styles.filterItem}>
+              <Col span={2} className={styles.filterTitle}>
                 您已选择:
               </Col>
-              <Col span={22} className="AllProduct-filter-main">
+              <Col span={22} className={styles.filterMain}>
                 {/* {Object.keys(this.state.search).map(key => this.userSelectModel(key))} */}
                 {/* {Object.keys(this.state.search).map(key =>
                                     <div key={key}
@@ -365,33 +376,33 @@ class AllProduct extends React.Component {
               </Col>
             </Col>
 
-            <Col className="AllProduct-filter-item">
-              {/* <Col span={2} className="AllProduct-filter-title">其他条件:</Col> */}
-              <Col className="AllProduct-filter-main">
+            <Col className={styles.filterItem}>
+              {/* <Col span={2} className={styles.filterTitle}>其他条件:</Col> */}
+              <Col className={styles.filterMain}>
                 <Col
                   span={8}
-                  className="AllProduct-filter-main-block"
+                  className={styles.filterMainBlock}
                   style={{ marginRight: '12px', marginLeft: '16px' }}
                 >
                   <DatePicker
-                    defaultValue={this.state.dep_date}
+                    defaultValue={dep_date}
                     placeholder="出团日起"
-                    onChange={this.setDep_date.bind(this)}
+                    onChange={this.setDepDate.bind(this)}
                   />
                   <span> &nbsp;~&nbsp; </span>
                   <DatePicker
-                    defaultValue={this.state.back_date}
+                    defaultValue={back_date || ''}
                     placeholder="出团日止"
-                    onChange={this.setBack_date.bind(this)}
+                    onChange={this.setBackDate.bind(this)}
                   />
                 </Col>
-                <Col span={6} className="AllProduct-filter-main-block">
+                <Col span={6} className={styles.filterMainBlock}>
                   {/* <Input placeholder="最低价格" prefix={<Icon type="property-safety" theme="outlined"
                                     style={{color: 'rgba(0,0,0,.25)', fontSize: '16px'}} />}
                                     onChange={this.setPrice.bind(this, 'min_price')} /> */}
                   <InputNumber
                     style={{ width: '45%' }}
-                    defaultValue={this.state.search.min_price}
+                    defaultValue={search.min_price}
                     formatter={value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\￥\s?|(,*)/g, '')}
                     onChange={this.setPrice.bind(this, 'min_price')}
@@ -402,13 +413,13 @@ class AllProduct extends React.Component {
                                     onChange={this.setPrice.bind(this, 'max_price')} />  */}
                   <InputNumber
                     style={{ width: '45%' }}
-                    defaultValue={this.state.search.max_price}
+                    defaultValue={search.max_price}
                     formatter={value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\￥\s?|(,*)/g, '')}
                     onChange={this.setPrice.bind(this, 'max_price')}
                   />
                 </Col>
-                <Col span={6} className="AllProduct-filter-main-block">
+                <Col span={6} className={styles.filterMainBlock}>
                   {/* <Input placeholder="供应商名称" onChange={this.setSupplier.bind(this)} /> */}
                   <InputGroup compact>
                     <Select defaultValue="supplier_name">
@@ -430,35 +441,36 @@ class AllProduct extends React.Component {
         </Row>
 
         {/* 产品推介 */}
-        <Row className="Recommend-pro-recommend">
-          <div className="index-title">
-            <span className="index-title-left">主推产品</span>
-            <span className="index-title-right">
+        <Row className={styles.proRecommend}>
+          <div className={styles.title}>
+            <span className={styles.titleLeft}>主推产品</span>
+            <span className={styles.titleRight}>
               更多
               <Icon type="right" />
             </span>
           </div>
-          <Col className="Recommend-pro-info">
-            {this.state.data.recommend.map((item, index) => (
-              <Col className="Recommend-pro-info-item" key={item.id}>
-                <Col className="Recommend-top">
-                  <Col span={3} className="Recommend-pro-img-box">
+          <Col className={styles.proInfo}>
+            {data.recommend.map((item) => (
+              <Col className={styles.proInfoItem} key={item.id}>
+                <Col className={styles.top}>
+                  <Col span={3} className={styles.proImgBox}>
                     <img
-                      src={'http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg'}
-                      className="Recommend-pro-img"
+                      src='http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg'
+                      className={styles.proImg}
+                      alt="打折商品"
                     />
-                    <span className="Recommend-pro-img-text">产品编号: P0-4396</span>
+                    <span className={styles.proImgText}>产品编号: P0-4396</span>
                   </Col>
                   <Col span={21} style={{ paddingLeft: '20px' }}>
-                    <Col className="Recommend-pro-r-top">
-                      <span className="Recommend-pro-name">
+                    <Col className={styles.proRTop}>
+                      <span className={styles.proName}>
                         超值无忧泰一地,体验泰国风情超值无忧泰一地,体验泰国风情
                       </span>
-                      <span className="Recommend-pro-tag1">跟团游</span>
-                      <span className="Recommend-pro-tag2">蜜月游</span>
+                      <span className={styles.proTag1}>跟团游</span>
+                      <span className={styles.proTag2}>蜜月游</span>
                     </Col>
-                    <Col className="Recommend-pro-r-center">
-                      <Col span={10} className="Recommend-pro-r-center-left">
+                    <Col className={styles.proRCenter}>
+                      <Col span={10} className={styles.proRCenterLeft}>
                         <div>
                           分类标签: <span>东南亚-泰一地</span>
                         </div>
@@ -472,7 +484,7 @@ class AllProduct extends React.Component {
                           </span>
                         </div>
                       </Col>
-                      <Col span={14} className="Recommend-pro-r-center-right">
+                      <Col span={14} className={styles.proRCenterRight}>
                         <Col style={{ display: 'flex' }}>
                           <Col span={8}>
                             同行价:
@@ -500,8 +512,8 @@ class AllProduct extends React.Component {
                         </Col>
                       </Col>
                     </Col>
-                    <Col className="Recommend-pro-r-btm">
-                      <Col span={20} className="Recommend-pro-r-btm-left">
+                    <Col className={styles.proRBtm}>
+                      <Col span={20} className={styles.proRBtmLeft}>
                         <div>北京出发</div>
                         <div>5晚6天</div>
                         <div>飞机来回</div>
@@ -511,7 +523,7 @@ class AllProduct extends React.Component {
                       <Col span={4}>
                         <Button
                           type="primary"
-                          icon={this.state.cur_pro_id === item.id ? 'caret-up' : 'caret-down'}
+                          icon={cur_pro_id === item.id ? 'caret-up' : 'caret-down'}
                           size="small"
                           ghost
                           onClick={_ => this.checkDetail(item.id)}
@@ -524,10 +536,10 @@ class AllProduct extends React.Component {
                 </Col>
 
                 <Col
-                  className={'Recommend-btm ' + (this.state.cur_pro_id === item.id ? '' : 'hide')}
+                  className={`${styles.btn} ${(cur_pro_id === item.id ? '' : 'hide')}`}
                 >
-                  <Col className="Recommend-pro-group-list-box">
-                    <Col span={24} className="Recommend-pro-group-title">
+                  <Col className={styles.proGroupListBox}>
+                    <Col span={24} className={styles.proGroupTitle}>
                       <Col span={4}>团号</Col>
                       <Col span={3}>出团日期</Col>
                       <Col span={3}>回团日期</Col>
@@ -538,8 +550,8 @@ class AllProduct extends React.Component {
                       <Col span={2}>剩余</Col>
                     </Col>
                     {item.group.map(list => (
-                      <Col className="Recommend-pro-group-list" key={list.id}>
-                        <Col className="Recommend-pro-group-list-main">
+                      <Col className={styles.proGroupList} key={list.id}>
+                        <Col className={styles.proGroupListMain}>
                           <Col span={4}>RNG-60E-HZ-SM-S8</Col>
                           <Col span={3}>2018-08-12</Col>
                           <Col span={3}>2018-08-20</Col>
@@ -549,7 +561,7 @@ class AllProduct extends React.Component {
                           <Col span={3}>100</Col>
                           <Col span={2}>20</Col>
                         </Col>
-                        <Col className="Recommend-pro-group-list-btn">
+                        <Col className={styles.proGroupListBtn}>
                           <Button type="primary" size="small" ghost style={{ marginRight: '16px' }}>
                             查看
                           </Button>
@@ -571,11 +583,11 @@ class AllProduct extends React.Component {
 
         {/* 分页 */}
         <Row>
-          <Col className="history-pages">
+          <Col className={styles.historyPages}>
             <Pagination
-              defaultCurrent={this.state.page}
-              total={this.state.total}
-              onChange={page => this.pageChange(page)}
+              defaultCurrent={page}
+              total={total}
+              onChange={pages => this.pageChange(pages)}
             />
           </Col>
         </Row>
@@ -584,4 +596,4 @@ class AllProduct extends React.Component {
   }
 }
 
-export default withRouter(AllProduct);
+export default AllProduct;

@@ -1,9 +1,11 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
+// import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
-import { getPageQuery } from '@/utils/utils';
+import { getPageQuery ,addAuthForRoutes} from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
+import { accountLogin} from '@/services/serverApi';
+import { routesInit } from '@/services/initSrvc';
 
 export default {
   namespace: 'login',
@@ -14,14 +16,25 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const response = yield call(accountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
-      // Login successfully
-      if (response.status === 'ok') {
+      if(response.success && response.user){
+        if(response.user.authority){
+          setAuthority(response.user.authority);
+        }
         reloadAuthorized();
+        const pem_routes = yield call(routesInit);
+
+        addAuthForRoutes(pem_routes);
+        //缓存当前用户
+        yield put({
+          type:'user/saveCurrentUser',
+          payload:response.user
+        })
+
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -39,10 +52,6 @@ export default {
         }
         yield put(routerRedux.replace(redirect || '/'));
       }
-    },
-
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
     },
 
     *logout(_, { put }) {
@@ -67,7 +76,6 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
       return {
         ...state,
         status: payload.status,

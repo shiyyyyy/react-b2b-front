@@ -89,6 +89,7 @@ export default class GlobalHeaderRight extends PureComponent {
       skeletonCount,
       theme,
     } = this.props;
+    console.log(this)
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
@@ -195,7 +196,7 @@ export default class GlobalHeaderRight extends PureComponent {
             {...loadMoreProps}
           />
         </NoticeIcon>
-        {currentUser.name ? (
+        {currentUser.user_name ? (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
@@ -204,7 +205,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.avatar}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
+              <span className={styles.name}>{currentUser.user_name}</span>
             </span>
           </HeaderDropdown>
         ) : (

@@ -62,6 +62,7 @@ export default {
   plugins,
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
+    MOCK:process.env.MOCK || ''
   },
   treeShaking: true,
   targets: {

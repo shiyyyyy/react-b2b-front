@@ -50,3 +50,174 @@ ol {
     }
   }
 }
+
+// ==================================== 通用 全局 CSS =====================================
+/* w h */
+.w-20 {
+  width: 20%;
+}
+.w-25 {
+  width: 25%;
+}
+
+/* padding & margin */
+.p-0 {
+  padding: 0 !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+
+.m-btm-16 {
+  margin-bottom: 16px;
+}
+.m-top-16 {
+  margin-top: 16px;
+}
+
+/* flex */
+.flex {
+  display: flex !important;
+}
+.flex-j-sb {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+.flex-j-sa {
+  display: flex !important;
+  justify-content: space-around !important;
+}
+.flex-a-c {
+  display: flex !important;
+  align-items: center !important;
+}
+.flex-c {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* img */
+.img-size {
+  width: 100%;
+  height: 100%;
+}
+.img-initial {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+/* text */
+.imp-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(233, 13, 13, 0.986);
+}
+
+/* text-align */
+.text-left {
+  text-align: left;
+}
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+
+/* hide */
+.hide {
+  display: none !important;
+}
+/* 鼠标样式 */
+.pointer {
+  cursor: pointer;
+}
+/* 透明度 */
+.opcity0 {
+  opacity: 0;
+}
+/* 圆角 */
+.border-radius {
+  border-radius: 4px;
+}
+
+/* 阴影 */
+.box-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* mod 间距 */
+.mod {
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+/* 多行文本省略 */
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.text-overflow-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  /* 展开 干掉这个属性就行 */
+  -webkit-line-clamp: 2;
+}
+.text-overflow-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  /* 展开 干掉这个属性就行 */
+  -webkit-line-clamp: 3;
+}
+.text-overflow-4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  /* 展开 干掉这个属性就行 */
+  -webkit-line-clamp: 4;
+}
+
+/*============================================ 设置 浏览器滚动条 =================================================== */
+/* -------------------------web-kit-------------------- */
+body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+body::-webkit-scrollbar-button {
+  background-color: #fff;
+}
+body::-webkit-scrollbar-track {
+  background: rgb(233, 222, 228);
+}
+body::-webkit-scrollbar-track-piece {
+  /* background:url(http://www.lyblog.net/wp/wp-content/themes/mine/img/stripes_tiny_08.png); */
+}
+body::-webkit-scrollbar-thumb {
+  background: rgb(195, 221, 217);
+}
+body::-webkit-scrollbar-corner {
+  background: #82afff;
+}
+body::-webkit-scrollbar-resizer {
+  background: #ff0bee;
+}
+/* ------------------------- firefox -------------------- */
+
+/* ------------------------- IE -------------------- */

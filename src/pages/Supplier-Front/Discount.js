@@ -1,15 +1,12 @@
 // 尾货甩卖
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link, Route, withRouter } from 'react-router-dom';
-import { Icon, Row, Col, Button, Pagination, Checkbox } from 'antd';
+import { Icon, Row, Col, Pagination, Checkbox } from 'antd';
 // import { SupplierFilter } from '../../util/com';
 
-// import '../../css/Discount.css';
-import { debug } from 'util';
-import { get } from 'http';
+import styles from './Discount.less';
 
-const CheckboxGroup = Checkbox.Group;
+
 class Discount extends React.Component {
   constructor() {
     super();
@@ -140,11 +137,57 @@ class Discount extends React.Component {
     };
   }
 
+  componentDidMount() {
+    Object.keys(this.state.data).map(item => {
+      this[item] = document.getElementById(item);
+    });
+    console.log(this);
+    this.judgeMore();
+  }
+
+  // filter search
+  setSearch(key, val) {
+    console.log(this);
+    const { search } = this.state;
+    search[key] = val;
+    if (key === 'cur_one') {
+      search.cur_two = '';
+    }
+    const NewSearch = search
+    this.setState({ search: NewSearch });
+  }
+
+  setCheckbox(e, item, key) {
+    const { search } = this.state;
+    // 想办法关联起来(选项true和fales=>当前选中)
+    if (search[item].indexOf(key) !== -1) {
+      search[item].splice(search[item].indexOf(key), 1);
+    } else {
+      search[item].push(key);
+    }
+    const NewSearch = search
+    this.setState({ search: NewSearch });
+  }
+
+  setAllCheckbox(item) {
+    const { search, data } = this.state;
+    if (Object.keys(data[item].data).length === search[item].length) {
+      search[item] = [];
+    } else {
+      search[item] = [];
+      search[item] = search[item].concat(Object.keys(data[item].data));
+    }
+    const NewSearch = search
+    this.setState({ search: NewSearch });
+  }
+
   SupplierFilterFunc() {
-    let that = this;
-    let info = {
-      data: this.state.data,
-      search: this.state.search,
+    const that = this;
+    const { data, search } = this.state;
+
+    const info = {
+      data: data,
+      search: search,
       cb(item, key) {
         let search = that.state.search;
         search[item] = key;
@@ -155,40 +198,11 @@ class Discount extends React.Component {
     // return <SupplierFilter info={info} />;
   }
 
-  // filter search
-  setSearch(key, val) {
-    console.log(this);
-    let search = this.state.search;
-    search[key] = val;
-    if (key === 'cur_one') {
-      search.cur_two = '';
-    }
-    this.setState({ search: search });
-  }
-  setCheckbox(e, item, key) {
-    let search = this.state.search;
-    // 想办法关联起来(选项true和fales=>当前选中)
-    if (search[item].indexOf(key) !== -1) {
-      search[item].splice(search[item].indexOf(key), 1);
-    } else {
-      search[item].push(key);
-    }
-    this.setState({ search: search });
-  }
-  setAllCheckbox(item) {
-    let search = this.state.search;
-    let data = this.state.data;
-    if (Object.keys(data[item].data).length === search[item].length) {
-      search[item] = [];
-    } else {
-      search[item] = [];
-      search[item] = search[item].concat(Object.keys(data[item].data));
-    }
-    this.setState({ search: search });
-  }
   // more filter
   moreFilter(item) {
-    let dom = ReactDOM.findDOMNode(this[item]);
+    const dom = ReactDOM.findDOMNode(this[item]);
+    console.log(this)
+    debugger
     if (dom.offsetHeight > 40) {
       dom.style.height = '40px';
       dom.style.overflow = 'hidden';
@@ -199,17 +213,21 @@ class Discount extends React.Component {
       this.setState({ [item + 'Text']: '收起' });
     }
   }
+
   //  取消 您已选择
   closeSelect(key) {
-    let search = this.state.search;
+    const { search } = this.state;
     search[key] = [];
-    this.setState({ search: search });
+    const NewSearch = search
+    this.setState({ search: NewSearch });
   }
 
   // 如果 高度大于40 则隐藏并显示 more
   judgeMore() {
-    Object.keys(this.state.data).map(item => {
-      let dom = ReactDOM.findDOMNode(this[item]);
+    const { data } = this.state;
+    
+    Object.keys(data).map(item => {
+      let dom = ReactDOM.findDOMNode(this[item])
       if (dom.offsetHeight > 40) {
         dom.style.height = '40px';
         dom.style.overflow = 'hidden';
@@ -218,35 +236,29 @@ class Discount extends React.Component {
     });
   }
 
-  componentDidMount() {
-    console.log(this);
-    Object.keys(this.state.data).map(item => {
-      this[item] = document.getElementById(item);
-    });
-    this.judgeMore();
-  }
-
   // 切换不同 pages
   pageChange(page) {
     console.log(page);
-    this.setState({ page: page });
+    const NewPage = page
+    this.setState({ page: NewPage });
   }
 
   render() {
+    const { data, search, discount, total, page } = this.state;
     return (
-      <div className="Discount">
+      <div className={styles.Discount}>
         {/*  */}
         <Row>
           {/* 抽象 filter 单选 */}
           {/* {this.state.data && this.SupplierFilterFunc()} */}
 
-          <Col className="AllProduct-filter">
+          <Col className={styles.filter}>
             {/* 抽象-单写出来 */}
             {/* {this.state.data &&
                     Object.keys(this.state.data).map(item =>
-                        <Col className="AllProduct-filter-item" key={item}>
-                            <Col span={2} className="AllProduct-filter-title">{this.state.data[item].title}:</Col>
-                            <Col span={22} className="AllProduct-filter-main">
+                        <Col className={styles.filterItem} key={item}>
+                            <Col span={2} className={styles.filterTitle}>{this.state.data[item].title}:</Col>
+                            <Col span={22} className={styles.filterMain}>
                             {Object.keys(this.state.data[item].data).map(key =>
                                 <Col key={key} onClick={_=>this.setSearch(item,key)}
                                 className={"AllProduct-filter-main-item " + (this.state.search[item] === key ? "active-filter-main-item" : "")}
@@ -257,38 +269,38 @@ class Discount extends React.Component {
                     )} */}
           </Col>
 
-          <Col className="AllProduct-filter">
+          <Col className={styles.filter}>
             {/* 抽象-多选 */}
-            {this.state.data &&
-              Object.keys(this.state.data).map(item => (
+            {data &&
+              Object.keys(data).map(item => (
                 <Row style={{ borderBottom: '1px #d9d9d9 dashed' }} key={item}>
-                  <Col className="AllProduct-filter-item">
-                    <Col span={2} className="AllProduct-filter-title">
-                      {this.state.data[item].title}:
+                  <Col className={styles.filterItem}>
+                    <Col span={2} className={styles.filterTitle}>
+                      {data[item].title}:
                     </Col>
                     <Col
                       span={21}
-                      className="AllProduct-filter-main"
+                      className={styles.filterMain}
                       id={[item]}
-                      ref={ref => (this[item] = ref)}
+                      ref={ref => {this[item] = ref}}
                     >
                       <Checkbox
                         checked={
-                          this.state.search[item].length ===
-                          Object.keys(this.state.data[item].data).length
+                          search[item].length ===
+                          Object.keys(data[item].data).length
                         }
                         onChange={this.setAllCheckbox.bind(this, item)}
                         style={{ marginLeft: '8px' }}
                       >
                         不限
                       </Checkbox>
-                      {Object.keys(this.state.data[item].data).map(key => (
+                      {Object.keys(data[item].data).map(key => (
                         <Checkbox
                           key={key}
-                          checked={this.state.search[item].indexOf(key - 0) !== -1}
+                          checked={search[item].indexOf(key - 0) !== -1}
                           onChange={e => this.setCheckbox(e, item, key - 0)}
                         >
-                          {this.state.data[item].data[key]}
+                          {data[item].data[key]}
                         </Checkbox>
                       ))}
                     </Col>
@@ -296,11 +308,11 @@ class Discount extends React.Component {
                       <Col
                         span={1}
                         className={
-                          'AllProduct-filter-more ' + (this.state[item + 'More'] ? '' : 'hide')
+                          `${styles.filterMain} ${(this.state[item + 'More'] ? '' : 'hide')}`
                         }
                         onClick={_ => this.moreFilter(item)}
                       >
-                        {this.state[item + 'Text'] ? this.state[item + 'Text'] : '展开'}
+                        {this.state[item + 'Text'] || '展开'}
                         <Icon
                           type={this.state[item + 'Text'] === '收起' ? 'up' : 'down'}
                           theme="outlined"
@@ -310,31 +322,30 @@ class Discount extends React.Component {
                   </Col>
                 </Row>
               ))}
-            <Col className="AllProduct-filter-item">
-              <Col span={2} className="AllProduct-filter-title">
+            <Col className={styles.filterItem}>
+              <Col span={2} className={styles.filterTitle}>
                 您已选择:
               </Col>
-              <Col span={22} className="AllProduct-filter-main">
-                {Object.keys(this.state.search).map(key => (
+              <Col span={22} className={styles.filterMain}>
+                {Object.keys(search).map(key => (
                   <div
                     key={key}
                     className={
-                      this.state.search[key].length === 0 ? 'hide' : 'AllProduct-filter-userSelect'
+                      search[key].length === 0 ? 'hide' : styles.filterUserSelect
                     }
                   >
                     <span style={{ marginRight: '8px' }}>
-                      {this.state.search[key].map((itemText, index) => {
-                        if (index + 1 === this.state.search[key].length) {
-                          return this.state.data[key].data[itemText];
-                        } else {
-                          return this.state.data[key].data[itemText] + '、';
+                      {search[key].map((itemText, index) => {
+                        if (index + 1 === search[key].length) {
+                          return data[key].data[itemText];
                         }
+                        return `${data[key].data[itemText]} 、`;
                       })}
                     </span>
                     <Icon
                       type="close-circle"
                       theme="outlined"
-                      className="AllProduct-filter-userSelect-close"
+                      className={styles.filterUserSelectClose}
                       onClick={_ => this.closeSelect(key)}
                     />
                   </div>
@@ -344,52 +355,51 @@ class Discount extends React.Component {
           </Col>
         </Row>
 
-        {/*  */}
+        {/* 挥泪专区 */}
         <Row type="flex">
-          <div className="index-title">
-            <span className="index-title-left">挥泪专区</span>
-            <span className="index-title-right">
+          <div className={styles.title}>
+            <span className={styles.titleLeft}>挥泪专区</span>
+            <span className={styles.titleRight}>
               更多
               <Icon type="right" />
             </span>
           </div>
-          <Col className="supplier-discount">
-            {this.state.discount.map((item, index) => (
+          <Col className={styles.supplierDiscount}>
+            {discount.map((item, index) => (
               <Col
-                className={'Recommend-pro-discount-item ' + (index > 4 ? 'hide' : '')}
+                className={`${styles.discountItem} ${(index > 4 ? 'hide' : '')}`}
                 key={item.id}
               >
-                <Col className="Recommend-pro-discount-item-photo" key={item.id}>
+                <Col className={styles.discountItemPhoto} key={item.id}>
                   <img
                     src={
-                      item.url
-                        ? item.url
-                        : 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'
+                      item.url || 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'
                     }
                     className="img-size"
+                    alt="打折产品"
                   />
                 </Col>
-                <Col className="Recommend-pro-discount-item-pro-info">
-                  <Col span={16} className="Recommend-discount-info">
-                    <div className="Recommend-discount-name">南非欧洲双周双洲尽情游</div>
-                    <div className="Recommend-discount-dep_date">2018-08-08</div>
+                <Col className={styles.discountItemProInfo}>
+                  <Col span={16} className={styles.discountInfo}>
+                    <div className={styles.discountName}>南非欧洲双周双洲尽情游</div>
+                    <div >2018-08-08</div>
                   </Col>
-                  <Col span={7} push={1} className="prici-discount">
-                    <div className="Recommend-origin-price">￥28888</div>
-                    <div className="Recommend-discount-price">￥19999</div>
+                  <Col span={7} push={1}>
+                    <div className={styles.originPrice}>￥28888</div>
+                    <div className={styles.discountPrice}>￥19999</div>
                   </Col>
                 </Col>
               </Col>
             ))}
           </Col>
         </Row>
-        {/*  */}
+        {/* 分页 */}
         <Row>
-          <Col className="history-pages">
+          <Col className={styles.historyPages}>
             <Pagination
-              defaultCurrent={this.state.page}
-              total={this.state.total}
-              onChange={page => this.pageChange(page)}
+              defaultCurrent={page}
+              total={total}
+              onChange={pages => this.pageChange(pages)}
             />
           </Col>
         </Row>
@@ -398,4 +408,4 @@ class Discount extends React.Component {
   }
 }
 
-export default withRouter(Discount);
+export default Discount;

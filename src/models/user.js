@@ -1,4 +1,5 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import { query as queryUsers } from '@/services/user';
+import { queryCurrent as queryCurrentUser } from '@/services/serverApi';
 import { AppConst } from '@/utils/const';
 
 function initUser(){
@@ -30,11 +31,14 @@ export default {
       });
     },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response,
-      });
+      const response = yield call(queryCurrentUser);
+
+      if(response.success && response.user){
+        yield put({
+          type:'saveCurrentUser',
+          payload:response.user
+        });
+      }
     },
   },
 

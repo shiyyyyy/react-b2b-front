@@ -3,7 +3,9 @@ import { connect } from 'dva';
 import { Row, Col, Icon, Menu, Dropdown } from 'antd';
 
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
-import { getTimeDistance } from '@/utils/utils';
+import { getTimeDistance,getRouteAuthority } from '@/utils/utils';
+import Authorized from '@/utils/Authorized';
+import Exception403 from '@/pages/Exception/403';
 
 import styles from './Analysis.less';
 import PageLoading from '@/components/PageLoading';
@@ -94,7 +96,7 @@ class Analysis extends Component {
 
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
-    const { chart, loading } = this.props;
+    const { chart, loading,location:{pathname} } = this.props;
     const {
       visitData,
       visitData2,
@@ -128,8 +130,9 @@ class Analysis extends Component {
     );
 
     const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
-
+    const routerConfig = getRouteAuthority(pathname);
     return (
+      <Authorized authority={routerConfig} noMatch={<Exception403 />}>
       <GridContent>
         <Suspense fallback={<PageLoading />}>
           <IntroduceRow loading={loading} visitData={visitData} />
@@ -180,6 +183,7 @@ class Analysis extends Component {
           />
         </Suspense>
       </GridContent>
+      </Authorized>
     );
   }
 }

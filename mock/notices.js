@@ -97,6 +97,8 @@ const fakeNotices = [
 ];
 
 const getNotices = (req, res) => {
+  console.log(req)
+  debugger
   if (req.query && req.query.type) {
     const startFrom = parseInt(req.query.lastItemId, 10) + 1;
     const result = fakeNotices

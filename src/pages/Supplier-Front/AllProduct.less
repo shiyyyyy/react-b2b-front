@@ -1,0 +1,331 @@
+@import '~antd/lib/style/themes/default.less';
+
+.AllProduct {
+  padding: 0 50px 100px 50px;
+
+  /* header-type */ /* 团-类型 */
+  .headerType {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .headerTypeItem {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .headerTypeItem:hover {
+    border-color: @primary-color;
+    color: @primary-color;
+  }
+  .activeHeaderTypeItem {
+    border-color: @primary-color;
+    color: @primary-color;
+  }
+
+  /* ============================== filter ======================= */
+  .filter {
+    /* border: 1px solid rgba(0,0,0,.25); */
+  }
+  .filterItem {
+    height: 40px;
+    line-height: 40px;
+  }
+  .filterTitle {
+    font-weight: bold;
+  }
+  .filterMain {
+    /* height: 40px; */
+    line-height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+  }
+  .filterMainItem {
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .filterMainItem:hover {
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .activeFilterMainItem {
+    color: @primary-color;
+  }
+  .filterMainBlock {
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-userSelect {
+    border: 1px solid #d9d9d9;
+    height: 28px;
+    line-height: 22px;
+    padding: 2px 8px;
+    margin: 6px 0;
+    margin-right: 16px;
+    border-radius: 4px;
+  }
+  .filter-userSelect-close {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .filter-userSelect-close:hover {
+    color: #666;
+  }
+  .filter-immediate {
+  }
+  .filter-userSelect .filter-immediate:last-child {
+    display: none;
+  }
+
+  .filter-more {
+    font-size: 14px;
+    line-height: 40px;
+    color: #999;
+    cursor: pointer;
+  }
+  .filter-more:hover {
+    color: @primary-color;
+  }
+
+  /* =================== 产品推介 pro-recommend ================== */
+  .proRecommend {
+    .title {
+      width: 100%;
+      padding-left: 12px;
+      padding-right: 24px;
+      margin-top: 24px;
+      line-height: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .titleLeft {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .titleRight {
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .titleRight:hover{
+      color: @primary-color;
+    }
+
+    .proInfo {
+    }
+    .proInfoItem {
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .top {
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .proInfoItem:hover {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+      background: #fff;
+    }
+    .proImgBox {
+      height: 124px;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+    }
+    .proImg {
+      width: 100%;
+      height: 100px;
+    }
+    .proImgText {
+      font-size: 11px;
+      width: 100%;
+      height: 24px;
+      line-height: 22px;
+      border: 1px solid #d9d9d9;
+      border-radius: 0 0 4px 4px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
+
+    .proRTop {
+      display: flex;
+      align-items: center;
+    }
+
+    .proName {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .proTag1 {
+      font-size: 12px;
+      color: #fff;
+      line-height: 20px;
+      background: linear-gradient(to right, @primary-color, #8de3ff);
+      padding: 0px 8px;
+      margin-left: 16px;
+      border-radius: 20px;
+    }
+    .proTag2 {
+      font-size: 12px;
+      color: #fff;
+      line-height: 20px;
+      background: linear-gradient(to right, #ff8932, #ffc55a);
+      padding: 0px 8px;
+      margin-left: 16px;
+      border-radius: 20px;
+    }
+    .proRCenter {
+      font-size: 12px;
+      color: #999;
+      text-align: left;
+    }
+    .proRCenterLeft {
+      line-height: 22px;
+      padding-right: 8px;
+    }
+
+    .proRCenterRight {
+      line-height: 28px;
+      padding-left: 8px;
+    }
+    .proTh-price {
+    }
+    .pro-group-date {
+    }
+    .pro-score {
+    }
+    .pro-zk-price {
+    }
+    .pro-hits {
+    }
+    .proRBtm {
+      height: 32px;
+      line-height: 32px;
+      clear: both;
+    }
+    .proRBtmLeft {
+      margin-top: 6px;
+      display: flex;
+    }
+    .pro-rBtm-left > div {
+      line-height: 20px;
+      color: @primary-color;
+      border: 1px solid @primary-color;
+      border-radius: 20px;
+      padding: 0 8px;
+      margin-right: 16px;
+      cursor: pointer;
+    }
+    .pro-rBtm-left > div:hover {
+      color: @primary-color;
+      border: 1px solid @primary-color;
+    }
+    /* 折叠的group-list */
+    .proGroupListBox {
+      line-height: 40px;
+      clear: both;
+    }
+    .proGroupTitle {
+      font-size: 14px;
+      background: #f6fafa;
+      padding: 0 16px;
+      overflow: hidden;
+    }
+    .proGroupList {
+      padding: 0 16px;
+      overflow: hidden;
+    }
+    .proGroupList:hover {
+      background: #fafbfc;
+    }
+    .proGroupListMain {
+      color: #999;
+      overflow: hidden;
+      border-bottom: 1px dashed #d9d9d9;
+    }
+    .proGroupListBtn {
+      text-align: right;
+      clear: both;
+      border-bottom: 1px dashed #d9d9d9;
+    }
+
+    /* =================== 尾货甩卖 pro-discount ================== */
+    .btm {
+      clear: both;
+    }
+    .btm:hover {
+      box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.25);
+    }
+    .pro-discount {
+    }
+    .pro-discount-content {
+      display: flex;
+      justify-content: space-between;
+    }
+    .pro-discount-item {
+      width: 19%;
+      height: 100%;
+      margin: 0 0.5%;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .pro-discount-item:hover {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+    }
+    /* 图片 */
+    .pro-discount-item-photo {
+      width: 100%;
+      height: 150px;
+    }
+    .pro-discount-item-photo img {
+    }
+    /* 信息 */
+    .pro-discount-item-pro-info {
+      padding: 2px 8px;
+      overflow: hidden;
+    }
+    .discount-info {
+      font-size: 12px;
+      text-align: left;
+    }
+    .discount-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .discount-dep_date {
+    }
+
+    .prici-discount {
+    }
+    .origin-price {
+      text-decoration: line-through;
+    }
+    .discount-price {
+      color: #db3232;
+    }
+  }
+
+  // 分页
+  .historyPages {
+    margin: 30px;
+  }
+}

@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
-import Authorized from '@/utils/Authorized';
+//import Authorized from '@/utils/Authorized';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
@@ -19,7 +19,10 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import { menu, title } from '../defaultSettings';
 
+import '../../node_modules/swiper/dist/css/swiper.min.css';
+
 import styles from './BasicLayout.less';
+import {getRouteAuthority} from '@/utils/utils';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -89,31 +92,6 @@ class BasicLayout extends React.Component {
     return breadcrumbNameMap[pathKey];
   };
 
-  getRouteAuthority = (pathname, routeData) => {
-    const routes = routeData.slice(); // clone
-    let authorities;
-
-    while (routes.length > 0) {
-      const route = routes.shift();
-      // check partial route
-      if (pathToRegexp(`${route.path}(.*)`).test(pathname)) {
-        if (route.authority) {
-          authorities = route.authority;
-        }
-        // is exact route?
-        if (pathToRegexp(route.path).test(pathname)) {
-          break;
-        }
-
-        if (route.routes) {
-          route.routes.forEach(r => routes.push(r));
-        }
-      }
-    }
-
-    return authorities;
-  };
-
   getPageTitle = (pathname, breadcrumbNameMap) => {
     const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
@@ -171,8 +149,9 @@ class BasicLayout extends React.Component {
     } = this.props;
 
     const isTop = PropsLayout === 'topmenu';
-    const routerConfig = this.getRouteAuthority(pathname, routes);
+    const routerConfig = getRouteAuthority(pathname);
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
+    console.log(this)
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -199,9 +178,7 @@ class BasicLayout extends React.Component {
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
-            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
               {children}
-            </Authorized>
           </Content>
           <Footer />
         </Layout>

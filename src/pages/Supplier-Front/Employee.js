@@ -1,30 +1,20 @@
 // 金牌员工
 import React from 'react';
-import { Link, Route, withRouter } from 'react-router-dom';
 
 import {
   Icon,
   Row,
   Col,
-  Button,
-  Tag,
-  Rate,
   Avatar,
-  DatePicker,
-  Input,
-  Pagination,
-  Tooltip,
-  Badge,
-  Dropdown,
 } from 'antd';
 
-// import '../../css/Employee.css';
+import styles from './Employee.less';
 
 class Employee extends React.Component {
-  constructor() {
+  constructor(){
     super();
     this.state = {
-      Employee_arr: [
+      EmployeeArr: [
         { avatar: '', name: '张胜男', id: '1' },
         { avatar: '', name: '张胜男', id: '7' },
         { avatar: '', name: '张胜男', id: '13' },
@@ -48,19 +38,20 @@ class Employee extends React.Component {
   }
 
   render() {
+    const { EmployeeArr} = this.state;
     return (
-      <div className="Employee">
+      <div className={styles.Employee}>
         {/* 金牌销售 */}
         <Row type="flex">
-          <div className="index-title">
-            <span className="index-title-left">金牌销售</span>
-            <span className="index-title-right">
+          <div className={styles.title}>
+            <span className={styles.titleLeft}>金牌销售</span>
+            <span className={styles.titleRight}>
               更多
               <Icon type="right" />
             </span>
           </div>
-          {this.state.Employee_arr.map(item => (
-            <Col className="employee-item" key={item.id}>
+          {EmployeeArr.map(item => (
+            <Col className={styles.employeeItem} key={item.id}>
               <Col span={12}>
                 <Avatar
                   size={80}
@@ -77,15 +68,15 @@ class Employee extends React.Component {
         </Row>
         {/* 最佳新人 */}
         <Row type="flex">
-          <div className="index-title">
-            <span className="index-title-left">金牌销售</span>
-            <span className="index-title-right">
+          <div className={styles.title}>
+            <span className={styles.titleLeft}>最佳新人</span>
+            <span className={styles.titleRight}>
               更多
               <Icon type="right" />
             </span>
           </div>
-          {this.state.Employee_arr.map(item => (
-            <Col className="employee-item" key={item.id}>
+          {EmployeeArr.map(item => (
+            <Col className={styles.employeeItem} key={item.id}>
               <Col span={12}>
                 <Avatar
                   size={80}
@@ -105,4 +96,4 @@ class Employee extends React.Component {
   }
 }
 
-export default withRouter(Employee);
+export default Employee;

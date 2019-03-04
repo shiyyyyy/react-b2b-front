@@ -1,41 +1,25 @@
 import React from 'react';
-import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'dva';
+
+import { Icon, Row, Col, Tabs, Carousel } from 'antd';
+import Swiper from 'swiper/dist/js/swiper';
+
 import defaultSettings from '../../defaultSettings';
 
-import {
-  Layout,
-  Menu,
-  Icon,
-  Row,
-  Col,
-  Avatar,
-  Button,
-  Tabs,
-  Rate,
-  Tag,
-  Tooltip,
-  Badge,
-  Dropdown,
-  Carousel,
-} from 'antd';
-import Swiper from 'swiper/dist/js/swiper.js';
+import AllProduct from './AllProduct';
+import Discount from './Discount';
+import Introduction from './Introduction';
+import Employee from './Employee';
+import styles from './Supplier.less';
 
-// import AllProduct from './AllProduct';
-// import Discount from './Discount';
-// import Introduction from './Introduction';
-// import Employee from './Employee';
-import styles from  './Supplier.less';
+const { TabPane } = Tabs;
 
-const { Header, Content, Footer } = Layout;
-const SubMenu = Menu.SubMenu;
-const TabPane = Tabs.TabPane;
+/* eslint react/no-array-index-key: 0 */
 
 class Supplier extends React.Component {
   constructor() {
     super();
     this.state = {
-
       photos: [
         'http://uploads.5068.com/allimg/151111/48-151111112Z8.jpg',
         'http://img.kutoo8.com/upload/image/34092560/1390442684896_960x540.jpg',
@@ -101,12 +85,14 @@ class Supplier extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     console.log(this);
-    let setting = defaultSettings;
+    const setting = defaultSettings;
     setting.layout = 'topmenu';
     dispatch({
       type: 'setting/changeSetting',
       payload: setting,
     });
+    // 下面注释是为了eslint不报错
+    /* eslint-disable no-new */
     new Swiper('#Supplier-swiper', {
       loop: true, // 循环模式选项
       slidesPerView: 7,
@@ -126,6 +112,7 @@ class Supplier extends React.Component {
     console.log(this.carouselRef);
     if (this.carouselRef) this.carouselRef.prev();
   }
+
   nextImg() {
     if (this.carouselRef) this.carouselRef.next();
   }
@@ -133,9 +120,12 @@ class Supplier extends React.Component {
   // tab切换
   TabsChange(key) {
     console.log(key);
+    console.log(this);
   }
+
   // 个人首页 tab 样式
   index() {
+    const { photos, discount } = this.state;
     return (
       <div className={styles.index}>
         {/* 首页推介 轮播图 */}
@@ -144,27 +134,27 @@ class Supplier extends React.Component {
             ref={this.setCarouselRef}
             autoplay
             autoplaySpeed={4000}
-            draggable={true}
+            draggable
             className={styles.carousel}
           >
-            {this.state.photos.map((item, index) => (
+            {photos.map((item, index) => (
               <div key={index}>
-                <img src={item ? item : '/img/Login-bg.jpg'} className="img-initial" />
+                <img src={item || '/img/Login-bg.jpg'} className="img-initial" alt="轮播图" />
               </div>
             ))}
           </Carousel>
-          <div className="modal-carousel-prev" onClick={_ => this.prevImg()}>
+          <div className={styles.modalCarouselPrev} onClick={e => this.prevImg(e)}>
             <Icon type="left-circle" theme="filled" />
           </div>
-          <div className="modal-carousel-next" onClick={_ => this.nextImg()}>
+          <div className={styles.modalCarouselNext} onClick={e => this.nextImg(e)}>
             <Icon type="right-circle" theme="filled" />
           </div>
         </Row>
         {/* 热卖推介 */}
         <Row style={{ marginTop: '16px' }}>
-          <div className="index-title">
-            <span className="index-title-left">热卖推介</span>
-            <span className="index-title-right">
+          <div className={styles.title}>
+            <span className={styles.titleLeft}>热卖推介</span>
+            <span className={styles.titleRight}>
               更多
               <Icon type="right" />
             </span>
@@ -172,7 +162,7 @@ class Supplier extends React.Component {
           <Col className={styles.hot}>
             {/* 非轮播图版本的 照片墙 */}
             {/* {
-                this.state.photos.map( (item,index) => (
+                photos.map( (item,index) => (
                     <Col className={"index-photo-box " + (index > 3 ? 'hide' : '')} key={index}>
                         <img onClick={_=>this.setState({photoWallShow: true})}
                         src={item} className="index-photo-item img-size" />
@@ -182,21 +172,22 @@ class Supplier extends React.Component {
             {/* 轮播图版本的 照片墙 */}
             <div className="swiper-container" style={{ width: '100%' }} id="Supplier-swiper">
               <div className="swiper-wrapper">
-                {this.state.photos.map((item, index) => (
-                  <div className={'swiper-slide ' + styles.hot_item} key={index}>
+                {photos.map((item, index) => (
+                  <div className={`swiper-slide ${styles.hot_item}`} key={index}>
                     <img
                       onClick={_ => this.setState({ photoWallShow: true })}
                       src={item}
-                      className="index-photo-item img-size"
+                      className={`img-size ${styles.indexPhotoItem}`}
+                      alt="轮播图"
                     />
                   </div>
                 ))}
               </div>
-              <div className="swiper-button-prev Supplier-index-prev">
+              <div className={`swiper-button-prev ${styles.SupplierIndexPrev}`}>
                 {' '}
                 <Icon type="left-circle" theme="filled" />
               </div>
-              <div className="swiper-button-next Supplier-index-next">
+              <div className={`swiper-button-next ${styles.SupplierIndexNext}`}>
                 {' '}
                 <Icon type="right-circle" theme="filled" />
               </div>
@@ -212,30 +203,29 @@ class Supplier extends React.Component {
               <Icon type="right" />
             </span>
           </div>
-          <Col className="supplier-discount">
-            {this.state.discount.map((item, index) => (
+          <Col className={styles.discount}>
+            {discount.map((item, index) => (
               <Col
-                className={'Recommend-pro-discount-item ' + (index > 4 ? 'hide' : '')}
+                className={`${styles.discountItem} ${index > 4 ? 'hide' : ''}`}
                 key={item.id}
               >
-                <Col className="Recommend-pro-discount-item-photo" key={item.id}>
+                <Col className={styles.discountItemPhoto} key={item.id}>
                   <img
                     src={
-                      item.url
-                        ? item.url
-                        : 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'
+                      item.url || 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'
                     }
                     className="img-size"
+                    alt="轮播图"
                   />
                 </Col>
-                <Col className="Recommend-pro-discount-item-pro-info">
-                  <Col span={16} className="Recommend-discount-info">
-                    <div className="Recommend-discount-name">南非欧洲双周双洲尽情游</div>
-                    <div className="Recommend-discount-dep_date">2018-08-08</div>
+                <Col className={styles.discountItemProInfo}>
+                  <Col span={16} className={styles.discountInfo}>
+                    <div className={styles.discountName}>南非欧洲双周双洲尽情游</div>
+                    <div className="">2018-08-08</div>
                   </Col>
                   <Col span={7} push={1} className="prici-discount">
-                    <div className="Recommend-origin-price">￥28888</div>
-                    <div className="Recommend-discount-price">￥19999</div>
+                    <div className={styles.originPrice}>￥28888</div>
+                    <div className={styles.discountPrice}>￥19999</div>
                   </Col>
                 </Col>
               </Col>
@@ -248,41 +238,38 @@ class Supplier extends React.Component {
 
   render() {
     return (
-      <Layout className="layout">
-
-      
+      <Row className={styles.Supplier}>
         {/* 内容 */}
-        <Content className="personal-content">
+        <Col className={styles.content}>
           {/* </Row> */}
           <Row>
             <Col>
-              <Tabs defaultActiveKey="1" onChange={e => this.TabsChange(e)}>
+              <Tabs defaultActiveKey="1" onChange={key => this.TabsChange(key)} className="text-center">
                 <TabPane tab="店铺首页" key="1">
                   {/* <Route exact path="/Personal" component={index} /> */}
                   {this.index()}
                 </TabPane>
                 <TabPane tab="全部产品" key="2">
-                  {/* <AllProduct /> */}
+                  <AllProduct />
                   {/* <Route path="/Personal/Recommend" component={Recommend} /> */}
                 </TabPane>
                 <TabPane tab="尾货甩卖" key="3">
-                  {/* <Discount /> */}
+                  <Discount />
                   {/* <Route path="/Personal/History" component={History} /> */}
                 </TabPane>
                 <TabPane tab="企业简介" key="4">
-                  {/* <Introduction /> */}
+                  <Introduction />
                   {/* <Route path="/Personal/QA" component={QA} /> */}
                 </TabPane>
                 <TabPane tab="金牌员工" key="5">
-                  {/* <Employee /> */}
+                  <Employee />
                   {/* <Route path="/Personal/LatestNews" component={LatestNews} /> */}
                 </TabPane>
               </Tabs>
             </Col>
           </Row>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-      </Layout>
+        </Col>
+      </Row>
     );
   }
 }

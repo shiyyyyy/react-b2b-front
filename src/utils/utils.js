@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
+import pathToRegexp from 'path-to-regexp';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -191,3 +192,60 @@ export function getGobalState(name){
     }
     return ret;
 }
+
+export function addParentNode(routes,parent) {
+    routes.forEach(ele => {
+      if(parent){
+        if(ele.path !== parent)
+          ele.parent = parent;
+      }
+      if(ele.routes){
+        addParentNode(ele.routes,ele.path);
+      }
+      return ele;
+    });
+    return routes;
+};
+
+
+function ergodicRoutes(routes, authKey, authority) {
+  routes.forEach(element => {
+    if (element.path === authKey) {
+      if (!element.authority) element.authority = [];
+      Object.assign(element.authority, authority || []);
+    } else if (element.routes) {
+      ergodicRoutes(element.routes, authKey, authority);
+    }
+    return element;
+  });
+}
+
+export function addAuthForRoutes(authRoutes) {
+  let routes = [];
+  Object.assign(routes,window.g_routes);
+  Object.keys(authRoutes).map(authKey =>{
+      ergodicRoutes(routes, authKey, authRoutes[authKey])
+    }
+  );
+  window.g_auth_config = routes;
+}
+
+export function getRouteAuthority(pathname){
+    const routes = window.g_auth_config.slice(); // clone
+    let authorities;
+
+    while (routes.length > 0) {
+      const route = routes.shift();
+      if (route.path && pathToRegexp(route.path).test(pathname)) {
+          if (route.authority) {
+            authorities = route.authority;
+          }
+          break;
+      }
+      if (route.routes) {
+          route.routes.forEach(r => routes.push(r));
+      }
+    }
+
+    return authorities;
+  };
