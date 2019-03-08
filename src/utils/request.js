@@ -23,67 +23,49 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-const checkStatus = response => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
-  const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
-    description: errortext,
-  });
-  const error = new Error(errortext);
-  error.name = response.status;
-  error.response = response;
-  throw error;
-};
-
-const checkMsg = response => {
-  console.log(response)
+const checkStatus = response=> {
   // mock
-  if (response.success === undefined) {
+  if(response.success === undefined){
     return response;
   }
-  if (response.success === true) {
+  //
+  if(response.success === true){
     return response;
   }
-  let error;
-  if (!response.message) {
-    error = new Error('请求错误 no response messgae');
-    error.name = 'no response message';
-    error.response = response;
-    throw error;
-  }
-  if (response.message === -1) {
+  let error ;
+  if(response.message === -1){
     error = new Error('未登录');
     error.name = -1;
     error.response = response;
+    error.message = '未登录';
     throw error;
   }
-  error = new Error(response.message);
-  error.name = response.message;
+  const errortext = response.message || codeMessage[response.status];
+  error = new Error(errortext);
+  error.name = response.status;
   error.response = response;
+  error.message = errortext;
   throw error;
 }
 
-const cachedSave = (response, hashcode) => {
-  /**
-   * Clone a response data and store it in sessionStorage
-   * Does not support data other than json, Cache only json
-   */
-  const contentType = response.headers.get('Content-Type');
-  if (contentType && contentType.match(/application\/json/i)) {
-    // All data is saved as text
-    response
-      .clone()
-      .text()
-      .then(content => {
-        sessionStorage.setItem(hashcode, content);
-        sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
-      });
-  }
-  return response;
-};
+// const cachedSave = (response, hashcode) => {
+//   /**
+//    * Clone a response data and store it in sessionStorage
+//    * Does not support data other than json, Cache only json
+//    */
+//   const contentType = response.headers.get('Content-Type');
+//   if (contentType && contentType.match(/application\/json/i)) {
+//     // All data is saved as text
+//     response
+//       .clone()
+//       .text()
+//       .then(content => {
+//         sessionStorage.setItem(hashcode, content);
+//         sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
+//       });
+//   }
+//   return response;
+// };
 
 /**
  * Requests a URL, returning a promise.
@@ -94,102 +76,53 @@ const cachedSave = (response, hashcode) => {
  */
 export default function request(url, option) {
   const options = {
-    // expirys: isAntdPro(),
     ...option,
   };
-  /**
-   * Produce fingerprints based on url and parameters
-   * Maybe url has the same parameters
-   */
-   //no mock
-   if(MOCK === 'none'){
-      if (url.indexOf('http') !== 0 && AppCore.HOST) {
-          url = AppCore.HOST + url;
-      }
-   }
+  // if(MOCK === 'none'){
+  if (url.indexOf('http') !== 0 && AppCore.HOST) {
+      url = AppCore.HOST + url;
+  }
+  //}
 
-  const fingerprint = url + (options.body ? JSON.stringify(options.body) : '');
-  const hashcode = hash
-    .sha256()
-    .update(fingerprint)
-    .digest('hex');
-
-  const defaultOptions = {
-    credentials: 'include',
-  };
-  const newOptions = { ...defaultOptions, ...options };
+  // 不再携带cookie
+  // const defaultOptions = {
+  //   credentials: 'include',
+  // };
+  const newOptions = {...options };
   
-  let user = getGobalState('user');
-  let token = user.currentUser ? (user.currentUser.sid?user.currentUser.sid:''): '';
+  
+  const user = getGobalState('user');
+  const sid = user.currentUser ? (user.currentUser.sid?user.currentUser.sid:''): '';
 
-  if(token !==''){
-    newOptions.headers = {
-      'authorization':token,
-      ...newOptions.headers
-    }
-  } 
-
-  if (
-    newOptions.method === 'POST' ||
-    newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
-  ) {
-    if (!(newOptions.body instanceof FormData)) {
-      newOptions.headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
-      };
-      newOptions.body = JSON.stringify(newOptions.body);
-    } else {
-      // newOptions.body is FormData
-      newOptions.headers = {
-        Accept: 'application/json',
-        ...newOptions.headers,
-      };
-    }
+  if(newOptions.method === 'POST'){
+    newOptions.body = newOptions.body || {};
+    if(sid !==''){
+      newOptions.body.sid = sid;
+    } 
+    newOptions.body = JSON.stringify(newOptions.body);
   }
 
-  return fetch(url, newOptions)
-    .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
+  return new Promise((rs, rj) => {
+    fetch(url, newOptions)
     .then(response => {
       return response.json();
     })
-    .then(checkMsg)
+    .then(checkStatus)
     .then(response => {
-      return response;
-    })
-    .catch(e => {
-      const status = e.name;
-      // http error
-      if (status === 403) {
-        router.push('/exception/403');
-        return;
-      }
-      if (status <= 504 && status >= 500) {
-        router.push('/exception/500');
-        return;
-      }
-      if (status >= 404 && status < 422) {
-        router.push('/exception/404');
-        return;
-      }
-
-      // back error
-      if (status === -1) {
+        rs(response);
+    },error=>{
+      // 未登录
+      if(error.name ===-1){
         window.g_app._store.dispatch({
-          type: 'login/logout',
+          type:'login/logout'
         });
         return;
       }
-      router.push('/exception/500');
-
-      if (e.name) {
-        notification.error({
-          message: e.name,
-          description: e.name
-        })
-      }
-    });
+      notification.error({
+        message: '请求错误',
+        description: error.message,
+      });
+      rj(error);
+    })
+  });
 }

@@ -2,10 +2,13 @@ import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 // import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { setAuthority } from '@/utils/authority';
-import { getPageQuery ,addAuthForRoutes} from '@/utils/utils';
+import { getPageQuery ,addAuthForRoutes,post} from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
-import { accountLogin} from '@/services/serverApi';
 import { routesInit } from '@/services/initSrvc';
+
+async function login(params){
+  return post('/Session/login',params);
+}
 
 export default {
   namespace: 'login',
@@ -16,7 +19,7 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(accountLogin, payload);
+      const response = yield call(login, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -25,32 +28,33 @@ export default {
         if(response.user.authority){
           setAuthority(response.user.authority);
         }
-        reloadAuthorized();
-        const pem_routes = yield call(routesInit);
-
-        addAuthForRoutes(pem_routes);
-        //缓存当前用户
+        // 缓存当前用户
         yield put({
           type:'user/saveCurrentUser',
           payload:response.user
         })
 
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = redirect;
-            return;
-          }
-        }
-        yield put(routerRedux.replace(redirect || '/'));
+        reloadAuthorized();
+        const pemRoutes = yield call(routesInit);
+
+        addAuthForRoutes(pemRoutes);
+
+        // const urlParams = new URL(window.location.href);
+        // const params = getPageQuery();
+        // let { redirect } = params;
+        // if (redirect) {
+        //   const redirectUrlParams = new URL(redirect);
+        //   if (redirectUrlParams.origin === urlParams.origin) {
+        //     redirect = redirect.substr(urlParams.origin.length);
+        //     if (redirect.match(/^\/.*#/)) {
+        //       redirect = redirect.substr(redirect.indexOf('#') + 1);
+        //     }
+        //   } else {
+        //     window.location.href = redirect;
+        //     return;
+        //   }
+        // }
+        yield put(routerRedux.replace('/supplier-front'));
       }
     },
 

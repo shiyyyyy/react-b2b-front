@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "presite": "cd functions && npm install",
-    "start": "cross-env APP_TYPE=site umi dev --port=8010",
+    "start": "cross-env Mock=none APP_TYPE=site umi dev --port=8010",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "build": "umi build",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
@@ -58,8 +58,7 @@
     "react-dom": "^16.7.0",
     "react-fittext": "^1.0.0",
     "react-media": "^1.9.2",
-    "react-router-dom": "^4.3.1",
-    "swiper": "^4.4.6"
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "@types/react": "^16.8.1",

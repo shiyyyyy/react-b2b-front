@@ -88,6 +88,7 @@ export default {
     },
     changeSetting(state, { payload }) {
       const urlParams = new URL(window.location.href);
+      console.log(urlParams)
       Object.keys(defaultSettings).forEach(key => {
         if (urlParams.searchParams.has(key)) {
           urlParams.searchParams.delete(key);
@@ -121,3 +122,4 @@ export default {
     },
   },
 };
+

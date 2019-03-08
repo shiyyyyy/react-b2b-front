@@ -17,11 +17,11 @@ class LoginPage extends Component {
   state = {
     type: 'account',
     autoLogin: true,
-    user_type:AppConst.USER_SUP
+    user_type: AppConst.USER_SUP
   };
 
   handleSubmit = (err, values) => {
-    const { type ,user_type} = this.state;
+    const { type , user_type} = this.state;
     if (!err) {
       const { dispatch } = this.props;
       dispatch({
@@ -48,6 +48,7 @@ class LoginPage extends Component {
   render() {
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
+    console.log(this)
     return (
       <div className={styles.main}>
         <Login

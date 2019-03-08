@@ -1,44 +1,55 @@
 import { AppConst } from '@/utils/const';
 import { setAuthority } from '@/utils/authority';
 import routes from '../../config/router.config';
-import {addParentNode} from '@/utils/utils';
+import { AppCore } from  '@/utils/core';
 
-function pathMap(route,map){
+function pathMap(_routes,map){
     const maps = map
-    route.forEach(ele => {
+    _routes.forEach(ele => {
         if(ele.path){
             maps[ele.path] = ele;
         }
         if(ele.routes){
-            pathMap(ele.route, maps);
+            pathMap(ele.routes, maps);
         }
     });
 }
 
+function addParentNode(_routes, parent) {
+    _routes.forEach(ele => {
+        const eles = ele;
+        if (parent) {
+            if (eles.path !== parent)
+                eles.parent = parent;
+        }
+        if (eles.routes) {
+            addParentNode(eles.routes, eles.path);
+        }
+        return eles;
+    });
+    return _routes;
+};
+
 function pubInit() {
     return new Promise((rs, rj) => {
-        let path_map = {};
-        pathMap(addParentNode(routes), path_map);
-        let newOptions = {
+        const pathMapObj = {};
+        pathMap(addParentNode(routes), pathMapObj);
+        const newOptions = {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json; charset=utf-8',
-            },
-            body: JSON.stringify({ routes: path_map })
+            body: JSON.stringify({ routes: pathMapObj })
         };
-        fetch('/server/api/Pub/get_pub_init', newOptions).then(
+        fetch(AppCore.HOST+'/api/Pub/get_pub_init', newOptions).then(
             r => r.json()
         ).then(
             r => {
                 if (!r.success) {
-                    rj(e);
+                    rj(r);
                     return;
                 }
-                let currentAuthority = AppConst.PUB_AUTHORITY;
-                //set authority
+                const currentAuthority = AppConst.PUB_AUTHORITY;
+                // set authority
                 setAuthority(currentAuthority);
-                let paths = r.data.paths;
+                const { paths } = r.data;
                 rs(paths);
             }, e => {
                 rj(e);
@@ -51,19 +62,19 @@ function pubInit() {
 
 export function userInit(newOptions) {
     return new Promise((rs, rj) => {
-        fetch('/server/PublicApi/get_b2b_init', newOptions).then(
+        fetch(AppCore.HOST+'/PublicApi/get_b2b_init', newOptions).then(
             r => r.json()
         ).then(
             r => {
                 if (!r.success) {
-                    pubInit().then(r => rs(r), e => rj(e));
+                    pubInit().then(re => rs(re), e => rj(e));
                     return;
                 }
-                //init
-                let currentAuthority = r.data.authority || AppConst.PUB_AUTHORITY;
-                //set authority
+                // init
+                const currentAuthority = r.data.authority || AppConst.PUB_AUTHORITY;
+                // set authority
                 setAuthority(currentAuthority);
-                let paths = r.data.paths;
+                const { paths } = r.data;
                 rs(paths);
             }, e => {
                 rj(e);
@@ -75,34 +86,28 @@ export function userInit(newOptions) {
 }
 
 export function routesInit(){
-    let path_map = {};
-    pathMap(addParentNode(routes),path_map);
+    const pathMapObj = {};
+    pathMap(addParentNode(routes),pathMapObj);
 
-    const newOptions = {
-        method:'POST',
-        headers:{
-            Accept: 'application/json',
-           'Content-Type': 'application/json; charset=utf-8',
-        },
-        body:JSON.stringify({routes:path_map})
-    };
-
-    let token = '';
     let user = {};
     try{
         if(localStorage[AppConst.APP_NAME]){
             user = JSON.parse(localStorage[AppConst.APP_NAME]);
         }
-        token = user.sid?user.sid:'';
-        if(token !== ''){
-            newOptions.headers = {
-              'authorization':token,
-              ...newOptions.headers
-            }
+        const sid = user.sid?user.sid:'';
+
+        const newOptions = {
+            method:'POST'
+        };
+        newOptions.body = {routes:pathMapObj};
+
+        if(sid !== ''){
+            newOptions.body.sid = sid;
         }
+        newOptions.body = JSON.stringify(newOptions.body);
+
         return userInit(newOptions);
     }catch(e){
         return userInit(newOptions); 
     }
 }
-

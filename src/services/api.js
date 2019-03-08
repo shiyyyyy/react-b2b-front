@@ -116,7 +116,7 @@ export async function fakeAccountLogin(params) {
 }
 
 export async function fakeRegister(params) {
-  return request('/server/api/Register/register_supplier', {
+  return request('/api/Register/register_supplier', {
     method: 'POST',
     body: params,
   });

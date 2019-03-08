@@ -3,6 +3,9 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 import pathToRegexp from 'path-to-regexp';
+import { Modal } from 'antd';
+import request from './request';
+
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -133,6 +136,9 @@ export function getRoutes(path, routerData) {
 }
 
 export function getPageQuery() {
+  const arr = window.location.href.split('?')
+  console.log(arr)
+  debugger
   return parse(window.location.href.split('?')[1]);
 }
 
@@ -193,21 +199,6 @@ export function getGobalState(name){
     return ret;
 }
 
-export function addParentNode(routes,parent) {
-    routes.forEach(ele => {
-      if(parent){
-        if(ele.path !== parent)
-          ele.parent = parent;
-      }
-      if(ele.routes){
-        addParentNode(ele.routes,ele.path);
-      }
-      return ele;
-    });
-    return routes;
-};
-
-
 function ergodicRoutes(routes, authKey, authority) {
   routes.forEach(element => {
     if (element.path === authKey) {
@@ -249,3 +240,51 @@ export function getRouteAuthority(pathname){
 
     return authorities;
   };
+
+export function error(p) {
+    const m = {
+        content: p.message || p,
+        title: p.title 
+    };
+    if(p.onOk){
+        m.onOk = p.onOk;
+    }
+    return Modal.error(m);
+}
+
+export function encUrl(p) {
+    if (!p) {
+        return '';
+    }
+    return Object.keys(p).filter(k=>p[k]!==undefined&&p[k]!=='')
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(p[k]))
+        .join('&');
+}
+
+export async function get(url,params){
+    const option = {
+      method: 'POST'
+    };
+    const new_url = url + '?' + encUrl(params);
+
+    return request(new_url,option).then(
+        r=>{
+          // do something
+          return r;
+    });
+}
+
+export async function post(url,data){
+    const option = {
+      method: 'POST',
+      body: {
+        ...data,
+      },
+    };
+    return request(url,option).then(
+        r=>{
+          // do something
+          return r;
+        }
+    );
+  }

@@ -107,9 +107,12 @@ export default {
       return localName;
     },
   },
+
   manifest: {
     basePath: '/',
   },
 
   chainWebpack: webpackPlugin,
+  base:'/b2b-front/',
+  publicPath:'/b2b-front/'
 };

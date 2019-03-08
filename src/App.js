@@ -1,5 +1,5 @@
-import fetch from 'dva/fetch'; import { routesInit } from
-'@/services/initSrvc';
+import fetch from 'dva/fetch'; 
+import { routesInit } from '@/services/initSrvc';
 
 export const dva = {
   config: {
