@@ -24,6 +24,7 @@ class LoginTab extends Component {
   }
 
   render() {
+    console.log(this)
     const { children } = this.props;
     return <TabPane {...this.props}>{children}</TabPane>;
   }

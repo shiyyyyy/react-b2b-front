@@ -265,9 +265,9 @@ export async function get(url,params){
     const option = {
       method: 'POST'
     };
-    const new_url = url + '?' + encUrl(params);
+    const newUrl = `${url}?${encUrl(params)}`;
 
-    return request(new_url,option).then(
+    return request(newUrl,option).then(
         r=>{
           // do something
           return r;

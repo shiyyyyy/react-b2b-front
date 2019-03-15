@@ -221,3 +221,29 @@ body::-webkit-scrollbar-resizer {
 /* ------------------------- firefox -------------------- */
 
 /* ------------------------- IE -------------------- */
+
+/*============================================ 设置 Table 样式覆盖 =================================================== */
+body .ant-table table {
+  // 这个值将作用于横向和纵向上的间距 x,y(table没有padding属性)(这个属性不行,太刚了,中间的空白bg都显示不了)
+  // border-spacing: 12px 8px;
+  // 不让表格边框合并
+  // border-collapse: unset;
+}
+// tr td 没有margin属性
+body .ant-table-thead > tr > td {
+}
+body .ant-table-tbody > tr > td {
+  padding: 12px 8px;
+}
+body .ant-table-tbody > tr > td > .tdDiv{
+    min-height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding: 2px 8px;
+}
+body .ant-table-tbody > tr > td > .tdDiv:hover{
+  border: 1px solid #40a9ff;
+  // box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}

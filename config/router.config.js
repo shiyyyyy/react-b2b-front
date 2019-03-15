@@ -26,153 +26,47 @@ export default [
             path: '/ant-pro-test/dashboard/analysis',
             name: 'analysis',
             component: './Dashboard/Analysis',
+            mod:  '公开页面'
           },
           {
             
             path: '/ant-pro-test/dashboard/monitor',
             name: 'monitor',
             component: './Dashboard/Monitor',
+            mod:  '公开页面'
           },
           {
             path: '/ant-pro-test/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
+            mod : '公开页面'
           },
         ],
       },
       // forms
       {
-        path: '/ant-pro-test/form',
-        icon: 'form',
-        name: 'form',
-        routes: [
+        path:'/ant-pro-test/product',
+        name:'list',
+        icon:'table',
+        routes:[
+          // {
+          //   path:'/product/list',
+          //   name:'product_list',
+          //   component:'./Product/ProductList',
+          // },
+          // {
+          //   path:'/product/edit',
+          //   name:'product_edit',
+          //   component:'./Product/ProductPage'
+          // },
+          { path: '/ant-pro-test/product', redirect: '/ant-pro-test/product/list' },
           {
-            path: '/ant-pro-test/form/basic-form',
-            name: 'basicform',
-            component: './Forms/BasicForm',
-          },
-          {
-            path: '/ant-pro-test/form/step-form',
-            name: 'stepform',
-            component: './Forms/StepForm',
-            hideChildrenInMenu: true,
-            routes: [
-              {
-                path: '/ant-pro-test/form/step-form',
-                redirect: '/form/step-form/info',
-              },
-              {
-                path: '/ant-pro-test/form/step-form/info',
-                name: 'info',
-                component: './Forms/StepForm/Step1',
-              },
-              {
-                path: '/ant-pro-test/form/step-form/confirm',
-                name: 'confirm',
-                component: './Forms/StepForm/Step2',
-              },
-              {
-                path: '/ant-pro-test/form/step-form/result',
-                name: 'result',
-                component: './Forms/StepForm/Step3',
-              },
-            ],
-          },
-          {
-            path: '/ant-pro-test/form/advanced-form',
-            name: 'advancedform',
-            authority: ['admin'],
-            component: './Forms/AdvancedForm',
-          },
-        ],
-      },
-      // list
-      {
-        path: '/ant-pro-test/list',
-        icon: 'table',
-        name: 'list',
-        routes: [
-          {
-            path: '/ant-pro-test/list/table-list',
+            path: '/ant-pro-test/product/list',
             name: 'searchtable',
-            component: './List/TableList',
-          },
-          {
-            path: '/ant-pro-test/list/basic-list',
-            name: 'basiclist',
-            component: './List/BasicList',
-          },
-          {
-            path: '/ant-pro-test/list/card-list',
-            name: 'cardlist',
-            component: './List/CardList',
-          },
-          {
-            path: '/ant-pro-test/list/search',
-            name: 'searchlist',
-            component: './List/List',
-            routes: [
-              {
-                path: '/ant-pro-test/list/search',
-                redirect: '/list/search/articles',
-              },
-              {
-                path: '/ant-pro-test/list/search/articles',
-                name: 'articles',
-                component: './List/Articles',
-              },
-              {
-                path: '/ant-pro-test/list/search/projects',
-                name: 'projects',
-                component: './List/Projects',
-              },
-              {
-                path: '/ant-pro-test/list/search/applications',
-                name: 'applications',
-                component: './List/Applications',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/ant-pro-test/profile',
-        name: 'profile',
-        icon: 'profile',
-        routes: [
-          // profile
-          {
-            path: '/ant-pro-test/profile/basic',
-            name: 'basic',
-            component: './Profile/BasicProfile',
-          },
-          {
-            path: '/ant-pro-test/profile/basic/:id',
-            name: 'basic',
-            hideInMenu: true,
-            component: './Profile/BasicProfile',
-          },
-          {
-            path: '/ant-pro-test/profile/advanced',
-            name: 'advanced',
-            authority: ['admin'],
-            component: './Profile/AdvancedProfile',
-          },
-        ],
-      },
-      {
-        name: 'result',
-        icon: 'check-circle-o',
-        path: '/ant-pro-test/result',
-        routes: [
-          // result
-          {
-            path: '/ant-pro-test/result/success',
-            name: 'success',
-            component: './Result/Success',
-          },
-          { path: '/ant-pro-test/result/fail', name: 'fail', component: './Result/Error' },
-        ],
+            component: './Product/ProductList',
+            mod: '公开页面'
+          }
+        ]
       },
       {
         name: 'exception',

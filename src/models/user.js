@@ -31,14 +31,14 @@ export default {
       });
     },
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrentUser);
+      // const response = yield call(queryCurrentUser);
 
-      if(response.success && response.user){
-        yield put({
-          type:'saveCurrentUser',
-          payload:response.user
-        });
-      }
+      // if(response.success && response.user){
+      //   yield put({
+      //     type:'saveCurrentUser',
+      //     payload:response.user
+      //   });
+      // }
     },
   },
 
