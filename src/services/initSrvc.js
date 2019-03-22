@@ -29,6 +29,10 @@ function addParentNode(_routes, parent) {
     });
     return _routes;
 };
+// function MetaInit(mods,actions){
+//     AppMeta.mods = mods;
+//     AppMeta.actions = actions;
+// }
 
 function pubInit() {
     return new Promise((rs, rj) => {
@@ -38,7 +42,9 @@ function pubInit() {
             method: 'POST',
             body: JSON.stringify({ routes: pathMapObj })
         };
-        fetch(AppCore.HOST+'/api/Pub/get_pub_init', newOptions).then(
+        const url = `${AppCore.HOST}/api/Pub/get_pub_init`;
+
+        fetch(url, newOptions).then(
             r => r.json()
         ).then(
             r => {
@@ -46,6 +52,11 @@ function pubInit() {
                     rj(r);
                     return;
                 }
+
+                // const {mods,actions} = r.data;
+
+                // MetaInit(mods,actions);
+
                 const currentAuthority = AppConst.PUB_AUTHORITY;
                 // set authority
                 setAuthority(currentAuthority);
@@ -62,7 +73,9 @@ function pubInit() {
 
 export function userInit(newOptions) {
     return new Promise((rs, rj) => {
-        fetch(AppCore.HOST+'/PublicApi/get_b2b_init', newOptions).then(
+        const url = `${AppCore.HOST}/PublicApi/get_b2b_init`;
+
+        fetch(url, newOptions).then(
             r => r.json()
         ).then(
             r => {
@@ -71,6 +84,8 @@ export function userInit(newOptions) {
                     return;
                 }
                 // init
+                // const {mods,actions} = r.data;
+                // MetaInit(mods,actions);
                 const currentAuthority = r.data.authority || AppConst.PUB_AUTHORITY;
                 // set authority
                 setAuthority(currentAuthority);
@@ -90,16 +105,15 @@ export function routesInit(){
     pathMap(addParentNode(routes),pathMapObj);
 
     let user = {};
+    const newOptions = {
+        method:'POST'
+    };
+    newOptions.body = {routes:pathMapObj};
     try{
         if(localStorage[AppConst.APP_NAME]){
             user = JSON.parse(localStorage[AppConst.APP_NAME]);
         }
         const sid = user.sid?user.sid:'';
-
-        const newOptions = {
-            method:'POST'
-        };
-        newOptions.body = {routes:pathMapObj};
 
         if(sid !== ''){
             newOptions.body.sid = sid;

@@ -5,13 +5,14 @@ import { connect } from 'dva';
 import { getRouteAuthority } from '@/utils/utils';
 import Authorized from '@/utils/Authorized';
 import Exception403 from '@/pages/Exception/403';
+import styles from './AuthList.less';
 
 /* eslint react/no-multi-comp:0 */
-@connect(({ product, loading }) => ({
-  product,
-  loading: loading.models.product,
+@connect(({ authlist, loading }) => ({
+  authlist,
+  loading: loading.models.authlist,
 }))
-class ProductList extends PureComponent {
+class AuthList extends PureComponent {
   state = {
     pageSize:10,
     currentPage:1
@@ -20,35 +21,31 @@ class ProductList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { currentPage, pageSize} = this.state;
-    const params = {start:pageSize * (currentPage-1),limit:pageSize,mod:'产品管理'};
+    const params = {start:pageSize * (currentPage-1),limit:pageSize,mod:'权限管理'};
     dispatch({
-      type: 'product/fetch',
+      type: 'authlist/load',
       payload:params
     });
   }
 
-  onEdit(pd){
+  onEdit(auth){
     const { dispatch } = this.props;
     dispatch({
-      type:'product/edit',
-      payload:{id:pd.id}
+      type:'authlist/edit',
+      payload:{id:auth.id}
     })
   }
 
   render(){
     const columns = [{
-      title: '产品名称',
-      dataIndex: 'pd_name',
-      key: 'pd_name',
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
       render: text => <a>{text}</a>,
-    }, {
-      title: '产品编号',
-      dataIndex: 'id',
-      key: 'id',
-    }, {
-      title: '供应商',
-      dataIndex: 'sup_id',
-      key: 'sup_id',
+    },{
+      title: '适用范围',
+      dataIndex: 'scope',
+      key: 'scope',
     }, {
       title: 'Action',
       key: 'action',
@@ -63,19 +60,19 @@ class ProductList extends PureComponent {
     }];
 
     const {
-      product:{data},
+      authlist:{data},
       loading,
       location:{pathname} 
     }  = this.props;
     const routerConfig = getRouteAuthority(pathname);
     return (
-      <Authorized authority={routerConfig} noMatch={<Exception403 />}>
+      // <Authorized authority={routerConfig} noMatch={<Exception403 />}>
         <PageHeaderWrapper>
-          <Table columns={columns} dataSource={data?data.list:[]} rowKey='id' loading={loading} />
+          <Table columns={columns} dataSource={data} rowKey='id' loading={loading} className={styles.AuthList}/>
         </PageHeaderWrapper>
-      </Authorized>
+      // </Authorized>
     );
   }
 }
 
-export default ProductList;
+export default AuthList;

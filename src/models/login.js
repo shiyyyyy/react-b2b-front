@@ -7,7 +7,7 @@ import { reloadAuthorized } from '@/utils/Authorized';
 import { routesInit } from '@/services/initSrvc';
 
 async function login(params){
-  return post('/Session/login',params);
+  return post('/UserLogin/login',params);
 }
 
 export default {
@@ -54,7 +54,7 @@ export default {
         //     return;
         //   }
         // }
-        yield put(routerRedux.replace('/supplier-front'));
+        yield put(routerRedux.replace('/'));
       }
     },
 

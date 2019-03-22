@@ -10,6 +10,9 @@ const { check } = Authorized;
 function formatter(data, parentAuthority, parentName) {
   return data
     .map(item => {
+      if(!item.mod && !item.routes){
+        return null;
+      }
       if (!item.name || !item.path) {
         return null;
       }

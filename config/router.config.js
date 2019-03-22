@@ -4,184 +4,204 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', component: './User/Login'},
+      { path: '/user/login', component: './User/Login' },
       { path: '/user/register', component: './User/Register' },
-      { path: '/user/register-result', component: './User/RegisterResult' }
+      { path: '/user/register-result', component: './User/RegisterResult' },
     ],
   },
-  
+
   // app
   {
-    path: '/ant-pro-test',
+    path: '/',
     component: '../layouts/BasicLayout',
     routes: [
       // dashboard
-      { path: '/ant-pro-test', redirect: '/ant-pro-test/dashboard/analysis' },
+      { path: '/', redirect: '/dashboard/analysis' },
       {
-        path: '/ant-pro-test/dashboard',
+        path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
         routes: [
           {
-            path: '/ant-pro-test/dashboard/analysis',
+            path: '/dashboard/analysis',
             name: 'analysis',
             component: './Dashboard/Analysis',
-            mod:  '公开页面'
+            mod: '公开页面',
           },
           {
-            
-            path: '/ant-pro-test/dashboard/monitor',
+            path: '/dashboard/monitor',
             name: 'monitor',
             component: './Dashboard/Monitor',
-            mod:  '公开页面'
+            mod: '公开页面',
           },
           {
-            path: '/ant-pro-test/dashboard/workplace',
+            path: '/dashboard/workplace',
             name: 'workplace',
             component: './Dashboard/Workplace',
-            mod : '公开页面'
+            mod: '公开页面',
           },
         ],
       },
       // forms
       {
-        path:'/ant-pro-test/product',
-        name:'list',
-        icon:'table',
-        routes:[
-          // {
-          //   path:'/product/list',
-          //   name:'product_list',
-          //   component:'./Product/ProductList',
-          // },
-          // {
-          //   path:'/product/edit',
-          //   name:'product_edit',
-          //   component:'./Product/ProductPage'
-          // },
-          { path: '/ant-pro-test/product', redirect: '/ant-pro-test/product/list' },
+        path: '/product',
+        name: 'product',
+        icon: 'table',
+        routes: [
+          { path: '/product', redirect: '/product/list' },
           {
-            path: '/ant-pro-test/product/list',
-            name: 'searchtable',
+            path: '/product/list',
+            name: 'list',
             component: './Product/ProductList',
-            mod: '公开页面'
-          }
-        ]
+            mod: '公开页面',
+          },
+        ],
       },
+      {
+        name: 'auth',
+        icon: 'sitemap',
+        path: '/auth',
+        routes: [
+          { path: '/auth', redirect: '/auth/list' },
+          {
+            path: '/auth/list',
+            name: 'list',
+            component: './Auth/AuthList',
+            // mod: '权限管理',
+            mod: '公开页面',
+          },
+          {
+            path: '/auth/edit',
+            name: 'edit',
+            component: './Auth/AuthEdit',
+            action: '编辑权限',
+          },
+        ],
+      },
+      // exception
       {
         name: 'exception',
         icon: 'warning',
-        path: '/ant-pro-test/exception',
+        path: '/exception',
         routes: [
           // exception
           {
-            path: '/ant-pro-test/exception/403',
+            path: '/exception/403',
             name: 'not-permission',
             component: './Exception/403',
+            mod: '公开页面',
           },
           {
-            path: '/ant-pro-test/exception/404',
+            path: '/exception/404',
             name: 'not-find',
             component: './Exception/404',
+            mod: '公开页面',
           },
           {
-            path: '/ant-pro-test/exception/500',
+            path: '/exception/500',
             name: 'server-error',
             component: './Exception/500',
+            mod: '公开页面',
           },
           {
-            path: '/ant-pro-test/exception/trigger',
+            path: '/exception/trigger',
             name: 'trigger',
             hideInMenu: true,
             component: './Exception/TriggerException',
+            mod: '公开页面',
           },
         ],
       },
       {
         name: 'account',
         icon: 'user',
-        path: '/ant-pro-test/account',
+        path: '/account',
         routes: [
           {
-            path: '/ant-pro-test/account/center',
+            path: '/account/center',
             name: 'center',
             component: './Account/Center/Center',
             routes: [
               {
-                path: '/ant-pro-test/account/center',
+                path: '/account/center',
                 redirect: '/account/center/articles',
+                mod: '公开页面',
               },
               {
-                path: '/ant-pro-test/account/center/articles',
+                path: '/account/center/articles',
                 component: './Account/Center/Articles',
+                mod: '公开页面',
               },
               {
-                path: '/ant-pro-test/account/center/applications',
+                path: '/account/center/applications',
                 component: './Account/Center/Applications',
+                mod: '公开页面',
               },
               {
-                path: '/ant-pro-test/account/center/projects',
+                path: '/account/center/projects',
                 component: './Account/Center/Projects',
+                mod: '公开页面',
               },
             ],
           },
           {
-            path: '/ant-pro-test/account/settings',
+            path: '/account/settings',
             name: 'settings',
             component: './Account/Settings/Info',
             routes: [
               {
-                path: '/ant-pro-test/account/settings',
+                path: '/account/settings',
                 redirect: '/account/settings/base',
               },
               {
-                path: '/ant-pro-test/account/settings/base',
+                path: '/account/settings/base',
                 component: './Account/Settings/BaseView',
               },
               {
-                path: '/ant-pro-test/account/settings/security',
+                path: '/account/settings/security',
                 component: './Account/Settings/SecurityView',
               },
               {
-                path: '/ant-pro-test/account/settings/binding',
+                path: '/account/settings/binding',
                 component: './Account/Settings/BindingView',
               },
               {
-                path: '/ant-pro-test/account/settings/notification',
+                path: '/account/settings/notification',
                 component: './Account/Settings/NotificationView',
               },
             ],
           },
         ],
       },
-      {
-        component: '404',
-      },
-    ],
-  },
-  // 供应商前台 supplier-front
-  {
-    path: '/supplier-front',
-    component: '../layouts/BasicLayout',
-    routes: [
+      // {
+      //   component: '404',
+      // },
+      // 供应商前台 supplier-front
       {
         path: '/supplier-front',
-        name: '平台首页',
-        component: './Supplier-Front/Supplier',
-        public: 1,
-      },
-      {
-        path: '/supplier-center',
-        name: '供应商中心',
-        // component: './Supplier-Front/Supplier',
-        public: 1,
-      },
-      {
-        path: '/distribution-center',
-        name: '分销商中心',
-        // component: './Supplier-Front/Supplier',
-        public: 1,
+        // component: '../layouts/BasicLayout',
+        routes: [
+          {
+            path: '/supplier-front',
+            name: '平台首页',
+            component: './Supplier-Front/Supplier',
+            public: 1,
+          },
+          {
+            path: '/supplier-center',
+            name: '供应商中心',
+            // component: './Supplier-Front/Supplier',
+            public: 1,
+          },
+          {
+            path: '/distribution-center',
+            name: '分销商中心',
+            // component: './Supplier-Front/Supplier',
+            public: 1,
+          },
+        ],
       },
     ],
   },
+  
 ];

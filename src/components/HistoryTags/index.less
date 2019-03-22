@@ -1,0 +1,80 @@
+@import '~antd/lib/style/themes/default.less';
+
+.page {
+  margin: -24px -24px 0;
+  .historyBox {
+    height: 48px;
+    padding-right: 64px;
+    padding-left: 32px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    .itemBox {
+      .item {
+        line-height: 16px;
+        height: 24px;
+        background: tomato;
+        padding: 4px 8px;
+        margin: 12px 8px 12px 0;
+        border-radius: 4px;
+        display: inline-block;
+        cursor: pointer;
+
+        .link{
+          color: #fff;
+          margin-right: 6px;
+
+          & > i{
+            margin-right: 4px;
+          }
+        }
+        .close:hover{
+          transform: rotate(180deg);
+          transition: .5s;
+        }
+      }
+      .item:hover {
+        color: #fff;
+        background: cyan;
+      }
+      .activeItem{
+        background: cyan;
+      }
+    }
+    .btn {
+      text-align: center;
+      width: 32px;
+      position: absolute;
+      right: 24px;
+      top: 0;
+      bottom: 0;
+
+      .up,
+      .down {
+        width: 100%;
+        height: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .up:hover,
+      .down:hover {
+        background: cyan;
+        color: tomato;
+      }
+      .upDisabled, .downDisabled{
+        color: #ccc;
+        background: #FFF;
+        cursor: default;
+      }
+      .upDisabled:hover, .downDisabled:hover{
+        color: #ccc;
+        background: #FFF;
+      }
+    }
+  }
+  .content {
+    margin: 24px 24px 0;
+  }
+}

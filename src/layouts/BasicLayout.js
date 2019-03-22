@@ -19,8 +19,6 @@ import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import { menu, title } from '../defaultSettings';
 
-import '../../node_modules/swiper/dist/css/swiper.min.css';
-
 import styles from './BasicLayout.less';
 import {getRouteAuthority} from '@/utils/utils';
 
@@ -66,7 +64,7 @@ class BasicLayout extends React.Component {
       dispatch,
       route: { routes, authority },
     } = this.props;
-    console.log(this);
+
     dispatch({
       type: 'user/fetchCurrent',
     });
@@ -126,6 +124,14 @@ class BasicLayout extends React.Component {
     });
   };
 
+  addHistoryTags = (tag) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'historyTags/add',
+      payload: tag,
+    });
+  }
+
   renderSettingDrawer = () => {
     // Do not render SettingDrawer in production
     // unless it is deployed in preview.pro.ant.design as demo
@@ -144,14 +150,12 @@ class BasicLayout extends React.Component {
       isMobile,
       menuData,
       breadcrumbNameMap,
-      route: { routes },
-      fixedHeader,
+      fixedHeader
     } = this.props;
-
+    console.log(this)
     const isTop = PropsLayout === 'topmenu';
     const routerConfig = getRouteAuthority(pathname);
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
-    console.log(this)
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -161,6 +165,7 @@ class BasicLayout extends React.Component {
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}
+            addHistoryTags={this.addHistoryTags}
             {...this.props}
           />
         )}
@@ -201,11 +206,12 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ global, setting, menu: menuModel }) => ({
+export default connect(({ global, setting, menu: menuModel, historyTags }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
+  historyTags: historyTags.historyTags,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

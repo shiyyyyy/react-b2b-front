@@ -1,7 +1,8 @@
 import { get } from '@/utils/utils';
+import { routerRedux } from 'dva/router';
 
-function queryProduct(){
-  return 
+function queryProduct(params){
+  return get('/product/Product/read',params);
 }
 
 export default {
@@ -10,7 +11,7 @@ export default {
   state: {
     data: {
       list: [],
-      pagination: {},
+      total: 0,
     },
   },
 
@@ -19,7 +20,7 @@ export default {
       const response = yield call(queryProduct, payload);
       yield put({
         type: 'save',
-        payload: response,
+        payload: {list:response.data,total:response.total},
       });
     },
     *update({ payload, callback }, { call, put }) {
@@ -30,6 +31,12 @@ export default {
       });
       if (callback) callback();
     },
+    *edit({payload},{put}){
+      yield put(routerRedux.push({
+        pathname:'/product/edit',
+        state:payload
+      }));
+    }
   },
 
   reducers: {

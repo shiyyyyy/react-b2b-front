@@ -89,7 +89,6 @@ export default class GlobalHeaderRight extends PureComponent {
       skeletonCount,
       theme,
     } = this.props;
-    console.log(this)
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">

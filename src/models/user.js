@@ -50,7 +50,7 @@ export default {
       };
     },
     saveCurrentUser(state, action) {
-      //持久化
+      // 持久化
       localStorage[AppConst.APP_NAME] = JSON.stringify(action.payload || {});
 
       return {

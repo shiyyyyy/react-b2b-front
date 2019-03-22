@@ -91,19 +91,20 @@ export default class BaseMenu extends PureComponent {
         </a>
       );
     }
-    const { location, isMobile, onCollapse } = this.props;
+    const { location } = this.props;
     return (
       <Link
         to={itemPath}
         target={target}
         replace={itemPath === location.pathname}
-        onClick={
-          isMobile
-            ? () => {
-                onCollapse(true);
-              }
-            : undefined
-        }
+        onClick={e => this.addHistoryTags(itemPath, target, icon, name)}
+        // onClick={
+        //   isMobile
+        //     ? () => {
+        //         onCollapse(true);
+        //       }
+        //     : undefined
+        // }
       >
         {icon}
         <span>{name}</span>
@@ -117,6 +118,23 @@ export default class BaseMenu extends PureComponent {
     }
     return `/${path || ''}`.replace(/\/+/g, '/');
   };
+
+  // 点击事件(主要为了添加historyTags)
+  addHistoryTags(itemPath, target, icon, name) {
+    const { isMobile, onCollapse, addHistoryTags } = this.props;
+    const tag = {
+      name,
+      path: itemPath,
+      target,
+      icon,
+    };
+    if (isMobile) {
+      addHistoryTags(tag);
+      onCollapse(true);
+    } else {
+      addHistoryTags(tag);
+    }
+  }
 
   render() {
     const {

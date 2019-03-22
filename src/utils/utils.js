@@ -4,6 +4,7 @@ import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 import pathToRegexp from 'path-to-regexp';
 import { Modal } from 'antd';
+
 import request from './request';
 
 
@@ -191,7 +192,8 @@ export function isAntdPro() {
 
 //
 export function getGobalState(name){
-    let state = window.g_app._store.getState();
+    /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
+    const state = window.g_app._store.getState();
     let ret = {};
     if(state[name]){
         ret = state[name];
@@ -201,21 +203,23 @@ export function getGobalState(name){
 
 function ergodicRoutes(routes, authKey, authority) {
   routes.forEach(element => {
-    if (element.path === authKey) {
-      if (!element.authority) element.authority = [];
-      Object.assign(element.authority, authority || []);
-    } else if (element.routes) {
-      ergodicRoutes(element.routes, authKey, authority);
+    const ele = element;
+    if (ele.path === authKey) {
+      if (!ele.authority) ele.authority = [];
+      Object.assign(ele.authority, authority || []);
+    } else if (ele.routes) {
+      ergodicRoutes(ele.routes, authKey, authority);
     }
-    return element;
+    return ele;
   });
 }
 
 export function addAuthForRoutes(authRoutes) {
-  let routes = [];
+  const routes = [];
   Object.assign(routes,window.g_routes);
+  console.log(window.g_routes);
   Object.keys(authRoutes).map(authKey =>{
-      ergodicRoutes(routes, authKey, authRoutes[authKey])
+      return ergodicRoutes(routes, authKey, authRoutes[authKey])
     }
   );
   window.g_auth_config = routes;
@@ -237,7 +241,6 @@ export function getRouteAuthority(pathname){
           route.routes.forEach(r => routes.push(r));
       }
     }
-
     return authorities;
   };
 
@@ -256,8 +259,9 @@ export function encUrl(p) {
     if (!p) {
         return '';
     }
+
     return Object.keys(p).filter(k=>p[k]!==undefined&&p[k]!=='')
-        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(p[k]))
+        .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(p[k])}`)
         .join('&');
 }
 

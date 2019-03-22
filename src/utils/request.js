@@ -1,8 +1,6 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
-import router from 'umi/router';
-import hash from 'hash.js';
-import { isAntdPro,getGobalState} from './utils';
+import { getGobalState} from './utils';
 import { AppCore } from  './core';
 
 const codeMessage = {
@@ -74,25 +72,24 @@ const checkStatus = response=> {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, option) {
+export default function request(requestUrl, option) {
   const options = {
     ...option,
   };
-  // if(MOCK === 'none'){
+  let url  = requestUrl;
+
   if (url.indexOf('http') !== 0 && AppCore.HOST) {
       url = AppCore.HOST + url;
   }
-  //}
 
-  // 不再携带cookie
-  // const defaultOptions = {
-  //   credentials: 'include',
-  // };
   const newOptions = {...options };
   
   
   const user = getGobalState('user');
-  const sid = user.currentUser ? (user.currentUser.sid?user.currentUser.sid:''): '';
+  let sid = '';
+  if(user.currentUser && user.currentUser.sid){
+    sid = user.currentUser.sid;
+  }
 
   if(newOptions.method === 'POST'){
     newOptions.body = newOptions.body || {};
@@ -113,6 +110,7 @@ export default function request(url, option) {
     },error=>{
       // 未登录
       if(error.name ===-1){
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
         window.g_app._store.dispatch({
           type:'login/logout'
         });
