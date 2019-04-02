@@ -68,10 +68,34 @@ ol {
   margin: 0 !important;
 }
 
-.m-btm-16 {
+.m-t-4{
+  margin-top: 4px;
+}
+.m-b-4{
+  margin-bottom: 4px;
+}
+.m-r-4{
+  margin-right: 4px;
+}
+.m-l-4{
+  margin-left: 4px;
+}
+.m-t-8{
+  margin-top: 8px;
+}
+.m-b-8{
+  margin-bottom: 8px;
+}
+.m-r-8{
+  margin-right: 8px;
+}
+.m-l-8{
+  margin-left: 8px;
+}
+.m-b-16 {
   margin-bottom: 16px;
 }
-.m-top-16 {
+.m-t-16 {
   margin-top: 16px;
 }
 
@@ -96,6 +120,9 @@ ol {
   justify-content: center !important;
   align-items: center !important;
 }
+
+// 清除浮动
+.clear:after { content:"."; display:block; height:0; visibility:hidden; clear:both; }   
 
 /* img */
 .img-size {
@@ -193,6 +220,38 @@ ol {
   /* 展开 干掉这个属性就行 */
   -webkit-line-clamp: 4;
 }
+
+// ========================================通用样式
+.mod-title{
+  height: 44px;
+  line-height: 44px;
+  display: flex;
+  justify-content: space-between;
+}
+.mod-text{
+  font-size: 16px;
+  font-weight:600;
+  color: #2E3A4E;
+}
+.mod-more{
+  font-size: 12px;
+  color: #B1BCD1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.mod-more > i {
+  margin-left: 2px;
+  margin-right: 12px;
+}
+
+
+
+
+
+
+
+
 
 /*============================================ 设置 浏览器滚动条 =================================================== */
 /* -------------------------web-kit-------------------- */

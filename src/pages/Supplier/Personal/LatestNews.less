@@ -1,0 +1,94 @@
+@import '~antd/lib/style/themes/default.less';
+
+.LatestNews {
+  padding: 0 24px 50px 24px;
+  .content {
+    text-align: left;
+    .item {
+      margin-bottom: 16px;
+      .itemRT {
+        font-size: 16px;
+        line-height: 32px;
+        display: flex;
+        justify-content: space-between;
+        .user {
+          font-weight: 500;
+          color: #333;
+        }
+        .time {
+          color: #999;
+        }
+      }
+      .mainOpen {
+        color: #999;
+      }
+      .main {
+        color: #999;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+        /* autoprefixer: off */
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on */
+        /* 展开 干掉这个属性就行 */
+        -webkit-line-clamp: 2;
+      }
+      .open {
+        line-height: 28px;
+        text-align: right;
+        color: #1890ff;
+        user-select: none;
+        & > span {
+          display: inline-block;
+          padding: 2px 8px;
+          cursor: pointer;
+        }
+      }
+      .foldIcon {
+        transform: rotate(90deg);
+      }
+      .openIcon {
+        transform: rotate(-90deg);
+      }
+      .imgs {
+        display: flex;
+        .imgBox {
+          /* width: 130px; */
+          height: 100px;
+          margin-right: 24px;
+          border-radius: 4px;
+          cursor: pointer;
+          .imgItem {
+            border-radius: 4px;
+          }
+          .imgItem:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+          }
+        }
+      }
+      .msgFooter {
+        margin: 16px 0 24px 0;
+        display: flex;
+        justify-content: flex-end;
+        .msgFooterZan {
+          width: 80px;
+          text-align: center;
+          margin: 0 12px;
+          font-size: 18px;
+          color: #f5222d;
+          cursor: pointer;
+        }
+        .msgFooterQA {
+          width: 80px;
+          text-align: center;
+          margin: 0 12px;
+          font-size: 18px;
+          color: #4b96e6;
+          text-align: right;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

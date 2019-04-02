@@ -128,6 +128,7 @@ export default class BaseMenu extends PureComponent {
       target,
       icon,
     };
+    console.log(this);
     if (isMobile) {
       addHistoryTags(tag);
       onCollapse(true);
@@ -157,9 +158,10 @@ export default class BaseMenu extends PureComponent {
       };
     }
     const { handleOpenChange, style, menuData } = this.props;
-    const cls = classNames(className, {
-      'top-nav-menu': mode === 'horizontal',
-    });
+    const cls = classNames(
+      className,
+      {'top-nav-menu': mode === 'horizontal',}
+    );
 
     return (
       <Menu

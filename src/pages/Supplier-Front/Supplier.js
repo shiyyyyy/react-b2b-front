@@ -4,8 +4,6 @@ import { connect } from 'dva';
 import { Icon, Row, Col, Tabs, Carousel } from 'antd';
 import Swiper from 'swiper/dist/js/swiper';
 
-import defaultSettings from '../../defaultSettings';
-
 import AllProduct from './AllProduct';
 import Discount from './Discount';
 import Introduction from './Introduction';
@@ -83,14 +81,8 @@ class Supplier extends React.Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
     console.log(this);
-    const setting = defaultSettings;
-    setting.layout = 'topmenu';
-    dispatch({
-      type: 'setting/changeSetting',
-      payload: setting,
-    });
+ 
     // 下面注释是为了eslint不报错
     /* eslint-disable no-new */
     new Swiper('#Supplier-swiper', {

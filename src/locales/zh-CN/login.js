@@ -7,6 +7,7 @@ export default {
   'app.login.tab-login-mobile': '手机号登录',
   'app.login.remember-me': '自动登录',
   'app.login.forgot-password': '忘记密码',
+  'app.login.reset-password': '重置密码',
   'app.login.sign-in-with': '其他登录方式',
   'app.login.signup': '注册账户',
   'app.login.login': '登录',
@@ -36,9 +37,8 @@ export default {
   'validation.goal.required': '请输入目标描述',
   'validation.standard.required': '请输入衡量标准',
 
-  'validation.full-name.required':'全称必填！',
-  'form.full-name.placeholder':'全称',
-  'validation.short-name.required':'简称必填！',
-  'form.short-name.placeholder':'简称'
-
+  'validation.full-name.required': '全称必填！',
+  'form.full-name.placeholder': '全称',
+  'validation.short-name.required': '简称必填！',
+  'form.short-name.placeholder': '简称',
 };

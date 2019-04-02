@@ -7,6 +7,7 @@ export default {
   'app.login.tab-login-mobile': '手機號登錄',
   'app.login.remember-me': '自動登錄',
   'app.login.forgot-password': '忘記密碼',
+  'app.login.reset-password': '重置密碼',
   'app.login.sign-in-with': '其他登錄方式',
   'app.login.signup': '註冊賬戶',
   'app.login.login': '登錄',

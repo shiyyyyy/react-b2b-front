@@ -4,7 +4,7 @@ import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
-import proxy from './host.config';
+//import proxy from './host.config';
 
 const { pwa, primaryColor } = defaultSettings;
 
@@ -79,7 +79,7 @@ export default {
     '@antv/data-set': 'DataSet',
   },
   //代理设置
-  proxy: proxy,
+  //proxy: proxy,
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

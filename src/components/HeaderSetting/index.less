@@ -1,0 +1,49 @@
+.HeaderSetting {
+  padding: 16px 32px;
+  .pages {
+    height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .btns {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    .icon {
+      font-size: 24px;
+      color: #1890ff;
+      margin-right: 12px;
+      cursor: pointer;
+    }
+    .icon:hover {
+      color: #40a9ff;
+    }
+    button {
+      margin-right: 8px;
+    }
+  }
+  .filetSearch {
+    .filter {
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .search {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      & > i {
+        font-size: 24px;
+        cursor: pointer;
+      }
+      & > i:active {
+        transform: scale(1.2);
+      }
+      & > i:hover {
+        transition: 0.3s;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

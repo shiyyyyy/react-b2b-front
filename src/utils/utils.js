@@ -137,9 +137,6 @@ export function getRoutes(path, routerData) {
 }
 
 export function getPageQuery() {
-  const arr = window.location.href.split('?')
-  console.log(arr)
-  debugger
   return parse(window.location.href.split('?')[1]);
 }
 
@@ -217,7 +214,6 @@ function ergodicRoutes(routes, authKey, authority) {
 export function addAuthForRoutes(authRoutes) {
   const routes = [];
   Object.assign(routes,window.g_routes);
-  console.log(window.g_routes);
   Object.keys(authRoutes).map(authKey =>{
       return ergodicRoutes(routes, authKey, authRoutes[authKey])
     }
@@ -241,6 +237,7 @@ export function getRouteAuthority(pathname){
           route.routes.forEach(r => routes.push(r));
       }
     }
+
     return authorities;
   };
 

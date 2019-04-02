@@ -1,0 +1,185 @@
+@import '~antd/lib/style/themes/default.less';
+
+.Recommend {
+  padding: 0 24px 50px 24px;
+  .pro {
+    .proInfo {
+      .infoItem {
+        border-radius: 4px;
+        margin-bottom: 16px;
+        overflow: hidden;
+        .itemTop {
+          // margin-bottom: 16px;
+          padding: 10px;
+          overflow: hidden;
+          border-radius: 4px;
+          .imgBox {
+            height: 124px;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            .img {
+              width: 100%;
+              height: 100px;
+            }
+            .imgText {
+              font-size: 11px;
+              width: 100%;
+              height: 24px;
+              line-height: 22px;
+              border: 1px solid #d9d9d9;
+              border-radius: 0 0 4px 4px;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              z-index: 10;
+            }
+          }
+          .rTop {
+            display: flex;
+            align-items: center;
+            .name {
+              font-size: 16px;
+              line-height: 24px;
+            }
+            .tag1 {
+              font-size: 12px;
+              color: #fff;
+              line-height: 20px;
+              background: linear-gradient(to right, #55a8ff, #8de3ff);
+              padding: 0px 8px;
+              margin-left: 16px;
+              border-radius: 20px;
+            }
+            .tag2 {
+              font-size: 12px;
+              color: #fff;
+              line-height: 20px;
+              background: linear-gradient(to right, #ff8932, #ffc55a);
+              padding: 0px 8px;
+              margin-left: 16px;
+              border-radius: 20px;
+            }
+          }
+          .rCenter {
+            font-size: 12px;
+            color: #999;
+            text-align: left;
+            .centerL {
+              line-height: 22px;
+              padding-right: 8px;
+            }
+            .centerR {
+              line-height: 28px;
+              padding-left: 8px;
+            }
+          }
+          .rBtn {
+            height: 32px;
+            line-height: 32px;
+            clear: both;
+            .rBtnLeft {
+              margin-top: 6px;
+              display: flex;
+              flex-wrap: wrap;
+              overflow: hidden;
+            }
+          }
+        }
+        .itemTopActive {
+          border: 1px solid #3d81ea;
+        }
+        .btm {
+          clear: both;
+          border-radius: 4px;
+          padding-bottom: 12px;
+          margin-top: 12px;
+          &:hover {
+            box-shadow: @box-shadow-base;
+          }
+          .listBox {
+            line-height: 40px;
+            clear: both;
+            .groupTitle {
+              font-size: 14px;
+              background: #f6fafa;
+              padding: 0 16px;
+              overflow: hidden;
+            }
+            .list {
+              padding: 0 16px;
+              overflow: hidden;
+              &:hover {
+                background: #fafbfc;
+              }
+              .listMain {
+                color: #999;
+                overflow: hidden;
+                border-bottom: 1px dashed #d9d9d9;
+              }
+              .listBtn {
+                text-align: right;
+                clear: both;
+                border-bottom: 1px dashed #d9d9d9;
+              }
+            }
+          }
+        }
+      }
+      .infoItem:hover {
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+        background: #fff;
+      }
+    }
+  }
+  // 尾货甩卖
+  .discount {
+    .content {
+      display: flex;
+      justify-content: space-between;
+      .item {
+        width: 19%;
+        height: 100%;
+        margin: 0 0.5%;
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: pointer;
+        &:hover {
+          box-shadow: @box-shadow-base;
+        }
+        .itemPhoto {
+          width: 100%;
+          height: 150px;
+        }
+        .itemInfo {
+          padding: 2px 8px;
+          overflow: hidden;
+          .info {
+            font-size: 12px;
+            text-align: left;
+            .name {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .dep_date {
+            }
+          }
+        }
+        .priceBox {
+          .originPrice {
+            text-decoration: line-through;
+          }
+          .discountPrice {
+            color: #db3232;
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ export default {
   'app.login.tab-login-mobile': 'Telefone',
   'app.login.remember-me': 'Lembre-me',
   'app.login.forgot-password': 'Esqueceu sua senha?',
+  'app.login.reset-password': 'Redefinir SUA senha',
   'app.login.sign-in-with': 'Login com',
   'app.login.signup': 'Cadastre-se',
   'app.login.login': 'Login',

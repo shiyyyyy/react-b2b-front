@@ -9,7 +9,7 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
-//import Authorized from '@/utils/Authorized';
+// import Authorized from '@/utils/Authorized';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
@@ -20,7 +20,9 @@ import SiderMenu from '@/components/SiderMenu';
 import { menu, title } from '../defaultSettings';
 
 import styles from './BasicLayout.less';
-import {getRouteAuthority} from '@/utils/utils';
+import { getRouteAuthority } from '@/utils/utils';
+
+import 'swiper/dist/css/swiper.min.css';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
@@ -124,13 +126,13 @@ class BasicLayout extends React.Component {
     });
   };
 
-  addHistoryTags = (tag) => {
+  addHistoryTags = tag => {
     const { dispatch } = this.props;
     dispatch({
       type: 'historyTags/add',
       payload: tag,
     });
-  }
+  };
 
   renderSettingDrawer = () => {
     // Do not render SettingDrawer in production
@@ -150,14 +152,13 @@ class BasicLayout extends React.Component {
       isMobile,
       menuData,
       breadcrumbNameMap,
-      fixedHeader
+      fixedHeader,
     } = this.props;
-    console.log(this)
     const isTop = PropsLayout === 'topmenu';
     const routerConfig = getRouteAuthority(pathname);
-    const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
+    const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0};
     const layout = (
-      <Layout>
+      <Layout className={styles.Layout}>
         {isTop && !isMobile ? null : (
           <SiderMenu
             logo={logo}
@@ -183,7 +184,9 @@ class BasicLayout extends React.Component {
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
+            <div className={styles.contentBgc}>
               {children}
+            </div>
           </Content>
           <Footer />
         </Layout>
@@ -206,12 +209,11 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ global, setting, menu: menuModel, historyTags }) => ({
+export default connect(({ global, setting, menu: menuModel }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-  historyTags: historyTags.historyTags,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

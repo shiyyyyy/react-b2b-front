@@ -5,7 +5,7 @@ import Link from 'umi/link';
 import { Checkbox, Alert, Icon } from 'antd';
 import Login from '@/components/Login';
 import styles from './Login.less';
-import {AppConst} from '@/utils/const';
+import { AppConst } from '@/utils/const';
 
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
@@ -17,11 +17,11 @@ class LoginPage extends Component {
   state = {
     type: 'account',
     autoLogin: true,
-    user_type: AppConst.USER_SUP
+    user_type:AppConst.USER_SUP
   };
 
   handleSubmit = (err, values) => {
-    const { type , user_type} = this.state;
+    const { type ,user_type} = this.state;
     if (!err) {
       const { dispatch } = this.props;
       dispatch({
@@ -48,7 +48,6 @@ class LoginPage extends Component {
   render() {
     const { login, submitting } = this.props;
     const { type, autoLogin } = this.state;
-    console.log(this)
     return (
       <div className={styles.main}>
         <Login
@@ -59,14 +58,16 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab key="account" tab={formatMessage({ id: 'app.login.tab-login-credentials' })}>
+          <Tab key="account" tab={'供应商登录'}>
             {login.status === 'error' &&
               login.type === 'account' &&
               !submitting &&
-              this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
+              this.renderMessage(
+                formatMessage({ id: 'app.login.message-invalid-credentials' })
+              )}
             <UserName
               name="account"
-              placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
+              placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
               rules={[
                 {
                   required: true,
@@ -76,7 +77,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
+              placeholder={`${formatMessage({ id: 'app.login.password' })}`}
               rules={[
                 {
                   required: true,
@@ -86,7 +87,36 @@ class LoginPage extends Component {
               onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
             />
           </Tab>
-          <Tab key="mobile" tab={formatMessage({ id: 'app.login.tab-login-mobile' })}>
+          <Tab key="distributor" tab={'分销商登录'}>
+            {login.status === 'error' &&
+              login.type === 'distributor' &&
+              !submitting &&
+              this.renderMessage(
+                formatMessage({ id: 'app.login.message-invalid-credentials' })
+              )}
+            <UserName
+              name="distributorAccount"
+              placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.userName.required' }),
+                },
+              ]}
+            />
+            <Password
+              name="distributorPassword"
+              placeholder={`${formatMessage({ id: 'app.login.password' })}`}
+              rules={[
+                {
+                  required: true,
+                  message: formatMessage({ id: 'validation.password.required' }),
+                },
+              ]}
+              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+            />
+          </Tab>
+          <Tab key="mobile" tab={'管理员登陆'}>
             {login.status === 'error' &&
               login.type === 'mobile' &&
               !submitting &&
@@ -110,7 +140,7 @@ class LoginPage extends Component {
             <Captcha
               name="captcha"
               placeholder={formatMessage({ id: 'form.verification-code.placeholder' })}
-              countDown={120}
+              countDown={60}
               onGetCaptcha={this.onGetCaptcha}
               getCaptchaButtonText={formatMessage({ id: 'form.get-captcha' })}
               getCaptchaSecondText={formatMessage({ id: 'form.captcha.second' })}
@@ -126,14 +156,14 @@ class LoginPage extends Component {
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              <FormattedMessage id="app.login.forgot-password" />
-            </a>
+            <Link className={styles.login} style={{ float: 'right' }} to="/User/Register">
+              <FormattedMessage id="app.login.reset-password" />
+            </Link>
           </div>
           <Submit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </Submit>
-          <div className={styles.other}>
+          {/* <div className={styles.other}>
             <FormattedMessage id="app.login.sign-in-with" />
             <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
             <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
@@ -141,7 +171,7 @@ class LoginPage extends Component {
             <Link className={styles.register} to="/user/register">
               <FormattedMessage id="app.login.signup" />
             </Link>
-          </div>
+          </div> */}
         </Login>
       </div>
     );

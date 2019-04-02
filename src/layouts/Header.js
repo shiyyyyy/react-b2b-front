@@ -113,6 +113,14 @@ class HeaderView extends Component {
     }
   };
 
+  addHistoryTags = tag => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'historyTags/add',
+      payload: tag,
+    });
+  };
+
   render() {
     const { isMobile, handleMenuCollapse, setting } = this.props;
     const { navTheme, layout, fixedHeader } = setting;
@@ -123,6 +131,7 @@ class HeaderView extends Component {
       <Header style={{ padding: 0, width }} className={fixedHeader ? styles.fixedHeader : ''}>
         {isTop && !isMobile ? (
           <TopNavHeader
+            addHistoryTags={this.addHistoryTags}
             theme={navTheme}
             mode="horizontal"
             onCollapse={handleMenuCollapse}

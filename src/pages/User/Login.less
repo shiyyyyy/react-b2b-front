@@ -1,11 +1,8 @@
 @import '~antd/lib/style/themes/default.less';
 
 .main {
-  width: 368px;
+  width: 400px;
   margin: 0 auto;
-  @media screen and (max-width: @screen-sm) {
-    width: 95%;
-  }
 
   .icon {
     margin-left: 16px;
@@ -23,10 +20,17 @@
   .other {
     margin-top: 24px;
     line-height: 22px;
-    text-align: left;
+    // text-align: left;
+    text-align: center;
 
     .register {
       float: right;
     }
+  }
+}
+
+@media screen and (max-width: @screen-sm) {
+  .main {
+    width: 75%;
   }
 }

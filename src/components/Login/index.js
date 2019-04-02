@@ -97,7 +97,6 @@ class Login extends Component {
         otherChildren.push(item);
       }
     });
-    console.log(this.getContext())
     return (
       <LoginContext.Provider value={this.getContext()}>
         <div className={classNames(className, styles.login)}>

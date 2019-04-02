@@ -1,10 +1,15 @@
 @import '~antd/lib/style/themes/default.less';
 
 .main {
-  width: 368px;
+  width: 400px;
   margin: 0 auto;
 
+  // 样式覆盖
   :global {
+    .ant-tabs-nav-scroll{
+      display: flex;
+      justify-content: center;
+    }
     .ant-form-item {
       margin-bottom: 24px;
     }
@@ -54,4 +59,8 @@
       background-color: @warning-color;
     }
   }
+}
+
+.tab{
+  border-bottom: none;
 }

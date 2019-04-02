@@ -7,6 +7,7 @@ export default {
   'app.login.tab-login-mobile': 'Mobile number',
   'app.login.remember-me': 'Remember me',
   'app.login.forgot-password': 'Forgot your password?',
+  'app.login.reset-password': 'Reset your password',
   'app.login.sign-in-with': 'Sign in with',
   'app.login.signup': 'Sign up',
   'app.login.login': 'Login',

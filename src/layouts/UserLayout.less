@@ -69,3 +69,44 @@
   color: @text-color-secondary;
   font-size: @font-size-base;
 }
+
+// ==================================
+.box {
+  width: 100%;
+  height: 100%;
+}
+.l {
+  height: 100%;
+  background: url('../../public/img/login-bg.png') no-repeat;
+  background-size: cover;
+}
+.r {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .r_login {
+    margin-top: -32px;
+    .r_name {
+      text-align: center;
+      height: 50px;
+      line-height: 50px;
+      font-size: 32px;
+      color: #2b60cc;
+      margin-bottom: 32px;
+    }
+    .r_input {
+    }
+  }
+
+  .r_modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url('../../public/img/oneTips.png');
+    background-repeat: no-repeat;
+    background-position: 45% 90%;
+    cursor: pointer;
+    position: absolute;
+  }
+}

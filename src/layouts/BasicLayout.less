@@ -1,6 +1,74 @@
 @import '~antd/lib/style/themes/default.less';
 
 .content {
-  margin: 24px;
-  padding-top: @layout-header-height;
+  // margin: 24px;
+  // margin: 24px 175px;
+  // padding-top: @layout-header-height;
+  // background: #fff;
+  padding: 24px 175px;
+  position: relative;
+  .contentBgc{
+    background: #fff;
+  }
+}
+
+.Layout {
+  
+  :global {
+    // header 样式重置
+    .ant-layout-header {
+      height: 48px;
+      line-height: 48px;
+      background: #1755C0;
+      .antd-pro-components-top-nav-header-index-head {
+        height: 48px;
+        .antd-pro-components-top-nav-header-index-main {
+          height: 48px;
+          .antd-pro-components-top-nav-header-index-left {
+            .antd-pro-components-top-nav-header-index-logo {
+              height: 48px;
+              line-height: 48px;
+              // .antd-pro-components-top-nav-header-index-menu {
+              //   height: 48px;
+              //   line-height: 48px;
+              //   .antd-pro-components-top-nav-header-index-head
+              //     .ant-menu-submenu.ant-menu-submenu-horizontal {
+              //     line-height: 48px;
+              //   }
+              // }
+            }
+            .antd-pro-components-top-nav-header-index-menu {
+              height: 48px;
+              line-height: 48px;
+              background: #1755C0;
+              .ant-menu-submenu.ant-menu-submenu-horizontal {
+                line-height: 48px;
+              }
+              .ant-menu-item {
+                height: 48px;
+                line-height: 48px;
+              }
+              .ant-menu-submenu-selected{
+                background: #0843A9;
+              }
+            }
+          }
+          .antd-pro-components-global-header-index-dark {
+            height: 48px;
+            .antd-pro-components-global-header-index-avatar {
+              margin: calc((48px - 24px) / 2) 0;
+            }
+            .antd-pro-components-select-lang-index-dropDown {
+              line-height: 48px;
+            }
+          }
+        }
+      }
+    }
+
+    // header 气泡菜单(二级导航) 下拉列表跟calss
+    .overlayClassName	{
+      
+    }
+  }
 }

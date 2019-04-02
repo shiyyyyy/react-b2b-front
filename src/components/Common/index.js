@@ -12,11 +12,13 @@ import moment from 'moment';
 import locale from 'antd/lib/date-picker/locale/zh_CN';
 import Calendar from '../Calendar';
 
-
 // 供应商前台 组件 => css (零批分销)
 import './UserFront.less';
 // 供应商后台 => 供应商后台 组件 => css 
 import './Supplier-back.less';
+
+import styles from './index.less';
+
 
 const { Header } = Layout;
 const RadioGroup = Radio.Group;
@@ -1556,6 +1558,231 @@ export class UserBackDeskHeader extends React.Component{
 
 
 // ===============================================  供应商后台 => 平台首页(header/3等块)
+
+// 产品热度
+export class ProductHot extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {}
+  }
+  
+	render(){
+		const { title, more, maxNum, data  } = this.props;
+		return (
+      <Col>
+        <Col className="mod-title">
+          <Col className="mod-text">{title}</Col>
+          <Col className={more ? 'mod-more' : 'hide'}>
+            {more}
+            <Icon type="right" />
+          </Col>
+        </Col>
+        <Col className={styles.ProductHot}>
+          {data.map((item, index) => (
+            <Col xs={24} sm={12} md={6} lg={6} xl={6} className={styles.itemPadding} key={index}>
+              <Col className={[styles.item, index >= maxNum ? 'hide' : ''].join(' ')} key={item.id}>
+                <Col className={styles['item-photo']} key={item.id}>
+                  <img
+                    src={
+                      item.url
+                        ? item.url
+                        : 'http://gss0.baidu.com/-4o3dSag_xI4khGko9WTAnF6hhy/zhidao/wh=450,600/sign=cec4fe7364d0f703e6e79dd83dca7d0b/7a899e510fb30f2406704467ce95d143ac4b03ef.jpg'
+                    }
+                    className="img-size"
+                  />
+                </Col>
+                <Col className={styles['item-pro-info']}>
+                  <Col className={[styles['info'], 'text-overflow-2'].join(' ')}>
+                    南非欧洲双周双洲尽情游南非欧洲双周双洲尽情游南非欧洲双周双洲尽情游南非欧洲双周双洲尽情游
+                  </Col>
+                  <Col className={styles['prici-discount']}>
+                    <Col span={12} className={styles['origin-price']}>昨日访问: <span style={{color: '#F43266'}}>{288}</span></Col>
+                    <Col span={12} className={styles['price']}>今日访问: <span style={{color: '#F43266'}}>{888}</span></Col>
+                  </Col>
+                </Col>
+              </Col>
+            </Col>
+          ))}
+        </Col>
+      </Col>
+    );
+	}
+}
+
+// 销售机会(产品分类标签)
+export class ProductTypeTag extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+
+  render() {
+    const { title, more, maxNum, data } = this.props;
+    return (
+      <Col>
+        <Col className="mod-title">
+          <Col className="mod-text">{title}</Col>
+          <Col className={more ? 'mod-more' : 'hide'}>
+            {more}
+            <Icon type="right" />
+          </Col>
+        </Col>
+        <Col className={styles.ProductTypeTag}>
+          {data.map((item, index) => (
+            <Col xs={24} sm={12} md={6} lg={6} className={styles.itemPadding} key={index}>
+              <Col className={[styles.item, index >= maxNum ? 'hide' : ''].join(' ')} key={item.id}>
+                <Col className={styles.header}>
+                  <Row type="flex">
+                    <Col span={10} className={styles.avatar}>
+                      <Avatar size={48} src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
+                    </Col>
+                    <Col span={14}>
+                      <Col className={[styles.company, 'text-overflow-2'].join(' ')}>北京凤凰假期国际旅行社有限公司</Col>
+                      <Col className={styles.info}>
+                        <span className={styles.name}>张三</span>
+                        <span className={styles.mobile}>13400009998</span>
+                        <Icon className={styles.eye} type="eye" theme="filled" />
+                      </Col>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className={styles.tags}>
+                  <span>最近搜索:</span>
+                  <span>德意日<span style={{color: 'hotpink'}}>(18)</span></span>
+                </Col>
+              </Col>
+            </Col>
+          ))}
+        </Col>
+      </Col>
+    );
+  }
+}
+
+// 最近订单
+export class RecentOrder extends React.Component{
+  constructor(props) {
+		super(props)
+		this.state = {
+			active: 0
+		}
+	}
+
+
+	changeActive(index){
+		this.setState({active: index})
+	}
+
+  render(){
+		const { active } = this.state;
+		const { data } = this.props;
+    return (
+      <Row>
+				<Col className={styles.RecentOrder}>
+          <Col className="mod-title">
+            <Col className="mod-text">
+              最近订单
+							<div className={styles.headerTags}>
+              	<span className={[styles.itemTag,(active === 0 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(0)}>全部</span>
+              	<span className={[styles.itemTag,(active === 1 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(1)}>占位待确认</span>
+								<span className={[styles.itemTag,(active === 2 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(2)}>占位已确认</span>
+              	<span className={[styles.itemTag,(active === 3 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(3)}>实报待确认</span>
+              	<span className={[styles.itemTag,(active === 4 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(4)}>实报已确认</span>
+              	<span className={[styles.itemTag,(active === 5 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(5)}>变更待确认</span>
+              	<span className={[styles.itemTag,(active === 6 ? styles.headerActive:'')].join(' ')} onClick={e => this.changeActive(6)}>变更已确认</span>
+							</div>
+            </Col>
+            <Col className="mod-more">
+              更多
+              <Icon type="right" />
+            </Col>
+          </Col>
+
+          <Col>
+						{data.map((item,index) => 
+							<Col key={index} className={[styles.item, 'clear'].join(' ')}>
+								<Col className={styles.itemHeader}>
+									<div className={styles.hLeft}>订单号: D023456789</div>
+									<div className={styles.hRight}>占位待确认</div>
+								</Col>
+								<Col className={[styles.content, 'clear'].join(' ')}>
+									<Col xs={24} sm={6} md={3} lg={3} xl={3}>
+										<div className={styles.imgBox}>
+											<img src="/favicon.png" alt="图片" />
+											<div className={styles.num}>编号: 89757</div>
+										</div>
+									</Col>
+									<Col xs={24} sm={18} md={21} lg={21} xl={21}>
+										<Col className={[styles.top, 'clear'].join(' ')}>
+											<Col xs={20} sm={18} md={16} lg={12} xl={12} className={[styles.title,'text-overflow'].join(' ')}>超值无忧天一地K-98K, 5晚6天, 全程五星级酒店住宿, 让你欢乐到家.</Col>
+											<Col xs={2} sm={2} md={2} lg={2} xl={2} className={styles.tag}><Tag color="blue">跟团游</Tag></Col>
+										</Col>
+										<Col className={[styles.btm, 'clear'].join(' ')}>
+											<Col xs={24} sm={24} md={14} lg={14} xl={14}>
+												<Col>
+													<span className={styles.key}>报名人: </span>
+													<span className={styles.val}>北青旅</span>
+													<span className={styles.val}>十里河门市</span>
+													<span className={styles.val}>门管中心</span>
+													<span className={styles.val} style={{width: '48px'}}>张三</span>
+													<span className={styles.val} style={{width: '72px'}}>13344445555</span>
+												</Col>
+												<Col>
+													<span className={styles.key}>接单人: </span>
+													<span className={styles.val}>北青旅</span>
+													<span className={styles.val}>十里河门市</span>
+													<span className={styles.val}>门管中心</span>
+													<span className={styles.val} style={{width: '48px'}}>张三</span>
+													<span className={styles.val} style={{width: '72px'}}>13344445555</span>
+												</Col>
+												<Col>
+													<span className={styles.key}>受理人: </span>
+													<span className={styles.val}>北青旅</span>
+													<span className={styles.val}>十里河门市</span>
+													<span className={styles.val}>门管中心</span>
+													<span className={styles.val} style={{width: '48px'}}>张三</span>
+													<span className={styles.val} style={{width: '72px'}}>13344445555</span>
+												</Col>
+											</Col>
+											<Col xs={24} sm={24} md={10} lg={10} xl={10}>
+												<Col className={styles.contentR}>
+													<div className={styles.obj}>
+														<span className={styles.key}>出团: </span> <span className={styles.val}>2018-02-02</span>
+													</div>
+													<div className={styles.obj}>
+														<span className={styles.key}>回团: </span> <span className={styles.val}>2018-08-09</span>
+													</div>
+												</Col>
+												<Col className={styles.contentR}>
+													<div className={styles.obj}>
+														<span className={styles.key}>人数: </span> <span className={styles.val}>24人</span>
+													</div>
+													<div className={styles.obj}>
+														<span className={styles.key}>金额: </span> <span className={styles.money}>9998.00</span>
+													</div>
+												</Col>
+												<Col className={styles.contentR}>
+													<Button size={'small'} className='m-r-8 m-t-4'>上架</Button>
+													<Button size={'small'} className='m-r-8 m-t-4'>修改</Button>
+													<Button size={'small'} className='m-r-8 m-t-4'>删除</Button>
+													<Button size={'small'} className='m-r-8 m-t-4'>复制</Button>
+												</Col>
+											</Col>
+										</Col>
+									</Col>
+								</Col>
+							</Col>	
+						)}
+					</Col>
+        </Col>
+      </Row>
+    );
+  }
+}
+
+
+
+
 export class ThreeEqualBlock extends React.Component{
     constructor(){
         super();
