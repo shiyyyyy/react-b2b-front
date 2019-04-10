@@ -1,0 +1,106 @@
+@import '~antd/lib/style/themes/default.less';
+
+// 最近订单
+.OrderList {
+  &:hover {
+    box-shadow: @box-shadow-base;
+  }
+  .focus {
+    box-shadow: @box-shadow-base;
+  }
+  .headerTags {
+    font-size: @font-size-base;
+    font-weight: 400;
+    color: #b1bcd1;
+    margin-left: 40px;
+    display: inline-block;
+    .itemTag {
+      padding-bottom: 2px;
+      margin-right: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .item {
+    margin: 20px 0;
+    .active {
+      border-color: #377dea !important;
+    }
+    .list {
+      border: 1px solid #edf1f5;
+      border-radius: 4px;
+      .itemHeader {
+        font-size: @font-size-sm;
+        line-height: 40px;
+        padding: 0 24px 0 10px;
+        border-bottom: 1px solid #edf1f5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .hLeft {
+          font-weight: bold;
+        }
+        .hRight {
+          color: #b1bcd1;
+        }
+      }
+
+      .content {
+        font-size: @font-size-sm;
+        padding: 10px;
+        .imgBox {
+          width: 100%;
+          padding-right: 12px;
+          & > img {
+            width: 100%;
+            height: 84px;
+            border-radius: 4px 4px 0 0;
+          }
+          .num {
+            line-height: 18px;
+            text-align: center;
+            border: 1px solid #b1bcd1;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+          }
+        }
+        .top {
+          margin-bottom: 4px;
+          .title {
+            font-size: @font-size-base;
+            line-height: 20px;
+          }
+          .tag {
+          }
+        }
+        .btm {
+          line-height: 22px;
+          .key {
+            color: #b1bcd1;
+            margin-right: 4px;
+            display: inline-block;
+          }
+          .val {
+            width: 64px;
+            margin-right: 6px;
+            display: inline-block;
+          }
+          .contentR {
+            display: flex;
+            justify-content: flex-end;
+            .obj {
+              width: 110px;
+              display: inline-block;
+              .money {
+                color: #f43266;
+                display: inline-block;
+              }
+            }
+          }
+        }
+      }
+    }
+    .modal {
+    }
+  }
+}

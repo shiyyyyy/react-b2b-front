@@ -8,6 +8,7 @@ import Admin from './routers/AdminRouter';
 
 const baseConfig = {
     '/user':{component:'../layouts/UserLayout',routes:[]},
+    '/adm': { component:'../layouts/BasicLayout',routes:[]},
     '/':{component:'../layouts/BasicLayout',routes:[]}
 };
 

@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react';
-import {Table,Divider,Button} from 'antd';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {Divider,Button} from 'antd';
 import { connect } from 'dva';
-import { getRouteAuthority } from '@/utils/utils';
-import Authorized from '@/utils/Authorized';
-import Exception403 from '@/pages/Exception/403';
-import styles from './AuthList.less';
+import ListPage from '@/components/CommonTable';
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ authlist, loading }) => ({
@@ -21,9 +17,9 @@ class AuthList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     const { currentPage, pageSize} = this.state;
-    const params = {start:pageSize * (currentPage-1),limit:pageSize,mod:'权限管理'};
+    const params = {start:pageSize * (currentPage-1),limit:pageSize};
     dispatch({
-      type: 'authlist/load',
+      type: 'authlist/fetch',
       payload:params
     });
   }
@@ -41,13 +37,15 @@ class AuthList extends PureComponent {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
+      width:200,
       render: text => <a>{text}</a>,
     },{
       title: '适用范围',
       dataIndex: 'scope',
+      width:200,
       key: 'scope',
     }, {
-      title: 'Action',
+      title: '按钮',
       key: 'action',
       render: (text, record) => (
         <span>
@@ -61,16 +59,27 @@ class AuthList extends PureComponent {
 
     const {
       authlist:{data},
-      loading,
-      location:{pathname} 
+      loading
     }  = this.props;
-    const routerConfig = getRouteAuthority(pathname);
+    const textSerach = {
+      'name':{'text':'名称'},
+      'scope':{'text':'范围'}
+    };
+
+    const moreSearch = {
+      'employee':{'text':'创建人','type':'Employee'},
+      'data1':{'text':'时间','type':'Date'}
+    };
     return (
-      // <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-        <PageHeaderWrapper>
-          <Table columns={columns} dataSource={data} rowKey='id' loading={loading} className={styles.AuthList}/>
-        </PageHeaderWrapper>
-      // </Authorized>
+      <ListPage 
+        columns={columns} 
+        dataSource={data} 
+        rowKey='id' 
+        loading={loading} 
+        textSerach={textSerach}
+        moreSearch={moreSearch}
+        title="权限设置" 
+      />
     );
   }
 }

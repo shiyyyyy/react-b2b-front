@@ -2,10 +2,11 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
-import pathToRegexp from 'path-to-regexp';
+// import pathToRegexp from 'path-to-regexp';
 import { Modal } from 'antd';
 
 import request from './request';
+
 
 
 export function fixedZero(val) {
@@ -198,48 +199,48 @@ export function getGobalState(name){
     return ret;
 }
 
-function ergodicRoutes(routes, authKey, authority) {
-  routes.forEach(element => {
-    const ele = element;
-    if (ele.path === authKey) {
-      if (!ele.authority) ele.authority = [];
-      Object.assign(ele.authority, authority || []);
-    } else if (ele.routes) {
-      ergodicRoutes(ele.routes, authKey, authority);
-    }
-    return ele;
-  });
-}
+// function ergodicRoutes(routes, authKey, authority) {
+//   routes.forEach(element => {
+//     const ele = element;
+//     if (ele.path === authKey) {
+//       if (!ele.authority) ele.authority = [];
+//       Object.assign(ele.authority, authority || []);
+//     } else if (ele.routes) {
+//       ergodicRoutes(ele.routes, authKey, authority);
+//     }
+//     return ele;
+//   });
+// }
 
-export function addAuthForRoutes(authRoutes) {
-  const routes = [];
-  Object.assign(routes,window.g_routes);
-  Object.keys(authRoutes).map(authKey =>{
-      return ergodicRoutes(routes, authKey, authRoutes[authKey])
-    }
-  );
-  window.g_auth_config = routes;
-}
+// export function addAuthForRoutes(authRoutes) {
+//   const routes = [];
+//   Object.assign(routes,window.g_routes);
+//   Object.keys(authRoutes).map(authKey =>{
+//       return ergodicRoutes(routes, authKey, authRoutes[authKey])
+//     }
+//   );
+//   window.g_auth_config = routes;
+// }
 
-export function getRouteAuthority(pathname){
-    const routes = window.g_auth_config.slice(); // clone
-    let authorities;
+// export function getRouteAuthority(pathname){
+//     const routes = window.g_auth_config.slice(); // clone
+//     let authorities;
 
-    while (routes.length > 0) {
-      const route = routes.shift();
-      if (route.path && pathToRegexp(route.path).test(pathname)) {
-          if (route.authority) {
-            authorities = route.authority;
-          }
-          break;
-      }
-      if (route.routes) {
-          route.routes.forEach(r => routes.push(r));
-      }
-    }
+//     while (routes.length > 0) {
+//       const route = routes.shift();
+//       if (route.path && pathToRegexp(route.path).test(pathname)) {
+//           if (route.authority) {
+//             authorities = route.authority;
+//           }
+//           break;
+//       }
+//       if (route.routes) {
+//           route.routes.forEach(r => routes.push(r));
+//       }
+//     }
 
-    return authorities;
-  };
+//     return authorities;
+//   };
 
 export function error(p) {
     const m = {
@@ -262,17 +263,109 @@ export function encUrl(p) {
         .join('&');
 }
 
+export function getReqData(cfg, data) {
+    if (!cfg) {
+        return data;
+    }
+
+    if (typeof(cfg) === 'string') {
+        return data[cfg];
+    }
+    const rst = {};
+    Object.keys(cfg).forEach((k)=> {
+        const item = cfg[k];
+
+
+        if (item.indexOf('.') > 0) {
+
+            let fd = item.split(' '); 
+            let flt = item.split('|'); 
+
+            if (fd.length > 1) {
+                fd[fd.length - 1] = fd[fd.length - 1].split('|')[0];// eslint-disable-line
+            } else {
+                fd = [flt[0]];
+            }
+            if (flt.length > 1) {
+                flt = flt[1];// eslint-disable-line
+            } else {
+                flt = undefined;
+            }
+            const blk = fd[0].split('.')[0]; 
+            fd[0] = fd[0].split('.')[1];// eslint-disable-line
+
+            let pk; 
+            if (fd.length > 1) {
+                pk = data[blk].map((_item) => {
+                    const d = {};
+                    fd.forEach((f) => {
+                        d[f] = _item[f];
+                    });
+                    return d;
+                });
+            } else {
+                pk = data[blk].map(i => i[fd[0]]);
+            }
+
+            if (flt) { 
+                switch (flt) {
+                    case 'first':
+                        rst[k] = data[blk][0][fd[0]];
+                        break;
+                    default:
+                        data[blk].forEach((_item) =>{
+                            if (_item[flt]) {
+                                rst[k] = _item[fd[0]];
+                            }
+                        });
+                        break;
+                }
+            } else if(!Number.isNaN(Math.trunc(k))){
+                rst[blk] = pk;
+            }else { 
+                rst[k] = pk;
+            }
+        } else if ( !Number.isNaN( Math.trunc(k) ) ){
+            rst[item] = data[item];
+        }else { 
+            rst[k] = data[item];
+        }
+    });
+
+    return rst;
+}
+
+export function getReadParam(cfg, data) {
+    const param = {};
+
+    // if(){
+    //   param['front_enum'] = ver;
+    // }
+    if(cfg.action){
+      param.action = cfg.action;
+    }
+    if (cfg.mod) {
+      param.mod = cfg.mod;
+    }
+    if (data && data.search) {
+        Object.assign(param, data.search);
+    }
+
+    if (cfg.read.data) {
+        Object.assign(param, getReqData(cfg.read.data, data));
+    }
+    return param;
+}
+
+
+
 export async function get(url,params){
     const option = {
       method: 'POST'
     };
     const newUrl = `${url}?${encUrl(params)}`;
 
-    return request(newUrl,option).then(
-        r=>{
-          // do something
-          return r;
-    });
+    return request(newUrl,option);
 }
 
 export async function post(url,data){
@@ -282,10 +375,10 @@ export async function post(url,data){
         ...data,
       },
     };
-    return request(url,option).then(
-        r=>{
-          // do something
-          return r;
-        }
-    );
-  }
+    return request(url,option);
+}
+
+export function getEnum(type){
+  const Enum = getGobalState('enum').data[type];
+  return Enum;
+}

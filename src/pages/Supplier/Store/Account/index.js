@@ -5,7 +5,7 @@ import HeaderSetting from '@/components/HeaderSetting';
 
 import styles from './index.less';
 
-class Picture extends React.Component {
+class Account extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,6 +27,8 @@ class Picture extends React.Component {
           children: ['员工姓名', '员工ID', '员工性别'],
           change: this.changeSearch,
           click: this.clickSearch,
+          refresh: this.refresh,
+          reset: this.reset,
         },
       },
     };
@@ -56,6 +58,16 @@ class Picture extends React.Component {
   changeSearch = val => {
     console.log(val);
   };
+
+  // refresh 刷新按钮
+  refresh = () => {
+    console.log('刷新');
+  }
+
+  // reset 重置按钮
+  reset = () => {
+    console.log('重置');
+  }
 
   render() {
     const { cfg, data } = this.state;
@@ -128,4 +140,4 @@ export default connect(({ global, setting, menu: menuModel }) => ({
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-}))(Picture);
+}))(Account);

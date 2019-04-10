@@ -1,9 +1,5 @@
-import { get } from '@/utils/utils';
+import { readMod } from '@/services/api';
 import { routerRedux } from 'dva/router';
-
-function query(params){
-  return get('/org/Auth/read',params);
-}
 
 export default {
     namespace: 'authlist',
@@ -14,12 +10,18 @@ export default {
     },
 
     effects:{
-        *load({payload},{put,call}){
-            const response = yield call(query,payload);
-            yield put({
+        *fetch({payload}, { call, put }) {
+          try{
+            const response = yield call(readMod,'权限管理',payload);
+            if(response.success && response.data){
+              yield put({
                 type:'save',
-                payload:{data:response.data,total:response.total}
-            });
+                payload:{data:response.data?response.data:[],total:response.total?response.total:0}
+              });
+            }
+          }catch(err){
+            // do something
+          }
         },
         *edit({payload},{put}){
             yield put(

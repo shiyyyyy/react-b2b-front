@@ -1,46 +1,17 @@
 import { AppConst } from '@/utils/const';
 import { setAuthority } from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
 import routes from '../../config/router.config';
-import { AppCore } from  '@/utils/core';
+import { AppCore ,AppMeta } from  '@/utils/core';
 
-function pathMap(_routes,map){
-    const maps = map
-    _routes.forEach(ele => {
-        if(ele.path){
-            maps[ele.path] = ele;
-        }
-        if(ele.routes){
-            pathMap(ele.routes, maps);
-        }
-    });
+function MetaInit(meta){
+    Object.assign(AppMeta,meta);
 }
-
-function addParentNode(_routes, parent) {
-    _routes.forEach(ele => {
-        const eles = ele;
-        if (parent) {
-            if (eles.path !== parent)
-                eles.parent = parent;
-        }
-        if (eles.routes) {
-            addParentNode(eles.routes, eles.path);
-        }
-        return eles;
-    });
-    return _routes;
-};
-// function MetaInit(mods,actions){
-//     AppMeta.mods = mods;
-//     AppMeta.actions = actions;
-// }
 
 function pubInit() {
     return new Promise((rs, rj) => {
-        const pathMapObj = {};
-        pathMap(addParentNode(routes), pathMapObj);
         const newOptions = {
-            method: 'POST',
-            body: JSON.stringify({ routes: pathMapObj })
+            method: 'POST'
         };
         const url = `${AppCore.HOST}/api/Pub/get_pub_init`;
 
@@ -53,15 +24,16 @@ function pubInit() {
                     return;
                 }
 
-                // const {mods,actions} = r.data;
+                const { mods,actions } = r.data;
 
-                // MetaInit(mods,actions);
+                MetaInit({mods,actions});
 
-                const currentAuthority = AppConst.PUB_AUTHORITY;
+                const currentAuthority = r.data.authority || [];
                 // set authority
                 setAuthority(currentAuthority);
-                const { paths } = r.data;
-                rs(paths);
+                reloadAuthorized();
+
+                rs(routes);
             }, e => {
                 rj(e);
             }
@@ -84,13 +56,13 @@ export function userInit(newOptions) {
                     return;
                 }
                 // init
-                // const {mods,actions} = r.data;
-                // MetaInit(mods,actions);
-                const currentAuthority = r.data.authority || AppConst.PUB_AUTHORITY;
+                const {mods,actions} = r.data;
+                MetaInit({mods,actions});
+                const currentAuthority = r.data.authority || [];
                 // set authority
                 setAuthority(currentAuthority);
-                const { paths } = r.data;
-                rs(paths);
+                reloadAuthorized();
+                rs(routes);
             }, e => {
                 rj(e);
             }
@@ -100,15 +72,12 @@ export function userInit(newOptions) {
     });
 }
 
-export function routesInit(){
-    const pathMapObj = {};
-    pathMap(addParentNode(routes),pathMapObj);
-
+export function Init(){
     let user = {};
     const newOptions = {
         method:'POST'
     };
-    newOptions.body = {routes:pathMapObj};
+    newOptions.body = {};
     try{
         if(localStorage[AppConst.APP_NAME]){
             user = JSON.parse(localStorage[AppConst.APP_NAME]);

@@ -1,0 +1,38 @@
+@import '~antd/lib/style/themes/default.less';
+
+.modal {
+  clear: both;
+  border-radius: 4px;
+  padding-bottom: 12px;
+  margin-top: 12px;
+  &:hover {
+    box-shadow: @box-shadow-base;
+  }
+  .listBox {
+    line-height: 40px;
+    clear: both;
+    .groupTotle {
+      font-size: 14px;
+      background: #f6fafa;
+      padding: 0 16px;
+      overflow: hidden;
+    }
+    .groupList {
+      padding: 0 16px;
+      overflow: hidden;
+      &:hover {
+        background: #fafbfc;
+      }
+      .listMain {
+        color: #999;
+        overflow: hidden;
+        border-bottom: 1px dashed #d9d9d9;
+      }
+      .listBtn {
+        text-align: right;
+        clear: both;
+        border-bottom: 1px dashed #d9d9d9;
+      }
+    }
+  }
+}

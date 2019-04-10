@@ -1,12 +1,24 @@
 import React from 'react';
 import { connect } from 'dva';
-
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import AuthorizedSetting from '@/components/AuthorizedSetting';
-import PageHeader from '@/components/PageHeader';
-
-import HistoryTags from '@/components/HistoryTags';
+import {Button} from 'antd';
+import { routerRedux } from 'dva/router';
 
 const { ModItem } = AuthorizedSetting;
+
+function renderAction(actions){
+    return (
+      <div>
+        {
+          Object.keys(actions).map((key)=>(
+            <Button key={key} onClick={()=>(actions[key].onClick)()}>
+              <span>{actions[key].text}</span>
+            </Button>
+          ))}
+      </div>);
+}
+
 
 @connect(({ authdata, loading, historyTags }) => ({
   authdata,
@@ -34,27 +46,35 @@ class AuthEdit extends React.Component {
       type: 'authdata/changeAuth',
       payload: auth,
     });
-  };
+  }
 
-  removeHistoryTags = (tag) => {
-    const { dispatch } = this.props;
+  submit = () =>{
+    const { dispatch ,authdata:{data},location} = this.props;
+    data.id = location.state.id;
     dispatch({
-      type: 'historyTags/remove',
-      payload: tag,
-    });
+       type:'authdata/submit',
+       payload:data
+    })
+  }
+
+  cancel = () =>{
+    const {dispatch} = this.props;
+
+    dispatch(routerRedux.goBack());
   }
 
   render() {
     const {
       authdata: { data },
-      historyTags: { historyTags },
-      location,
     } = this.props;
-    console.log(this)
+    const actions  = {
+      submit:{text:'提交',onClick:this.submit},
+      cancel:{text:'取消',onClick:this.cancel}
+    };
     return (
-      <HistoryTags data={historyTags} removeHistoryTags={this.removeHistoryTags} location={location}>
-        {<ModItem data={data} callback={this.changeAuth} />}
-      </HistoryTags>
+      <PageHeaderWrapper title='编辑权限' action={renderAction(actions)}>
+        <ModItem data={data} callback={this.changeAuth} />
+      </PageHeaderWrapper>
     );
   }
 }

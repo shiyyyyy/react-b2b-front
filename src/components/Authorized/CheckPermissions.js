@@ -14,14 +14,14 @@ function isPromise(obj) {
  * 通用权限检查方法
  * Common check permissions method
  * @param { 权限判定 Permission judgment type string |array | Promise | Function } authority
- * @param { 你的权限 Your permission description  type:string} currentAuthority
+ * @param { 你的权限 Your permission description  type:array} currentAuthority
  * @param { 通过的组件 Passing components } target
  * @param { 未通过的组件 no pass components } Exception
  */
 const checkPermissions = (authority, currentAuthority, target, Exception) => {
   if (!authority) {
     // debugger ;
-    return Exception;
+    return target;
   }
   // 数组处理
   if (Array.isArray(authority)) {
@@ -54,7 +54,6 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
     }
     return Exception;
   }
-
   // Promise 处理
   if (isPromise(authority)) {
     return <PromiseRender ok={target} error={Exception} promise={authority} />;

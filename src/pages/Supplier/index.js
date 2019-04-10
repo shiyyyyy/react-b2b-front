@@ -1,29 +1,23 @@
 import React from 'react';
 import { Row, Col, Button, Avatar, Icon } from 'antd';
 import { ProductHot, ProductTypeTag, RecentOrder } from '@/components/Common';
+import { connect } from 'dva';
 
 import styles from './index.less';
 
+
+const backDatePng = require('@public/img/back_date.png');
+
+@connect(({ notices, announcements,loading }) => ({
+  notices,
+  announcements,
+  noticesLoading: loading.effects['notices/fetch'],
+  announcementLoading:loading.effects['announcements/fetch']
+}))
 class SupplierIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Notice: [
-        { id: 0, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 1, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 2, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 3, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 4, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 5, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-      ],
-      Activity: [
-        { id: 0, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 1, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 2, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 3, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 4, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-        { id: 5, date: '2018-08-08', title: '进一步建设社会主义新农村' },
-      ],
       discount: [
         { path: 'http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg', name: '东南亚4国连游', id: '1', Yesterday: '29999', terday: '28888' },
         { path: 'http://pic2.16pic.com/00/07/65/16pic_765577_b.jpg', name: '东南亚4国连游', id: '2', Yesterday: '19999', terday: '18888' },
@@ -40,6 +34,108 @@ class SupplierIndex extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'notices/fetch'
+    });
+    dispatch({
+      type: 'announcements/fetch'
+    })
+  }
+
+  renderNotices(){
+    const {
+      notices:{list},
+      noticesLoading
+    } =  this.props;
+
+    return (
+      <Col xl={16} lg={16} md={16} sm={24} xs={24}>
+        <Row>
+          <Col className="mod-title">
+            <Col className="mod-text">消息通知</Col>
+            <Col className="mod-more">
+              更多
+              <Icon type="right" />
+            </Col>
+          </Col>
+          <Col className={styles.content}>
+            { !noticesLoading && list.map((item, index) => (
+              <Col
+                className={[styles.item, index > 4 ? 'hide' : ''].join(' ')}
+                key={item.id}
+              >
+                <Col span={5} className={styles['item-left']}>
+                  {item.date}
+                </Col>
+                <Col
+                  span={16}
+                  className={[styles['item-center'], 'text-overflow'].join(' ')}
+                >
+                  {item.title}
+                </Col>
+                <Col span={3} className={styles['item-right']}>
+                  {index % 2 === 1 ? (
+                    <span>已读</span>
+                  ) : (
+                    <span style={{ color: '#03bb7b' }}>未读</span>
+                  )}
+                </Col>
+              </Col>
+            ))}
+            {
+              noticesLoading && <span></span>
+            }
+          </Col>
+        </Row>
+      </Col>
+      );
+  }
+
+  renderAnnouncements(){
+    const {
+      announcements:{list},
+      announcementsLoading
+    } = this.props;
+    return (
+      <Col xl={8} lg={8} md={8} sm={24} xs={24}>
+        <Row>
+          <Col className="mod-title">
+            <Col className="mod-text">平台公告</Col>
+            <Col className="mod-more">
+              更多
+              <Icon type="right" />
+            </Col>
+          </Col>
+          <Col className={styles.content}>
+            {!announcementsLoading && list.map((item, index) => (
+              <Col
+                className={[styles.item, index > 4 ? 'hide' : ''].join(' ')}
+                key={item.id}
+              >
+                <Col span={6} className={styles['item-left']}>
+                  {item.date}
+                </Col>
+                <Col
+                  span={18}
+                  className={[styles['item-center'], 'text-overflow'].join(' ')}
+                >
+                  {item.title}
+                </Col>
+              </Col>
+            ))}
+            {
+              announcementsLoading && <span></span>
+            }
+          </Col>
+        </Row>
+      </Col>
+    );
+
+  }
+
+
   renderProductHot(){
     const { discount: data } = this.state;
     const cfg = {
@@ -48,7 +144,6 @@ class SupplierIndex extends React.Component {
       data,
       maxNum: 4, // 最大数量(多过隐藏) 
     };
-    console.log(this)
     return (<ProductHot {...cfg} />)
   }
 
@@ -69,7 +164,6 @@ class SupplierIndex extends React.Component {
       data,
       maxNum: 4, // 最大数量(多过隐藏)
     };
-    console.log(this)
     return <ProductTypeTag {...cfg} />;
   }
 
@@ -81,7 +175,6 @@ class SupplierIndex extends React.Component {
   
 
   render() {
-    const { Notice, Activity } = this.state;
     return (
       <Row style={{ margin: '24px' }}>
         {/* 个人信息 */}
@@ -123,35 +216,35 @@ class SupplierIndex extends React.Component {
                   <Col className={styles.content}>
                     <Col span={12} className={styles.c2item}>
                       <img
-                        src="/public/img/back_date.png"
+                        src={backDatePng}
                         className={styles.icon}
                         alt="日历图标"
                       />
-                      <Col className={styles.icon}>今日出团</Col>
+                      <Col>今日出团</Col>
                     </Col>
                     <Col span={12} className={styles.c2item}>
                       <img
-                        src={'/public/img/back_date.png'}
+                        src={backDatePng}
                         className={styles.icon}
                         alt="日历图标"
                       />
-                      <Col className={styles.icon}>今日出团</Col>
+                      <Col>今日出团</Col>
                     </Col>
                     <Col span={12} className={styles.c2item}>
                       <img
-                        src={'/public/img/back_date.png'}
+                        src={backDatePng}
                         className={styles.icon}
                         alt="日历图标"
                       />
-                      <Col className={styles.icon}>今日出团</Col>
+                      <Col>今日出团</Col>
                     </Col>
                     <Col span={12} className={styles.c2item}>
                       <img
-                        src={'/public/img/back_date.png'}
+                        src={backDatePng}
                         className={styles.icon}
                         alt="日历图标"
                       />
-                      <Col className={styles.icon}>今日出团</Col>
+                      <Col>今日出团</Col>
                     </Col>
                   </Col>
                 </Row>
@@ -206,71 +299,8 @@ class SupplierIndex extends React.Component {
         <Col span={24}>
           <Row gutter={16}>
             <Col className={styles.NoticeAndActivity}>
-              <Col xl={16} lg={16} md={16} sm={24} xs={24}>
-                <Row>
-                  <Col className="mod-title">
-                    <Col className="mod-text">消息通知</Col>
-                    <Col className="mod-more">
-                      更多
-                      <Icon type="right" />
-                    </Col>
-                  </Col>
-                  <Col className={styles.content}>
-                    {Notice.map((item, index) => (
-                      <Col
-                        className={[styles.item, index > 4 ? 'hide' : ''].join(' ')}
-                        key={index}
-                      >
-                        <Col span={5} className={styles['item-left']}>
-                          {item.date}
-                        </Col>
-                        <Col
-                          span={16}
-                          className={[styles['item-center'], 'text-overflow'].join(' ')}
-                        >
-                          {item.title}
-                        </Col>
-                        <Col span={3} className={styles['item-right']}>
-                          {index % 2 === 1 ? (
-                            <span>已读</span>
-                          ) : (
-                            <span style={{ color: '#03bb7b' }}>未读</span>
-                          )}
-                        </Col>
-                      </Col>
-                    ))}
-                  </Col>
-                </Row>
-              </Col>
-              <Col xl={8} lg={8} md={8} sm={24} xs={24}>
-                <Row>
-                  <Col className="mod-title">
-                    <Col className="mod-text">平台公告</Col>
-                    <Col className="mod-more">
-                      更多
-                      <Icon type="right" />
-                    </Col>
-                  </Col>
-                  <Col className={styles.content}>
-                    {Activity.map((item, index) => (
-                      <Col
-                        className={[styles.item, index > 4 ? 'hide' : ''].join(' ')}
-                        key={index}
-                      >
-                        <Col span={6} className={styles['item-left']}>
-                          {item.date}
-                        </Col>
-                        <Col
-                          span={18}
-                          className={[styles['item-center'], 'text-overflow'].join(' ')}
-                        >
-                          {item.title}
-                        </Col>
-                      </Col>
-                    ))}
-                  </Col>
-                </Row>
-              </Col>
+              {this.renderNotices()}
+              {this.renderAnnouncements()}
             </Col>
           </Row>
         </Col>

@@ -1,5 +1,4 @@
-import fetch from 'dva/fetch'; 
-import { routesInit } from '@/services/initSrvc';
+import { Init } from '@/services/initSrvc';
 
 export const dva = {
   config: {
@@ -28,14 +27,17 @@ export function patchRoutes(routes) {
     ergodicRoutes(routes, authKey, authRoutes[authKey])
   );
   window.g_routes = routes;
-  window.g_auth_config = routes;
 }
 
 export function render(oldRender) {
-  routesInit().then(
+  Init().then(
     ret => {
       authRoutes = ret;
       oldRender();
+      /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
+      window.g_app._store.dispatch({
+        type:'enum/update'
+      });
     },
     ()=>{
       oldRender();

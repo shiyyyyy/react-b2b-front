@@ -1708,7 +1708,7 @@ export class RecentOrder extends React.Component{
 								<Col className={[styles.content, 'clear'].join(' ')}>
 									<Col xs={24} sm={6} md={3} lg={3} xl={3}>
 										<div className={styles.imgBox}>
-											<img src="/favicon.png" alt="图片" />
+											<img src= {require('@public/favicon.png')} alt="图片" />
 											<div className={styles.num}>编号: 89757</div>
 										</div>
 									</Col>

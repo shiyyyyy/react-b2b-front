@@ -9,18 +9,15 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
-// import Authorized from '@/utils/Authorized';
 import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
-import Exception403 from '../pages/Exception/403';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import { menu, title } from '../defaultSettings';
 
 import styles from './BasicLayout.less';
-import { getRouteAuthority } from '@/utils/utils';
 
 import 'swiper/dist/css/swiper.min.css';
 
@@ -155,7 +152,6 @@ class BasicLayout extends React.Component {
       fixedHeader,
     } = this.props;
     const isTop = PropsLayout === 'topmenu';
-    const routerConfig = getRouteAuthority(pathname);
     const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0};
     const layout = (
       <Layout className={styles.Layout}>

@@ -25,6 +25,8 @@ class Picture extends React.Component {
           children: ['我很好', '我还好', '你好啊'],
           change: this.changeSearch,
           click: this.clickSearch,
+          refresh: this.refresh,
+          reset: this.reset,
         },
       },
     };
@@ -44,6 +46,16 @@ class Picture extends React.Component {
 
   btt(value) {
     console.log(value);
+  }
+
+  // refresh 刷新按钮
+  refresh = () => {
+    console.log('刷新');
+  }
+
+  // reset 重置按钮
+  reset = () => {
+    console.log('重置'); 
   }
 
   render() {

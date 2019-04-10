@@ -7,7 +7,7 @@ import GridContent from './GridContent';
 import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
 
-const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...restProps }) => (
+const PageHeaderWrapper = ({ children,contentStyles, contentWidth, wrapperClassName, top, ...restProps }) => (
   <div style={{ margin: '-24px -24px 0' }} className={wrapperClassName}>
     {top}
     <MenuContext.Consumer>
@@ -29,7 +29,7 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
       )}
     </MenuContext.Consumer>
     {children ? (
-      <div className={styles.content}>
+      <div className={contentStyles ? styles.content : contentStyles}>
         <GridContent>{children}</GridContent>
       </div>
     ) : null}

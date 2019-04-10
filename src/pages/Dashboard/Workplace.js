@@ -7,9 +7,6 @@ import { Row, Col, Card, List, Avatar } from 'antd';
 import { Radar } from '@/components/Charts';
 import EditableLinkGroup from '@/components/EditableLinkGroup';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {getRouteAuthority } from '@/utils/utils';
-import Authorized from '@/utils/Authorized';
-import Exception403 from '@/pages/Exception/403';
 
 import styles from './Workplace.less';
 
@@ -69,7 +66,7 @@ class Workplace extends PureComponent {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'chart/clear',
+      type: 'chart/clear'
     });
   }
 
@@ -120,7 +117,6 @@ class Workplace extends PureComponent {
       chart: { radarData },
       location:{pathname}
     } = this.props;
-    const routerConfig = getRouteAuthority(pathname);
 
     const pageHeaderContent =
       currentUser && Object.keys(currentUser).length ? (
@@ -161,7 +157,6 @@ class Workplace extends PureComponent {
     );
 
     return (
-      <Authorized authority={routerConfig} noMatch={<Exception403 />}>
       <PageHeaderWrapper
         loading={currentUserLoading}
         content={pageHeaderContent}
@@ -255,7 +250,6 @@ class Workplace extends PureComponent {
           </Col>
         </Row>
       </PageHeaderWrapper>
-      </Authorized>
     );
   }
 }

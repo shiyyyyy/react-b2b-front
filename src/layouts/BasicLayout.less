@@ -7,19 +7,48 @@
   // background: #fff;
   padding: 24px 175px;
   position: relative;
-  .contentBgc{
+  .contentBgc {
     background: #fff;
   }
 }
 
+@media screen and (max-width: @screen-xl) {
+  .content {
+    padding: 24px 50px;
+    position: relative;
+    .contentBgc {
+      background: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-sm) {
+  .content {
+    padding: 12px;
+    position: relative;
+    .contentBgc {
+      background: #fff;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-xs) {
+  .content {
+    padding: 0;
+    position: relative;
+    .contentBgc {
+      background: #fff;
+    }
+  }
+}
+
 .Layout {
-  
   :global {
     // header 样式重置
     .ant-layout-header {
       height: 48px;
       line-height: 48px;
-      background: #1755C0;
+      background: #1755c0;
       .antd-pro-components-top-nav-header-index-head {
         height: 48px;
         .antd-pro-components-top-nav-header-index-main {
@@ -40,7 +69,7 @@
             .antd-pro-components-top-nav-header-index-menu {
               height: 48px;
               line-height: 48px;
-              background: #1755C0;
+              background: #1755c0;
               .ant-menu-submenu.ant-menu-submenu-horizontal {
                 line-height: 48px;
               }
@@ -48,8 +77,8 @@
                 height: 48px;
                 line-height: 48px;
               }
-              .ant-menu-submenu-selected{
-                background: #0843A9;
+              .ant-menu-submenu-selected {
+                background: #0843a9;
               }
             }
           }
@@ -67,8 +96,7 @@
     }
 
     // header 气泡菜单(二级导航) 下拉列表跟calss
-    .overlayClassName	{
-      
+    .overlayClassName {
     }
   }
 }

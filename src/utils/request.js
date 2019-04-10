@@ -88,7 +88,7 @@ export default function request(requestUrl, option) {
   const user = getGobalState('user');
   let sid = '';
   if(user.currentUser && user.currentUser.sid){
-    sid = user.currentUser.sid;
+    sid = user.currentUser.sid;//  eslint-disable-line
   }
 
   if(newOptions.method === 'POST'){
@@ -106,6 +106,12 @@ export default function request(requestUrl, option) {
     })
     .then(checkStatus)
     .then(response => {
+        if(response.enum){
+          /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
+          window.g_app._store.dispatch({
+            type:'enum/update'
+          });
+        }
         rs(response);
     },error=>{
       // 未登录

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Row, Col, Pagination, Breadcrumb, Icon, Input, Button, Divider, Select } from 'antd';
-import Link from 'umi/link';
+import { Row, Col, Pagination, Icon, Input, Button, Divider, Select } from 'antd';
+import BreadcrumbRender from '@/components/Breadcrumb';
 
 import styles from './index.less';
 
@@ -28,28 +28,10 @@ class HeaderSetting extends React.Component {
     console.log(option);
   };
 
-  breadcrumbArr() {
-    const {
-      location: { pathname },
-    } = this.props;
-    const breadcrumb = pathname
-      .split('/')
-      .map((item, index, arr) => {
-        let bread = '';
-        if (item) {
-          for (let i = 1, len = index; i <= len; i++) {
-            bread = `${bread}/${arr[i]}`;
-          }
-        }
-        return bread;
-      })
-      .filter(item => item);
-    return breadcrumb;
-  }
-
   render() {
     const {
       breadcrumbNameMap,
+      location,
       children,
       data: { btns, filter, search },
     } = this.props;
@@ -59,15 +41,7 @@ class HeaderSetting extends React.Component {
           {/* 分页和面包屑 */}
           <Col className={[styles.pages, 'clear'].join(' ')}>
             <Col span={12}>
-              <Breadcrumb separator=">">
-                {this.breadcrumbArr().map(item => (
-                  <Breadcrumb.Item key={breadcrumbNameMap[item].name}>
-                    <Link to={breadcrumbNameMap[item].path}>
-                      {breadcrumbNameMap[item].name}
-                    </Link>
-                  </Breadcrumb.Item>
-                ))}
-              </Breadcrumb>
+              <BreadcrumbRender breadcrumbNameMap={breadcrumbNameMap} location={location} />
             </Col>
             <Col span={12} className="text-right">
               <Pagination
@@ -112,7 +86,11 @@ class HeaderSetting extends React.Component {
                     onChange={val => (item.change ? item.change(val) : false)}
                   >
                     {item.children &&
-                      item.children.map(cell => <Option key={cell} value={cell}>{cell}</Option>)}
+                      item.children.map(cell => (
+                        <Option key={cell} value={cell}>
+                          {cell}
+                        </Option>
+                      ))}
                   </Select>
                 ))}
             </Col>
@@ -125,7 +103,11 @@ class HeaderSetting extends React.Component {
                   onChange={val => (search.change ? search.change(val) : false)}
                 >
                   {search.children &&
-                    search.children.map(cell => <Option key={cell} value={cell}>{cell}</Option>)}
+                    search.children.map(cell => (
+                      <Option key={cell} value={cell}>
+                        {cell}
+                      </Option>
+                    ))}
                 </Select>
                 <Search
                   style={{ width: 208, marginRight: 16 }}
@@ -133,8 +115,16 @@ class HeaderSetting extends React.Component {
                   onSearch={value => search.click(value)}
                   enterButton
                 />
-                <Icon style={{ marginLeft: '16px', color: '#18AB78' }} type="sync" />
-                <Icon style={{ marginLeft: '16px', color: '#F54977' }} type="close-circle" />
+                <Icon
+                  onClick={e => (search.refresh ? search.refresh() : false)}
+                  style={{ marginLeft: '16px', color: '#18AB78' }}
+                  type="sync"
+                />
+                <Icon
+                  onClick={e => (search.reset ? search.reset() : false)}
+                  style={{ marginLeft: '16px', color: '#F54977' }}
+                  type="close-circle"
+                />
               </Col>
             )}
           </Col>

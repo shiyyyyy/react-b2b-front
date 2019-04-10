@@ -1,4 +1,3 @@
-import { stringify } from 'qs';
 import request from '@/utils/request';
 
 export async function queryActivities() {
@@ -8,7 +7,7 @@ export async function queryActivities() {
 }
 
 export async function Register(params) {
-  return request('/api/Register/register_supplier', {
+  return request('/api/Register/register_user', {
     method: 'POST',
     body: params,
   });

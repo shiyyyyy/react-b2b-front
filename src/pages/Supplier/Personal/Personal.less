@@ -244,24 +244,10 @@
   // 访问记录
   .record {
     padding: 0 4%;
+    height: 105px;
+    overflow: hidden;
     display: flex;
     justify-content: space-around;
-    .recordBox {
-      cursor: pointer;
-      .avatar {
-      }
-      .name {
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .time {
-        width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
+    flex-wrap: wrap;
   }
 }

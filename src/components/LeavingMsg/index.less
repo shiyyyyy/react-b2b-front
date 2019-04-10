@@ -1,0 +1,62 @@
+@import '~antd/lib/style/themes/default.less';
+
+// 同行留言
+.message {
+  padding: 16px 24px;
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  &:hover {
+    box-shadow: @box-shadow-base;
+  }
+  .avatar {
+  }
+  .messageBox {
+    .BoxTop {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .BoxTopLeft {
+        font-size: 16px;
+        color: rgb(0, 0, 0, 0.85);
+      }
+      .BoxTopRight {
+        font-size: 16px;
+        color: #999;
+      }
+    }
+    .BoxContent {
+      font-size: 14px;
+      color: #999;
+      text-align: left;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      /* 这两个注释不能干掉,干掉了webpack就不编译这个属性了,在控制台就检查不到了,就GG了 */
+      /* autoprefixer: off */
+      -webkit-box-orient: vertical;
+      /* autoprefixer: on */
+      /* 展开 干掉这个属性就行 */
+      -webkit-line-clamp: 4;
+    }
+    .BoxFooter {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+      .BoxFooterZan {
+        width: 100px;
+        font-size: 18px;
+        color: #f5222d;
+        cursor: pointer;
+      }
+      .BoxFooterQA {
+        width: 100px;
+        font-size: 18px;
+        color: #4b96e6;
+        text-align: right;
+        cursor: pointer;
+      }
+    }
+  }
+}

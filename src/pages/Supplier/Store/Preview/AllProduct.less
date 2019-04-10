@@ -1,0 +1,103 @@
+@import '~antd/lib/style/themes/default.less';
+
+.AllProduct {
+  padding: 0 32px 50px 32px;
+  /* header-type */ /* 团-类型 */
+  .headerType {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .headerTypeItem {
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 4px 8px;
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .headerTypeItem:hover {
+    border-color: @primary-color;
+    color: @primary-color;
+    transition: .3s;
+  }
+  .activeHeaderTypeItem {
+    border-color: @primary-color;
+    color: @primary-color;
+  }
+
+  /* ============================== filter ======================= */
+  .filter {
+    /* border: 1px solid rgba(0,0,0,.25); */
+  }
+  .filterItem {
+    height: 40px;
+    line-height: 40px;
+  }
+  .filterTitle {
+    font-weight: bold;
+  }
+  .filterMain {
+    /* height: 40px; */
+    line-height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    overflow: hidden;
+  }
+  .filterMainItem {
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .filterMainItem:hover {
+    margin-right: 16px;
+    cursor: pointer;
+  }
+  .activeFilterMainItem {
+    color: @primary-color;
+  }
+  .filterMainBlock {
+    display: flex;
+    align-items: center;
+  }
+  .filterUserSelect {
+    border: 1px solid #d9d9d9;
+    height: 28px;
+    line-height: 22px;
+    padding: 2px 8px;
+    margin: 6px 0;
+    margin-right: 16px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  .filterUserSelectClose {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  .filterUserSelectClose:hover {
+    color: #666;
+  }
+  .filterImmediate {
+  }
+  .filterUserSelect .filterImmediate:lastchild {
+    display: none;
+  }
+
+  .filterMore {
+    font-size: 14px;
+    line-height: 40px;
+    color: #999;
+    cursor: pointer;
+  }
+  .filterMore:hover {
+    color: @primary-color;
+  }
+
+  // 分页
+  .historyPages {
+    padding: 24px 12px;
+  }
+}

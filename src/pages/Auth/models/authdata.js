@@ -1,8 +1,6 @@
-import { get } from '@/utils/utils';
+import { readAction ,submit} from '@/services/api';
+import { routerRedux } from 'dva/router';
 
-function query(params){
-  return get('/org/Auth/read_modify',params);
-}
 
 export default {
     namespace: 'authdata',
@@ -16,11 +14,15 @@ export default {
 
     effects:{
         *load({payload},{put,call}){
-            const response = yield call(query,payload);
+            const response = yield call(readAction,'编辑权限',payload);
             yield put({
                 type:'save',
                 payload:{...response.data}
             });
+        },
+        *submit({payload},{put,call}){
+            yield call(submit,'编辑权限',payload);
+            yield put(routerRedux.goBack());
         }
     },
 

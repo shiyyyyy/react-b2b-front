@@ -1,7 +1,7 @@
 import { Register } from '@/services/serverApi';
-import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
-import { AppConst } from '@/utils/const';
+import { Init } from '@/services/initSrvc';
+
 
 export default {
   namespace: 'register',
@@ -13,21 +13,23 @@ export default {
   effects: {
     *submit({ payload }, { call,put}) {
       const response = yield call(Register, payload);
-      if(response.success){
-        const user = { status : 'ok'};
+      if(response.success && response.user){
+        // 缓存当前用户
+        yield put({
+          type:'user/saveCurrentUser',
+          payload:response.user
+        })
+        yield call(Init);
         yield put({
           type: 'registerHandle',
-          payload:user
+          payload:{status : 'ok'}
         });
       }
-
     },
   },
 
   reducers: {
     registerHandle(state, { payload }) {
-      setAuthority(AppConst.PUB_AUTHORITY);
-      reloadAuthorized();
       return {
         ...state,
         status: payload.status,

@@ -2,9 +2,6 @@ import React, { PureComponent } from 'react';
 import {Table,Divider,Button} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { connect } from 'dva';
-import { getRouteAuthority } from '@/utils/utils';
-import Authorized from '@/utils/Authorized';
-import Exception403 from '@/pages/Exception/403';
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ product, loading }) => ({
@@ -69,11 +66,9 @@ class ProductList extends PureComponent {
     }  = this.props;
     const routerConfig = getRouteAuthority(pathname);
     return (
-      <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-        <PageHeaderWrapper>
-          <Table columns={columns} dataSource={data?data.list:[]} rowKey='id' loading={loading} />
-        </PageHeaderWrapper>
-      </Authorized>
+      <PageHeaderWrapper>
+        <Table columns={columns} dataSource={data?data.list:[]} rowKey='id' loading={loading} />
+      </PageHeaderWrapper>
     );
   }
 }

@@ -17,6 +17,7 @@ export default class PageHeader extends PureComponent {
     const {
       title,
       logo,
+      textSerach,
       action,
       content,
       extraContent,
@@ -55,6 +56,7 @@ export default class PageHeader extends PureComponent {
                 <div className={styles.row}>
                   {title && <h1 className={styles.title}>{title}</h1>}
                   {action && <div className={styles.action}>{action}</div>}
+                  {textSerach && <div className={styles.textSerach}>{textSerach}</div>}
                 </div>
                 <div className={styles.row}>
                   {content && <div className={styles.content}>{content}</div>}
