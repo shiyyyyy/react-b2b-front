@@ -27,7 +27,7 @@ export default [
             isMenu: true,
           },
         ],
-      }
+      },
     ],
-  }
+  },
 ];

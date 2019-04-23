@@ -1,9 +1,11 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { connect } from 'dva';
 import HeaderSetting from '@/components/HeaderSetting';
 import ProType from '@/components/ProType';
 import ProModal from '@/components/ProModal';
+
+import styles from './index.less';
 
 const { Visa } = ProType;
 const { VisaActive } = ProModal;
@@ -29,13 +31,6 @@ class VisaList extends React.Component {
           refresh: this.refresh,
           reset: this.reset,
         },
-      },
-      action: {
-        delete: this.actionDelete,
-        copy: this.actionCopy,
-        open: this.actionOpen,
-        edit: this.actionEdit,
-        onOff: this.actionOnOff,
       },
       arr: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }],
     };
@@ -104,6 +99,19 @@ class VisaList extends React.Component {
     console.log('启停');
   };
 
+  // 列表按钮
+  btnChildren = (item) => {
+    return (
+      <Col>
+        <Button className={styles.btns} type="primary" ghost size="small" onClick={e => this.actionDelete(e, item) || false}>删除</Button>
+        <Button className={styles.btns} type="primary" ghost size="small" onClick={e => this.actionCopy(e, item) || false}>复制</Button>
+        <Button className={styles.btns} type="primary" ghost size="small" onClick={e => this.actionOpen(e, item) || false}>开团</Button>
+        <Button className={styles.btns} type="primary" ghost size="small" onClick={e => this.actionEdit(e, item) || false}>修改</Button>
+        <Button className={styles.btns} type="primary" ghost size="small" onClick={e => this.actionOnOff(e, item) || false}>启停</Button>
+      </Col>
+    )
+  }
+
   render() {
     const { props } = this;
     const { cfg, arr, action } = this.state;
@@ -112,7 +120,7 @@ class VisaList extends React.Component {
         <Col>
           <HeaderSetting {...props} data={cfg}>
             {arr.map(item => (
-              <Visa key={item.id} action={action} item={item} state={1}>
+              <Visa key={item.id} btnChildren={this.btnChildren(item)} item={item} state={1}>
                 <VisaActive />
               </Visa>
             ))}

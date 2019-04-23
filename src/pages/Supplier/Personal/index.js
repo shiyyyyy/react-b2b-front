@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'umi/link';
 import { Menu, Icon, Row, Col, Avatar, Tabs, Rate, Tag, Tooltip } from 'antd';
 import Swiper from 'swiper/dist/js/swiper';
-import LeavingMsg from '@/components/LeavingMsg'; 
-import AccessRecord from '@/components/AccessRecord'; 
+import LeavingMsg from '@/components/LeavingMsg';
+import AccessRecord from '@/components/AccessRecord';
 
 // import {ModalCarousel} from '../../util/com';
 
@@ -130,15 +130,15 @@ class Personal extends React.Component {
 
   componentDidMount() {
     new Swiper('#swiper', {
-        // loop: true, // 循环模式选项
-        slidesPerView: 4,
-        // 如果需要前进后退按钮
-        navigation: {
-            nextEl: '#Personal-prev',
-            prevEl: '#Personal-next',
-        },
-        // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
-        observer: true,
+      // loop: true, // 循环模式选项
+      slidesPerView: 4,
+      // 如果需要前进后退按钮
+      navigation: {
+        nextEl: '#Personal-prev',
+        prevEl: '#Personal-next',
+      },
+      // 当改变swiper的样式（例如隐藏/显示）或者修改swiper的子元素时，自动初始化swiper。
+      observer: true,
     });
   }
 
@@ -285,7 +285,7 @@ class Personal extends React.Component {
                   </div>
                 ))}
               </div>
-              <div id='Personal-prev' className={[styles['Personal-prev'],"swiper-button-prev"].join(' ')}>
+              <div id='Personal-prev' className={[styles['Personal-prev'], "swiper-button-prev"].join(' ')}>
                 <Icon type="left-circle" theme="filled" />
               </div>
               <div id='Personal-next' className={[styles['Personal-next'], "swiper-button-next"].join(' ')}>

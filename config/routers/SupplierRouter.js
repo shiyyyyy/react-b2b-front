@@ -12,7 +12,7 @@ export default [
           { path: '/supplier', redirect: '/supplier/index' },
           {
             path: '/supplier/index',
-            // name: 'home',
+            name: 'home',
             component: './Supplier/index',
           },
         ],

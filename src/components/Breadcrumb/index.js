@@ -5,17 +5,27 @@ import { Breadcrumb } from 'antd';
 // 需要props传过来location和breadcrumbNameMap
 function BreadcrumbRander(props) {
   const { location: { pathname }, breadcrumbNameMap } = props;
-  console.log(pathname);
-  console.log(breadcrumbNameMap);
+  // 正常获取breadcrumbArr
   const breadcrumbArr = () => {
     const breadcrumb = pathname.split('/').filter( i => i);
     return breadcrumb.map((item, index) => `/${breadcrumb.slice(0,index+1).join('/')}` )
   };
+  // 如果是 admin 路由,则去掉/admin
+  const breadcrumbArrTrue = () => {
+    const arr = breadcrumbArr();
+    let arrTrue = arr;
+    if (arr[0] === '/admin') {
+      arrTrue = arr.slice(1)
+    }
+    return arrTrue;
+  }
   return (
     <Breadcrumb separator=">">
-      {breadcrumbArr().map(item => (
+      {breadcrumbArrTrue().map(item => (
         <Breadcrumb.Item key={breadcrumbNameMap[item].name || ''}>
-          <Link to={breadcrumbNameMap[item].path || ''}>{breadcrumbNameMap[item].name || ''}</Link>
+          <Link to={breadcrumbNameMap[item].path || ''}>
+            {breadcrumbNameMap[item].name || ''}
+          </Link>
         </Breadcrumb.Item>
       ))}
     </Breadcrumb>

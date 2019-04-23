@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col } from 'antd';
 
 import styles from './Visa.less';
 
@@ -11,7 +11,7 @@ class Visa extends React.Component {
   }
 
   render() {
-    const { listBtn, action, state, item } = this.props;
+    const { btnChildren, state } = this.props;
     return (
       <Row>
         <Col className={styles.GroupTour}>
@@ -85,23 +85,8 @@ class Visa extends React.Component {
                   <div>无自费</div>
                   <div>无购物</div>
                 </Col>
-                <Col span={10} className={listBtn ? '' : 'hide'} style={{ textAlign: 'right' }}>
-                  <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={_ => console.log('下载')}>
-                    下载
-                  </Button>
-                  <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={_ => console.log('实报')}>
-                    实报
-                  </Button>
-                  <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={_ => console.log('占位')}>
-                    占位
-                  </Button>
-                </Col>
-                <Col span={10} className={action ? '' : 'hide'} style={{ textAlign: 'right' }}>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.delete ? action.delete(e, item) : false}>删除</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.copy ? action.copy(e) : false}>复制</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.open ? action.open(e) : false}>开团</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.edit ? action.edit(e) : false}>修改</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.onOff ? action.onOff(e) : false}>启停</Button>
+                <Col span={10} className={btnChildren ? '' : 'hide'} style={{ textAlign: 'right' }}>
+                  {btnChildren || null}
                 </Col>
               </Col>
             </Col>

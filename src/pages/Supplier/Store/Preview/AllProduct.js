@@ -263,6 +263,25 @@ class AllProduct extends React.Component {
     this.setState({ page: NewPage });
   }
 
+  //
+
+  // 列表按钮(这个页面只有单签证有按钮)
+  btnChildren = item => {
+    return (
+      <Col>
+        <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={e => console.log(e,item)}>
+          下载
+        </Button>
+        <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={e => console.log(e,item)}>
+          实报
+        </Button>
+        <Button style={{ marginRight: '12px' }} type="primary" size="small" ghost onClick={e => console.log(e,item)}>
+          占位
+        </Button>
+      </Col>
+    );
+  };
+
   render() {
     const { data, filter, search, total, page, depDate, backDate, groupType } = this.state;
     return (
@@ -274,7 +293,7 @@ class AllProduct extends React.Component {
             <Col
               className={`${styles.headerTypeItem} ${
                 groupType === 1 ? styles.activeHeaderTypeItem : ''
-                }`}
+              }`}
               onClick={_ => this.setState({ groupType: 1 })}
             >
               常规参团
@@ -282,7 +301,7 @@ class AllProduct extends React.Component {
             <Col
               className={`${styles.headerTypeItem} ${
                 groupType === 2 ? styles.activeHeaderTypeItem : ''
-                }`}
+              }`}
               onClick={_ => this.setState({ groupType: 2 })}
             >
               当地参团
@@ -290,7 +309,7 @@ class AllProduct extends React.Component {
             <Col
               className={`${styles.headerTypeItem} ${
                 groupType === 3 ? styles.activeHeaderTypeItem : ''
-                }`}
+              }`}
               onClick={_ => this.setState({ groupType: 3 })}
             >
               团票散卖
@@ -298,7 +317,7 @@ class AllProduct extends React.Component {
             <Col
               className={`${styles.headerTypeItem} ${
                 groupType === 4 ? styles.activeHeaderTypeItem : ''
-                }`}
+              }`}
               onClick={_ => this.setState({ groupType: 4 })}
             >
               团房散卖
@@ -306,7 +325,7 @@ class AllProduct extends React.Component {
             <Col
               className={`${styles.headerTypeItem} ${
                 groupType === 5 ? styles.activeHeaderTypeItem : ''
-                }`}
+              }`}
               onClick={_ => this.setState({ groupType: 5 })}
             >
               签证代办
@@ -481,7 +500,7 @@ class AllProduct extends React.Component {
         {/* 产品列表 */}
         <Row>
           <Col>
-            {[1,2,3,4,5,6,,7,8,9,0].map((item, index) => {
+            {[1, 2, 3, 4, 5, 6, , 7, 8, 9, 0].map((item, index) => {
               return index % 3 === 0 ? (
                 <GroupTour key={item.id}>
                   <GroupTourActive />
@@ -491,10 +510,10 @@ class AllProduct extends React.Component {
                   <TrafficActive />
                 </Traffic>
               ) : (
-                    <Visa key={item.id}>
-                      <VisaActive />
-                    </Visa>
-                  );
+                <Visa key={item.id} btnChildren={this.btnChildren(item)}>
+                  <VisaActive />
+                </Visa>
+              );
             })}
           </Col>
         </Row>

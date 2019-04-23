@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col } from 'antd';
 
 import styles from './Traffic.less';
 
@@ -13,12 +13,12 @@ class Traffic extends React.Component {
 
   render() {
     const { openModal } = this.state;
-    const { children, action, state, item } = this.props;
+    const { children, btnChildren, state } = this.props;
     return (
       <Row>
         <Col className={styles.GroupTour}>
           <Col
-            className={[styles.top, openModal ? styles.topActive : ''].join(' ')}
+            className={[styles.top, openModal && children ? styles.topActive : ''].join(' ')}
             onClick={_ => this.setState({ openModal: !openModal })}
           >
             <Col className={styles.imgBox}>
@@ -93,12 +93,8 @@ class Traffic extends React.Component {
                   <div>无自费</div>
                   <div>无购物</div>
                 </Col>
-                <Col span={10} className={action ? '' : 'hide'} style={{ textAlign: 'right' }}>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.delete ? action.delete(e, item) : false}>删除</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.copy ? action.copy(e) : false}>复制</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.open ? action.open(e) : false}>开团</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.edit ? action.edit(e) : false}>修改</Button>
-                  <Button className={styles.btns} type="primary" ghost size="small" onClick={e => action.onOff ? action.onOff(e) : false}>启停</Button>
+                <Col span={10} className={btnChildren ? '' : 'hide'} style={{ textAlign: 'right' }}>
+                  {btnChildren || null}
                 </Col>
               </Col>
             </Col>

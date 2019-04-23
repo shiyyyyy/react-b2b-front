@@ -48,7 +48,7 @@ class Holding extends React.Component {
     };
   }
 
-  // list裂变按钮
+  // list列表按钮
   btnChildren = item => {
     if (item) {
       return (

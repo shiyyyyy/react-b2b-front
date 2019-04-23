@@ -181,8 +181,8 @@ ol {
 }
 
 // 颜色
-.active{
-  color: #377DEA;
+.active {
+  color: #377dea;
 }
 .primary {
   color: #00a36a;
@@ -324,4 +324,23 @@ body .ant-table-tbody > tr > td > .tdDiv {
 body .ant-table-tbody > tr > td > .tdDiv:hover {
   border: 1px solid #40a9ff;
   // box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+// 表格拖拽
+:global {
+  tr.drop-over-downward td {
+    border-bottom: 2px dashed #1890ff !important;
+  }
+
+  tr.drop-over-upward td {
+    border-top: 2px dashed #1890ff !important;
+  }
+
+  th.drop-over-leftward{
+    border-left: 2px dashed #1890ff !important;
+  }
+
+  th.drop-over-rightward{
+    border-right: 2px dashed #1890ff !important;
+  }
 }

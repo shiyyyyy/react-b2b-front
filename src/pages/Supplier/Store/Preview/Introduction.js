@@ -11,6 +11,8 @@ import {
   TableBtn,
   TableRender,
 } from '@/components/Common';
+// 表哥拖拽
+import update from 'immutability-helper';
 
 import styles from './Introduction.less';
 
@@ -95,11 +97,28 @@ class GroupTourAdd extends React.Component {
         {
           title: '名字',
           dataIndex: 'name',
-          fixed: 'left',
+          // fixed: 'left',
           width: 200,
           editable: true,
           className: 'editable-cell',
           type: 'text',
+          onHeaderCell: column => {
+            return {
+              onClick: () => {
+                console.log(column);
+                console.log('clickCell');
+              },
+            };
+          },
+          onCell: (record, rowIndex) => {
+            return {
+              onClick: () => {
+                console.log(record);
+                console.log(rowIndex);
+                console.log('clickCell');
+              },
+            };
+          },
         },
         {
           title: '年龄',
@@ -115,6 +134,23 @@ class GroupTourAdd extends React.Component {
           dataIndex: 'address',
           width: 200,
           className: 'editable-cell',
+          onHeaderCell: column => {
+            return {
+              onClick: () => {
+                console.log(column);
+                console.log('clickCell');
+              },
+            };
+          },
+          onCell: (record, rowIndex) => {
+            return {
+              onClick: () => {
+                console.log(record);
+                console.log(rowIndex);
+                console.log('clickCell');
+              },
+            };
+          },
         },
         {
           title: '日期',
@@ -141,14 +177,9 @@ class GroupTourAdd extends React.Component {
           type: 'select',
         },
         {
-          title: (
-            <Icon
-              type="plus-circle"
-              style={{ display: 'block', color: '#599EE8', fontSize: '20px' }}
-            />
-          ),
+          title: '操作',
           width: 200,
-          fixed: 'right',
+          // fixed: 'right',
           className: 'editable-cell',
           dataIndex: 'operation',
           render: (text, record) => <TableBtn record={record} />,
@@ -196,33 +227,64 @@ class GroupTourAdd extends React.Component {
   //  表格 渲染
   TableRender() {
     // 是否可选择 (单/多)以及选择配置
-    const rowSelection = {
-      // 单选多选 (radio/checkbox(默认))
-      type: 'checkbox',
-      columnWidth: 20,
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    // const rowSelection = {
+    //   // 单选多选 (radio/checkbox(默认))
+    //   type: 'checkbox',
+    //   columnWidth: 20,
+    //   onChange: (selectedRowKeys, selectedRows) => {
+    //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    //   },
+    //   getCheckboxProps: record => ({
+    //     disabled: record.selection && record.selection.disabled === true,
+    //   }),
+    // };
+    // 表格拖拽配置集
+    const move = {
+      moveRow: (dragIndex, hoverIndex) => {
+        const { data } = this.state;
+        const dragRow = data[dragIndex];
+
+        this.setState(
+          update(this.state, {
+            data: {
+              $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+            },
+          })
+        );
       },
-      getCheckboxProps: record => ({
-        disabled: record.selection && record.selection.disabled === true,
-      }),
+      moveCol: (dragIndex, hoverIndex) => {
+        const { columns } = this.state;
+        const dragCol = columns[dragIndex];
+        console.log(dragIndex, hoverIndex);
+        console.log(columns);
+        this.setState(
+          update(this.state, {
+            columns: {
+              $splice: [[dragIndex, 1], [hoverIndex, 0, dragCol]],
+            },
+          })
+        );
+      },
     };
     // Table 配置
-    const param = {
-      data: this.state.data,
-      columns: this.state.columns,
-      scroll: {
-        x: 1400,
-        y: 300,
-      },
-      rowSelection: { rowSelection },
-      rowClassName: () => 'editable-row',
-    };
-    return <TableRender param={param} view={this} />;
+    const { data } = this.state;
+    const { columns } = this.state;
+    const scroll = { y: 300, x: 1400 };
+    const rowClassName = () => 'editable-row';
+    return (
+      <TableRender
+        dataSource={data}
+        columns={columns}
+        scroll={scroll}
+        // rowSelection={rowSelection}
+        rowClassName={rowClassName}
+        view={this}
+        move={move}
+      />
+    );
   }
 
   render() {
-
     return (
       <Row>
         <Col span={21} offset={3} className={styles.add}>
@@ -311,10 +373,7 @@ class GroupTourAdd extends React.Component {
               <Col className={styles.addModContentCell}>
                 <div className={styles.addModContentCellLabel}>自费情况</div>
                 <div className={styles.addModContentCellInput}>
-                  <RadioGroup
-                    onChange={e => this.changeInput('radio', e.target.value)}
-                    value={1}
-                  >
+                  <RadioGroup onChange={e => this.changeInput('radio', e.target.value)} value={1}>
                     {[1, 2, 3].map(item => (
                       <Radio value={item} key={item}>
                         {item}
@@ -351,9 +410,7 @@ class GroupTourAdd extends React.Component {
           </Col>
 
           <Drawer className="text-left">
-            <DrawerItem>
-              11111
-            </DrawerItem>
+            <DrawerItem>11111</DrawerItem>
             <Divider style={{ margin: '6px 0' }} />
             <DrawerItem>
               <AuthorizedSetting.AuthorizedOverview />

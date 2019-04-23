@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import { Resizable } from 'react-resizable';
 import { Layout, Menu, Icon, Row, Col, Input, Avatar, Breadcrumb, Table, Popconfirm, Divider, Upload, Spin, Form, Tag, Button, Tabs, Radio, Rate, Carousel, DatePicker, Checkbox, Select, InputNumber, Badge, Dropdown } from 'antd';
 
+// 表哥拖拽
+import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 // import G2 from '@antv/g2';
 // import Swiper from 'swiper/dist/js/swiper.js';
 import Swiper from 'swiper';
@@ -2535,26 +2539,182 @@ const EditableContext = React.createContext();
 const EditableRow = ({ form, index, ...props }) => {
     return (
         <EditableContext.Provider value={form}>
-            <tr {...props} />
+            {/* <tr {...props} /> */}
+            <BodyRow {...props} index={index} />
         </EditableContext.Provider>
     )
 };
 
-export const EditableFormRow = Form.create()(EditableRow);
+// export const EditableFormRow = Form.create()(EditableRow);
 
-//   可伸缩列 =========
+//   可伸缩列 ========= 
 export const ResizeableTitle = (props) => {
-    const { onResize, width, ...restProps } = props;
+    const { onResize, width, index, ...restProps } = props;
     if (!width) {
         return <th {...restProps} />;
     }
-
+// 如果没有width 则不需要更改宽度
     return (
-        <Resizable width={width} height={0} onResize={onResize}>
-            <th {...restProps} />
-        </Resizable>
+      <Resizable width={width} height={0} onResize={onResize}>
+        {/* <DragableHeaderCol {...props} index={index} /> */}
+        <th {...restProps} />
+      </Resizable>
     );
 };
+
+//   可拖拽行 ========= Row ============== 
+let dragingRowIndex = -1;
+
+class BodyRow extends React.Component {
+    render() {
+        const {
+            isOver,
+            connectDragSource,
+            connectDropTarget,
+            moveRow,
+            ...restProps
+        } = this.props;
+        const style = { ...restProps.style, cursor: 'move' };
+        console.log(this);
+
+        let className = restProps.className;
+        if (isOver) {
+            if (restProps.index > dragingRowIndex) {
+                className += ' drop-over-downward';
+            }
+            if (restProps.index < dragingRowIndex) {
+                className += ' drop-over-upward';
+            }
+        }
+        return connectDragSource(
+            connectDropTarget(
+                <tr
+                    {...restProps}
+                    className={className}
+                    style={style}
+                />
+            )
+        );
+    }
+}
+
+const rowSource = {
+    beginDrag(props) {
+        console.log(props)
+        dragingRowIndex = props.index;
+        return {
+            index: props.index,
+        };
+    },
+};
+
+const rowTarget = {
+    drop(props, monitor) {
+        console.log(props);
+
+        const dragIndex = monitor.getItem().index;
+        const hoverIndex = props.index;
+
+        // Don't replace items with themselves
+        if (dragIndex === hoverIndex) {
+            return;
+        }
+
+        // Time to actually perform the action
+        props.moveRow(dragIndex, hoverIndex);
+
+        // Note: we're mutating the monitor item here!
+        // Generally it's better to avoid mutations,
+        // but it's good here for the sake of performance
+        // to avoid expensive index searches.
+        monitor.getItem().index = hoverIndex;
+    },
+};
+
+const DragableBodyRow = DropTarget(
+    'row',
+    rowTarget,
+    (connect, monitor) => ({
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver(),
+    }),
+)(
+    DragSource(
+        'row',
+        rowSource,
+        (connect) => ({
+            connectDragSource: connect.dragSource(),
+        }),
+    )(Form.create()(EditableRow)),
+);
+
+//   可拖拽行 ========= Col ============== 
+let dragingColIndex = -1;
+
+class HeaderCol extends React.Component {
+  render() {
+    const { isOver, connectDragSource, connectDropTarget, moveCol, ...restProps } = this.props;
+    const style = { ...restProps.style, cursor: 'move' };
+    console.log(this)
+    let className = restProps.className;
+    if (isOver) {
+      if (restProps.index > dragingColIndex) {
+        className += ' drop-over-rightward';
+      }
+      if (restProps.index < dragingColIndex) {
+        className += ' drop-over-leftward';
+      }
+    console.log(restProps.index, dragingColIndex);
+
+    }
+
+    return connectDragSource(
+      connectDropTarget(<th {...restProps} className={className} style={style} />)
+    );
+  }
+}
+
+const colSource = {
+  beginDrag(props) {
+        console.log(props)
+    dragingColIndex = props.index;
+    return {
+      index: props.index,
+    };
+  },
+};
+
+const colTarget = {
+  drop(props, monitor) {
+        console.log(props);
+
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    // Don't replace items with themselves
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+
+    // Time to actually perform the action
+    props.moveCol(dragIndex, hoverIndex);
+
+    // Note: we're mutating the monitor item here!
+    // Generally it's better to avoid mutations,
+    // but it's good here for the sake of performance
+    // to avoid expensive index searches.
+    monitor.getItem().index = hoverIndex;
+  },
+};
+
+const DragableHeaderCol = DropTarget('col', colTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+}))(
+  DragSource('col', colSource, connect => ({
+    connectDragSource: connect.dragSource(),
+  }))(HeaderCol)
+);
 
 
 //   Table => 更改单元格 =============
@@ -2794,127 +2954,152 @@ export class EditableCell extends React.Component {
 }
 
 //   Table => 本体 =============
-export class TableRender extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            filteredInfo: null,
-            sortedInfo: null,
+export class TableRende extends React.Component {
+         constructor(props) {
+           super(props);
+           this.state = {
+             filteredInfo: null,
+             sortedInfo: null,
+           };
+           console.log(props)
+         }
+
+         // 分页、排序、筛选变化时触发
+         TableChange(pagination, filters, sorter, extra) {
+           console.log(this);
+           console.log(pagination);
+           console.log(filters);
+           console.log(sorter);
+           console.log(extra);
+           this.setState({
+             filteredInfo: filters,
+             sortedInfo: sorter,
+           });
+         }
+
+         //  ====  这里要求 父级页面的  数据源  名字叫做 dataSource ==== 
+         handleSave = row => {
+           console.log(row);
+           const dataSource = [...this.props.dataSource];
+           const index = dataSource.findIndex(item => row.key === item.key);
+           const item = dataSource[index];
+           dataSource.splice(index, 1, {
+             ...item,
+             ...row,
+           });
+           this.props.view.setState({ data: dataSource });
+         };
+         //  ====  这里要求 父级页面的  列配置  名字叫做 columns ====
+         handleResize = index => (e, { size }) => {
+           this.props.view.setState(({ columns }) => {
+             const nextColumns = [...columns];
+             nextColumns[index] = {
+               ...nextColumns[index],
+               width: size.width,
+             };
+             return { columns: nextColumns };
+           });
+         };
+
+        moveRow = (dragIndex, hoverIndex) => {
+            console.log(dragIndex, hoverIndex);
+          this.props.move.moveRow(dragIndex, hoverIndex);
         }
-    }
+        moveCol = (dragIndex, hoverIndex) => {
+            console.log(dragIndex, hoverIndex)
+          this.props.move.moveCol(dragIndex, hoverIndex);
+        }
 
-    // 分页、排序、筛选变化时触发
-    TableChange(pagination, filters, sorter, extra){
-        console.log(this)
-        console.log(pagination)
-        console.log(filters)
-        console.log(sorter)
-        console.log(extra)
-        this.setState({
-            filteredInfo: filters,
-            sortedInfo: sorter,
-        });
-    }
-
-    //  ====  这里要求 父级页面的  数据源  名字叫做 data ====
-    handleSave = (row) => {
-        console.log(row)
-        const newData = [...this.props.param.data];
-        const index = newData.findIndex(item => row.key === item.key);
-        const item = newData[index];
-        newData.splice(index, 1, {
-            ...item,
-            ...row,
-        });
-        this.props.view.setState({ data: newData });
-    }
-    //  ====  这里要求 父级页面的  列配置  名字叫做 columns ====
-    handleResize = index => (e, { size }) => {
-        this.props.view.setState(({ columns }) => {
-            const nextColumns = [...columns];
-            nextColumns[index] = {
-                ...nextColumns[index],
-                width: size.width,
-            };
-            return { columns: nextColumns };
-        });
-    };
-
-    render(){
-        // 数据源
-        const data = this.props.param.data;
-        // 筛选和排序
-        const { sortedInfo, filteredInfo } = this.state;
-        // sortedInfo = sortedInfo || {};
-        // filteredInfo = filteredInfo || {};
-        // 固定的列 和 header
-        const components = {
-            header: {
+         render() {
+           // 数据源
+           const data = this.props.dataSource;
+           // 筛选和排序
+           const { sortedInfo, filteredInfo } = this.state;
+           // sortedInfo = sortedInfo || {};
+           // filteredInfo = filteredInfo || {};
+           // 固定的列 和 header
+           const components = {
+             header: {
                 cell: ResizeableTitle,
-            },
-            body: {
-                row: EditableFormRow,
-                cell: EditableCell,
-            },
-        };
-        // row 每一排的 className
-        const RowClassName = this.props.param.rowClassName || ''
-        // 需要不要滚动
-        const scroll = this.props.param.scroll ? {
-                            x: this.props.param.scroll.x || true,
-                            y: this.props.param.scroll.y || null
-                        } : null
-        console.log(scroll)
-        // 需不需要 可选择(单radio/多checkbox)
-        const rowSelection = this.props.param.rowSelection ? { ...this.props.param.rowSelection } : null
-                                
-        // 列配置
-        const columns = this.props.param.columns.map((col, index) => {
-            if (!col.editable) {
-                return {
-                    ...col,
-                    onHeaderCell: column => {
-                        return ({
-                            width: column.width,
-                            onResize: this.handleResize(index),
-                        })
-                    }
-                }
-            }
+            //    cell: DragableHeaderCol,
+             },
+             body: {
+               //    row: EditableFormRow,
+               row: DragableBodyRow,
+               cell: EditableCell,
+             },
+           };
+           // row 每一排的 className
+           const RowClassName = this.props.rowClassName || '';
+           // 需要不要滚动
+           const scroll = this.props.scroll
+             ? {
+                 x: this.props.scroll.x || true,
+                 y: this.props.scroll.y || null,
+               }
+             : null;
+           console.log(scroll);
+           // 需不需要 可选择(单radio/多checkbox)
+           const rowSelection = this.props.rowSelection
+             ? { ...this.props.rowSelection }
+             : null;
 
-            return {
-                ...col,
-                onCell: record => ({
-                    record,
-                    editable: col.editable,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    handleSave: this.handleSave,
-                    type: col.type || null
-                }),
-                onHeaderCell: column => ({
-                    width: column.width,
-                    onResize: this.handleResize(index),
-                }),
-            };
-        });
+           // 列配置
+           console.log(this.props.columns)
+           const columns = this.props.columns.map((col, index) => {
+             if (!col.editable) {
+               return {
+                 ...col,
+                 onHeaderCell: column => {
+                   return {
+                     width: column.width,
+                     onResize: this.handleResize(index),
+                     index: index,
+                     moveCol: this.moveCol,
+                   };
+                 },
+               };
+             }
 
-        return (
-            <Table
-                bordered
-                rowSelection={rowSelection}
-                components={components}
-                columns={columns}
-                dataSource={data}
-                scroll={scroll}
-                rowClassName={RowClassName}
-                onChange={this.TableChange.bind(this)}
-            />
-        )
-    }
-}
+             return {
+               ...col,
+               onCell: record => ({
+                 record,
+                 editable: col.editable,
+                 dataIndex: col.dataIndex,
+                 title: col.title,
+                 handleSave: this.handleSave,
+                 type: col.type || null,
+               }),
+               onHeaderCell: column => ({
+                 width: column.width,
+                 onResize: this.handleResize(index),
+                 index: index,
+                 moveCol: this.moveCol,
+               }),
+             };
+           });
 
+           return (
+             <Table
+               bordered
+               rowSelection={rowSelection}
+               components={components}
+               columns={columns}
+               dataSource={data}
+               scroll={scroll}
+               rowClassName={RowClassName}
+               onChange={this.TableChange.bind(this)}
+               onRow={(record, index) => ({
+                 index,
+                 moveRow: this.moveRow,
+               })}
+             />
+           );
+         }
+       }
 
+export const TableRender = DragDropContext(HTML5Backend)(TableRende);
 // ========================================      Table Filter      ================================= //
 export class TableFilter extends React.Component{
     constructor(){

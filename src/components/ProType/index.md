@@ -20,9 +20,10 @@ order: 15
 参数 | 说明 | 类型 | 默认值
 ----|------|-----|------
 item | 当前数据 | Object | -
-action | 是否显示右下按钮,并包含按钮事件 | Object | -
 state | 是否显示右侧审批状态 | ==bool | false
 children | 点击展开时显示的模块 | ReactNode | -
+btnChildren | 是否显示右下按钮,并包含按钮事件 | Object | -
+
 
 
 ### ProType.Traffic
@@ -30,9 +31,10 @@ children | 点击展开时显示的模块 | ReactNode | -
 参数 | 说明 | 类型 | 默认值
 ----|------|-----|------
 item | 当前数据 | Object | -
-action | 是否显示右下按钮,并包含按钮事件 | Object | -
 state | 是否显示右侧审批状态 | ==bool | false
 children | 点击展开时显示的模块 | ReactNode | -
+btnChildren | 是否显示右下按钮,并包含按钮事件 | Object | -
+
 
 
 ### ProType.Visa
@@ -41,6 +43,5 @@ children | 点击展开时显示的模块 | ReactNode | -
 ----|------|-----|------
 item | 当前数据 | Object | -
 state | 是否显示右侧审批状态 | ==bool | false
-action | 是否显示右下按钮,并包含按钮事件(操作按钮,增删改查) | Object | -
-listBtn | 是否显示右下按钮(列表自带按钮,下载实报占位) | Object | -
-(action和listBtn应该互斥)
+btnChildren | 是否显示右下按钮,并包含按钮事件 | Object | -
+

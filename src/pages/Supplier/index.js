@@ -45,6 +45,7 @@ class SupplierIndex extends React.Component {
   }
 
   renderNotices(){
+    console.log(this)
     const {
       notices:{list},
       noticesLoading

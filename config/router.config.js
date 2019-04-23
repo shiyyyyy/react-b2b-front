@@ -7,38 +7,39 @@ import Admin from './routers/AdminRouter';
 
 
 const baseConfig = {
-    '/user':{component:'../layouts/UserLayout',routes:[]},
-    '/adm': { component:'../layouts/BasicLayout',routes:[]},
-    '/':{component:'../layouts/BasicLayout',routes:[]}
+  '/user': { component: '../layouts/UserLayout', routes: [] },
+  '/admin': { component: '../layouts/BasicLayout', routes: [] },
+  '/': { component: '../layouts/BasicLayout', routes: [] }
 };
 
-function init(){
+function init() {
   let subConfig = [];
-  let routerConfig = { ... baseConfig };
-  subConfig = [...Supplier,...User,...Admin,...Personal];
+  let routerConfig = { ...baseConfig };
+  subConfig = [...Supplier, ...User, ...Admin, ...Personal];
 
-  subConfig = [ ... subConfig,...Exception];
-  subConfig.forEach(sub =>{
-    if(sub.parent && routerConfig[sub.parent]){
-       routerConfig[sub.parent]['routes'] = [...routerConfig[sub.parent]['routes'] 
-       , ...sub.routes];
+  subConfig = [...subConfig, ...Exception];
+  subConfig.forEach(sub => {
+    if (sub.parent && routerConfig[sub.parent]) {
+      routerConfig[sub.parent]['routes'] = [...routerConfig[sub.parent]['routes']
+        , ...sub.routes];
     }
   })
   let config = [];
-  Object.keys(routerConfig).map(pathkey=>{
+  Object.keys(routerConfig).map(pathkey => {
     let _config = {
-      path:pathkey,
-      component:routerConfig[pathkey].component,
-      routes:routerConfig[pathkey].routes
+      path: pathkey,
+      component: routerConfig[pathkey].component,
+      routes: routerConfig[pathkey].routes
     }
     config.push(_config);
   })
+  console.log(config)
   return config;
 }
 
 const config = init();
 
-export default config ;
+export default config;
 
 
 
