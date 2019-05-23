@@ -15,7 +15,10 @@ import Header from './Header';
 import Context from './MenuContext';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
+import Authorized from '@/utils/Authorized';
 import { menu, title } from '../defaultSettings';
+import {signalInit} from '@/utils/signal';
+import Exception403 from '@/pages/Exception/403';
 
 import styles from './BasicLayout.less';
 
@@ -51,6 +54,8 @@ const query = {
   },
 };
 
+
+
 class BasicLayout extends React.Component {
   constructor(props) {
     super(props);
@@ -61,21 +66,29 @@ class BasicLayout extends React.Component {
   componentDidMount() {
     const {
       dispatch,
-      route: { routes, authority },
+      route: { routes },
     } = this.props;
 
     dispatch({
-      type: 'user/fetchCurrent',
-    });
-    dispatch({
       type: 'setting/getSetting',
+    });
+
+    dispatch({
+      type: 'meta/getMetaData',
     });
     dispatch({
       type: 'menu/getMenuData',
-      payload: { routes, authority },
+      payload: { routes },
     });
-    console.log(this);
-
+    dispatch({
+      type: 'enum/update',
+      payload: { ver: new Date().getTime()},
+    });
+    dispatch({
+      type: 'user/fetch'      
+    })
+    
+    signalInit().catch(e=>console.log(e));
   }
 
   getContext() {
@@ -152,6 +165,8 @@ class BasicLayout extends React.Component {
       menuData,
       breadcrumbNameMap,
       fixedHeader,
+      metaLoading,
+      menuLoading
     } = this.props;
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0};
@@ -183,7 +198,14 @@ class BasicLayout extends React.Component {
           />
           <Content className={styles.content} style={contentStyle}>
             <div className={styles.contentBgc}>
-              {children}
+              {
+                !metaLoading && !menuLoading && 
+                <Authorized authority={pathname} noMatch={<Exception403 />}>
+                  {
+                    children
+                  }
+                </Authorized>
+              }
             </div>
           </Content>
           <Footer />
@@ -207,11 +229,14 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ global, setting, menu: menuModel }) => ({
+export default connect(({ global, setting, menu: menuModel,meta ,loading}) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
+  meta,
+  metaLoading:loading.models.meta,
+  menuLoading:loading.models.menu,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

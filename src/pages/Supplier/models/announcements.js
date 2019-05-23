@@ -1,4 +1,4 @@
-import { readMod } from '@/services/api';
+import { readMod } from '@/utils/utils';
 
 export default {
   namespace: 'announcements',
@@ -10,7 +10,7 @@ export default {
   effects: {
     *fetch(_, { call, put }) {
       try{
-        const response = yield call(readMod,'公告管理');
+        const response = yield call(readMod,'平台公告');
         if(response.success && response.data){
           const {data} = response;
           yield put({

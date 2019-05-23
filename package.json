@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "presite": "cd functions && npm install",
-    "start": "cross-env Mock=none APP_TYPE=site umi dev --port=8010",
+    "start": "cross-env Mock=none APP_TYPE=site umi dev --port=8012",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "build": "umi build",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
@@ -37,10 +37,10 @@
     "bizcharts": "^3.4.3",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",
+    "dragm": "^0.0.5",
     "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.7",
-    "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
     "lodash-decorators": "^6.0.1",
     "memoize-one": "^5.0.0",
@@ -63,6 +63,8 @@
     "react-media": "^1.9.2",
     "react-resizable": "^1.7.5",
     "react-router-dom": "^4.3.1",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "swiper": "^4.5.0"
   },
   "devDependencies": {

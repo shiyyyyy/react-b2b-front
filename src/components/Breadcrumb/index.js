@@ -8,7 +8,7 @@ function BreadcrumbRander(props) {
   // 正常获取breadcrumbArr
   const breadcrumbArr = () => {
     const breadcrumb = pathname.split('/').filter( i => i);
-    return breadcrumb.map((item, index) => `/${breadcrumb.slice(0,index+1).join('/')}` )
+    return breadcrumb.map((item, index) => `/${breadcrumb.slice(0,index+1).join('/')}` ).filter(item => breadcrumbNameMap[item])
   };
   // 如果是 admin 路由,则去掉/admin
   const breadcrumbArrTrue = () => {

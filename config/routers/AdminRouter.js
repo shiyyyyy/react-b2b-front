@@ -1,111 +1,177 @@
 export default [
   {
-    parent: '/admin',
+    parent: '/',
     routes: [
-      { path: '/admin', redirect: '/admin/index' },
       {
-        path: '/admin/index',
-        name: '首页',
-        icon: 'home',
-        isMenu: true,
-        component: './Admin',
-
-        // routes: [
-        //   { path: '/admin', redirect: '/admin/index' },
-        //   {
-        //     path: '/admin/index',
-        //     name: 'admin',
-        //     component: './Admin',
-        //   },
-        // ],
-      },
-      {
-        path: '/admin/administration',
-        name: '行政管理',
-        icon: 'home',
-        isMenu: true,
-        routes: [
-          { path: '/admin/administration', redirect: '/admin/administration/company' },
+        name :'行政中心',
+        icon:'sitemap',
+        path:'/office',
+        routes:[
           {
-            path: '/admin/administration/company',
-            name: '公司设置',
-            isMenu: true,
-            component: './Admin/Administration/Company',
+            path: '/office/auth',
+            routes:[
+              {
+                path: '/office/auth',
+                redirect: '/office/auth/list',
+              },
+              {
+                path: '/office/auth/list',
+                name: '权限管理',
+                component: './Office/Auth/AuthList',
+              },
+              {
+                path:'/office/auth/edit',
+                name:'编辑权限',
+                component:'./Office/Auth/AuthEdit',
+              },
+            ]
           },
           {
-            path: '/admin/administration/department',
-            name: '部门设置',
-            isMenu: true,
-            component: './Admin/Administration/Department',
-          },
-          {
-            path: '/admin/administration/employee',
-            name: '员工设置',
-            isMenu: true,
-            component: './Admin/Administration/Employee',
-          },
-          {
-            path: '/admin/administration/purview',
-            name: '权限设置',
-            isMenu: true,
-            component: './Admin/Administration/Purview',
-          },
-        ],
-      },
-      {
-        path: '/admin/member',
-        name: '会员管理',
-        icon: 'home',
-        isMenu: true,
-        routes: [
-          { path: '/admin/member', redirect: '/admin/member/register' },
-          {
-            path: '/admin/member/register',
-            name: '注册审核',
-            isMenu: true,
-            component: './Admin/Member/Register',
-          },
-          {
-            path: '/admin/member/company',
+            path: '/office/company',
             name: '公司管理',
-            isMenu: true,
-            component: './Admin/Member/Company',
+            routes:[
+              {
+                path: '/office/company',
+                redirect: '/office/company/list',
+              },
+              {
+                path: '/office/company/list',
+                name: '公司列表',
+                component: './Office/Company/CompanyList',
+              }
+            ]
           },
           {
-            path: '/admin/member/department',
+            path: '/office/department',
             name: '部门管理',
-            isMenu: true,
-            component: './Admin/Member/Department',
+            routes:[
+              {
+                path: '/office/department',
+                redirect: '/office/department/list',
+              },
+              {
+                path: '/office/department/list',
+                name: '部门列表',
+                component: './Office/Department/DepartmentList',
+              }
+            ]
           },
           {
-            path: '/admin/member/account',
-            name: '账号管理',
-            isMenu: true,
-            component: './Admin/Member/Account',
+            path: '/office/employee',
+            name: '员工管理',
+            routes:[
+              {
+                path: '/office/employee',
+                redirect: '/office/employee/list',
+              },
+              {
+                path: '/office/employee/list',
+                name: '员工列表',
+                component: './Office/Employee/EmployeeList',
+              }
+            ]
           },
-        ],
+        ]
       },
       {
-        path: '/admin/product',
-        name: '产品管理',
-        icon: 'home',
-        isMenu: true,
-        routes: [
-          { path: '/admin/product', redirect: '/admin/Product/examine' },
+        name :'会员中心',
+        icon:'sitemap',
+        path:'/member',
+        routes:[
           {
-            path: '/admin/product/examine',
+            path: '/member/company',
+            name: '公司管理',
+            routes:[
+              {
+                path: '/member/company',
+                redirect: '/member/company/list',
+              },
+              {
+                path: '/member/company/list',
+                name: '公司列表',
+                component: './Member/Company/CompanyList',
+              }
+            ]
+          },
+          {
+            path: '/member/department',
+            name: '部门管理',
+            routes:[
+              {
+                path: '/member/department',
+                redirect: '/member/department/list',
+              },
+              {
+                path: '/member/department/list',
+                name: '部门列表',
+                component: './Member/Company/CompanyList',
+              }
+            ]
+          },
+          {
+            path: '/member/sales',
+            name: '账号管理',
+            routes:[
+              {
+                path: '/member/sales',
+                redirect: '/member/sales/list',
+              },
+              {
+                path: '/member/sales/list',
+                name: '账号列表',
+                component: './Member/Company/CompanyList',
+              }
+            ]
+          },
+        ]
+      },
+      {
+        name :'产品管理',
+        icon:'sitemap',
+        path:'/product',
+        routes:[
+          {
+            path: '/product/productCheck',
             name: '产品审核',
-            isMenu: true,
-            component: './Admin/Product/Examine',
+            routes:[
+              {
+                path: '/product/productCheck',
+                redirect: '/product/productCheck/list',
+              },
+              {
+                path: '/product/productCheck/list',
+                name: '产品审核',
+                component: './Common/List',
+              },
+              {
+                path: '/product/productCheck/check',
+                name: '审核',
+                component: './Product/ProductCheck/Check',
+              }
+            ]
           },
           {
-            path: '/admin/product/maintain',
+            path: '/product/productMaintain',
             name: '产品维护',
-            isMenu: true,
-            component: './Admin/Product/Maintain',
-          },
-        ],
+            routes:[
+              {
+                path: '/product/productMaintain',
+                redirect: '/product/productMaintain/list',
+              },
+              {
+                path: '/product/productMaintain/list',
+                name: '产品维护列表',
+                component: './Product/ProductMaintain/List',
+              },
+              {
+                path:'/product/productMaintain/maintain',
+                name:'维护',
+                component:'./Product/ProductMaintain/Maintain'
+              }
+            ]
+          }
+        ]
       },
     ],
-  },
+  }
 ];

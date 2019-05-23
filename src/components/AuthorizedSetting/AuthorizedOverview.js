@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Divider } from 'antd';
-import { TableRender } from '@/components/Common';
+import { Table, Divider } from 'antd';
 
 import styles from './AuthorizedOverview.less';
 
@@ -117,7 +116,7 @@ class AuthorizedOverview extends Component {
 
     return (
       <div className={styles.AuthorizedOverview}>
-        {/* <TableRender columns={columns} dataSource={data} /> */}
+        <Table columns={columns} dataSource={data} />
       </div>
     );
   }

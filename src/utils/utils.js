@@ -3,10 +3,11 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 // import pathToRegexp from 'path-to-regexp';
-import { Modal } from 'antd';
-
+import { Modal ,Button} from 'antd';
+import router from 'umi/router';
 import request from './request';
-
+import AppCore from './core';
+import ModalRender from '@/components/ModalRender';
 
 
 export function fixedZero(val) {
@@ -199,49 +200,6 @@ export function getGobalState(name){
     return ret;
 }
 
-// function ergodicRoutes(routes, authKey, authority) {
-//   routes.forEach(element => {
-//     const ele = element;
-//     if (ele.path === authKey) {
-//       if (!ele.authority) ele.authority = [];
-//       Object.assign(ele.authority, authority || []);
-//     } else if (ele.routes) {
-//       ergodicRoutes(ele.routes, authKey, authority);
-//     }
-//     return ele;
-//   });
-// }
-
-// export function addAuthForRoutes(authRoutes) {
-//   const routes = [];
-//   Object.assign(routes,window.g_routes);
-//   Object.keys(authRoutes).map(authKey =>{
-//       return ergodicRoutes(routes, authKey, authRoutes[authKey])
-//     }
-//   );
-//   window.g_auth_config = routes;
-// }
-
-// export function getRouteAuthority(pathname){
-//     const routes = window.g_auth_config.slice(); // clone
-//     let authorities;
-
-//     while (routes.length > 0) {
-//       const route = routes.shift();
-//       if (route.path && pathToRegexp(route.path).test(pathname)) {
-//           if (route.authority) {
-//             authorities = route.authority;
-//           }
-//           break;
-//       }
-//       if (route.routes) {
-//           route.routes.forEach(r => routes.push(r));
-//       }
-//     }
-
-//     return authorities;
-//   };
-
 export function error(p) {
     const m = {
         content: p.message || p,
@@ -335,35 +293,31 @@ export function getReqData(cfg, data) {
     return rst;
 }
 
-export function getReadParam(cfg, data) {
-    const param = {};
-
-    // if(){
-    //   param['front_enum'] = ver;
-    // }
-    if(cfg.action){
-      param.action = cfg.action;
-    }
-    if (cfg.mod) {
-      param.mod = cfg.mod;
-    }
-    if (data && data.search) {
-        Object.assign(param, data.search);
+export function getReadParam(serach,cfg, data) {
+    const param = {...serach};
+    if(cfg){
+      Object.assign(param,getReqData(cfg,data));
     }
 
-    if (cfg.read.data) {
-        Object.assign(param, getReqData(cfg.read.data, data));
-    }
     return param;
 }
 
 
 
-export async function get(url,params){
+export async function get(url,data){
     const option = {
       method: 'POST'
     };
-    const newUrl = `${url}?${encUrl(params)}`;
+    const e = getGobalState('enum');
+    let newUrl = url;
+    const params = { ... data } ; 
+
+    if(e.front_enum && e.front_enum !== ''){
+      params.front_enum = e.front_enum;
+    }
+    if(encUrl(params)!== ''){
+      newUrl = `${newUrl}?${encUrl(params)}`;
+    }
 
     return request(newUrl,option);
 }
@@ -375,10 +329,131 @@ export async function post(url,data){
         ...data,
       },
     };
-    return request(url,option);
+    let nUrl = url;
+    const e = getGobalState('enum');
+    if(e.front_enum && e.front_enum !== '' ){
+      nUrl = `${nUrl}\?front_enum=${e.front_enum}`;
+    }
+
+    return request(nUrl,option);
 }
 
-export function getEnum(type){
-  const Enum = getGobalState('enum').data[type];
-  return Enum;
+
+export async function readMod(mod,params = {} ){
+  const {mods} = getGobalState('meta');
+  if(!mods){
+    return new Promise((rs)=>{
+      rs({success:true,data:[]})
+    });
+  }
+  if(!mods[mod]){
+    return new Promise((rs)=>{
+      rs({success:true,data:[]})
+    });
+  }
+
+  const cfg = mods[mod];
+  
+  const serach = {...params,mod}
+
+  return get(cfg.read.url,getReadParam(serach));
+}
+
+export async function readAction(action,params = {}){
+  const {actions} = getGobalState('meta');
+
+  if(!actions){
+    return new Promise((rs)=>{
+      rs({success:true,data:[]})
+    });
+  }
+  if(!actions[action]){
+    return new Promise((rs)=>{
+      rs({success:true,data:[]})
+    });
+  }
+  const cfg = actions[action];
+  const serach = {...params,action}
+  return get(cfg.read.url,getReadParam(serach));
+}
+
+export async function submit(action, data) {
+    const {actions} = getGobalState('meta');
+    const cfg = actions[action];
+
+    return post(cfg.submit.url, getReqData(cfg.submit.data, data));
+}
+
+export async function queryEnum(ver) {
+    let enumVer = ver;
+    if(!enumVer){
+        enumVer =new Date().getTime();
+    }
+    const url = `${AppCore.HOST}/files/${AppCore.TENANT}/cache/Enum.js?ver=${enumVer}`;
+    return request(url ,{
+      method: 'GET'
+    });
+}
+
+export async function queryMeta(){
+    let url = `${AppCore.HOST}/api/Pub/get_meta`;
+
+
+    const user = getGobalState('user').currentUser;
+
+    const sid = user.sid ? user.sid :'';
+    if(sid!==''){
+      url = `${AppCore.HOST}/PublicApi/get_meta`;
+    }
+    return post(url);
+}
+
+export async function queryUser(){
+  return post('/PublicApi/get_current', {});
+}
+
+export async function queryMenu(){
+    let url = `${AppCore.HOST}/api/Pub/get_menu`;
+
+
+    const user = getGobalState('user').currentUser;
+
+    const sid = user.sid ? user.sid :'';
+    if(sid!==''){
+      url = `${AppCore.HOST}/PublicApi/get_menu`;
+    }
+    return post(url);
+}
+
+export function renderButton(cfg,actionMap){
+    const {actions} = cfg;
+    return (
+      <div>
+        {
+          Object.keys(actions).map((key)=>(
+            <Button key={key} onClick={()=>(actionMap[key]) && (actionMap[key])()}>
+              <span>{actions[key].text}</span>
+            </Button>
+          ))}
+      </div>);
+}
+
+export function trigger(action,meta,storeId,data,prePageReload){
+  const cfg = meta || getGobalState('meta').actions[action];
+  if(!cfg){
+    router.push({
+      pathname: '/exception/403'
+    });
+  }else if(cfg.view){
+    if(cfg.modal){
+      ModalRender(action,cfg,data,prePageReload);
+    }else if(cfg.view === 'submit'){
+      submit(action,{}).then(()=>prePageReload());
+    }else{
+      router.push({
+        pathname: cfg.view,
+        state:{action,...data}
+      });
+    }
+  }
 }

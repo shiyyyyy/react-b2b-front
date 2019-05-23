@@ -4,18 +4,18 @@ import User from './routers/UserRouter';
 
 import Exception from './routers/ExceptionRouter';
 import Admin from './routers/AdminRouter';
+import BusinessSetting from './routers/BusinessSettingRouter';
 
 
 const baseConfig = {
   '/user': { component: '../layouts/UserLayout', routes: [] },
-  '/admin': { component: '../layouts/BasicLayout', routes: [] },
   '/': { component: '../layouts/BasicLayout', routes: [] }
 };
 
 function init() {
   let subConfig = [];
   let routerConfig = { ...baseConfig };
-  subConfig = [...Supplier, ...User, ...Admin, ...Personal];
+  subConfig = [...Supplier, ...User, ...Admin, ...Personal,...BusinessSetting];
 
   subConfig = [...subConfig, ...Exception];
   subConfig.forEach(sub => {
@@ -33,7 +33,6 @@ function init() {
     }
     config.push(_config);
   })
-  console.log(config)
   return config;
 }
 

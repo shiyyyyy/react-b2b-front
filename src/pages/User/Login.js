@@ -7,7 +7,7 @@ import Login from '@/components/Login';
 import styles from './Login.less';
 import { AppConst } from '@/utils/const';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+const { Tab, UserName, Password, Submit } = Login;
 
 @connect(({ login, loading }) => ({
   login,
@@ -21,12 +21,24 @@ class LoginPage extends Component {
 
   handleSubmit = (err, values) => {
     const {userType} = this.state;
+    const field = {};
+    if(userType === `${AppConst.USER_SUP}`){
+      field.account = values.supplierAccount;
+      field.password = values.supplierPassword;
+    }else if(userType === `${AppConst.USER_RET}`){
+      field.account = values.distributorAccount;
+      field.password = values.distributorPassword;
+    }else{
+      field.account = values.account;
+      field.password = values.password;
+    }
+
     if (!err) {
       const { dispatch } = this.props;
       dispatch({
         type: 'login/login',
         payload: {
-          ...values,
+          ...field,
           userType
         },
       });
@@ -62,15 +74,15 @@ class LoginPage extends Component {
             this.loginForm = form;
           }}
         >
-          <Tab key={`${AppConst.USER_SUP}`} tab='供应商登录'>
+          <Tab key={`${AppConst.USER_SUP}`} tab="供应商登录">
             {login.status === 'error' &&
-              login.type === AppConst.USER_SUP  &&
+              login.type === AppConst.USER_SUP &&
               !submitting &&
               this.renderMessage(
                 formatMessage({ id: 'app.login.message-invalid-credentials' })
               )}
             <UserName
-              name="account"
+              name="supplierAccount"
               placeholder={`${formatMessage({ id: 'app.login.userName' })}`}
               rules={[
                 {
@@ -80,7 +92,7 @@ class LoginPage extends Component {
               ]}
             />
             <Password
-              name="password"
+              name="supplierPassword"
               placeholder={`${formatMessage({ id: 'app.login.password' })}`}
               rules={[
                 {
@@ -88,10 +100,15 @@ class LoginPage extends Component {
                   message: formatMessage({ id: 'validation.password.required' }),
                 },
               ]}
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+              onPressEnter={() =>
+                this.loginForm.validateFields(
+                  ['supplierAccount', 'supplierPassword'],
+                  this.handleSubmit
+                )
+              }
             />
           </Tab>
-          <Tab key={`${AppConst.USER_RET}`} tab='分销商登录'>
+          <Tab key={`${AppConst.USER_RET}`} tab="分销商登录">
             {login.status === 'error' &&
               login.type === AppConst.USER_RET &&
               !submitting &&
@@ -117,10 +134,15 @@ class LoginPage extends Component {
                   message: formatMessage({ id: 'validation.password.required' }),
                 },
               ]}
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+              onPressEnter={() =>
+                this.loginForm.validateFields(
+                  ['distributorAccount', 'distributorPassword'],
+                  this.handleSubmit
+                )
+              }
             />
           </Tab>
-          <Tab key={`${AppConst.USER_EMP}`} tab='管理员登陆'>
+          <Tab key={`${AppConst.USER_EMP}`} tab="管理员登陆">
             {login.status === 'error' &&
               login.type === AppConst.USER_EMP &&
               !submitting &&
@@ -146,14 +168,18 @@ class LoginPage extends Component {
                   message: formatMessage({ id: 'validation.password.required' }),
                 },
               ]}
-              onPressEnter={() => this.loginForm.validateFields(this.handleSubmit)}
+              onPressEnter={() => this.loginForm.validateFields(['account','password'], this.handleSubmit)}
             />
           </Tab>
           <div>
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <Link className={styles.login} style={{ float: 'right' }} to={{pathname:"/User/Register",state:{userType:userType}}}>
+            <Link
+              className={styles.login}
+              style={{ float: 'right' }}
+              to={{ pathname: '/User/Register', state: { userType } }}
+            >
               <FormattedMessage id="app.login.reset-password" />
             </Link>
           </div>

@@ -1,7 +1,6 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
-import { getGobalState} from './utils';
-import { AppCore } from  './core';
+import AppCore from  './core';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -84,8 +83,10 @@ export default function request(requestUrl, option) {
 
   const newOptions = {...options };
   
-  
-  const user = getGobalState('user');
+  const state = window.g_app._store.getState();
+
+  const user = state.user || {};
+
   let sid = '';
   if(user.currentUser && user.currentUser.sid){
     sid = user.currentUser.sid;//  eslint-disable-line
@@ -109,7 +110,13 @@ export default function request(requestUrl, option) {
         if(response.enum){
           /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
           window.g_app._store.dispatch({
-            type:'enum/update'
+            type:'enum/update',
+            payload:{ver:response.enum}
+          });
+        }else{
+          window.g_app._store.dispatch({
+            type:'enum/setFrontEnum',
+            payload:{ver:''}
           });
         }
         rs(response);
@@ -118,8 +125,61 @@ export default function request(requestUrl, option) {
       if(error.name ===-1){
         /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
         window.g_app._store.dispatch({
-          type:'login/logout'
+          type:'login/changeLoginStatus',
+          payload:{
+            status: false
+          }
         });
+        window.g_app._store.dispatch({
+          type:'user/clear'
+        });
+        return;
+      }
+      notification.error({
+        message: '请求错误',
+        description: error.message,
+      });
+      rj(error);
+    })
+  });
+}
+
+
+export function upload(formData, type) {
+
+  let url  = `/api/Pub/upload/${type}`;;
+
+  if (url.indexOf('http') !== 0 && AppCore.HOST) {
+      url = AppCore.HOST + url;
+  }
+
+  const options = {
+    method:'POST',
+    body:formData
+  };
+
+  return new Promise((rs, rj) => {
+    fetch(url, options)
+    .then(response => {
+      return response.json();
+    })
+    .then(checkStatus)
+    .then(response => {
+        rs(response);
+    },error=>{
+      // 未登录
+      if(error.name ===-1){
+        /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
+        window.g_app._store.dispatch({
+          type:'login/changeLoginStatus',
+          payload:{
+            status: false
+          }
+        });
+        window.g_app._store.dispatch({
+          type:'user/clear'
+        });
+
         return;
       }
       notification.error({

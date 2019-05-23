@@ -1,6 +1,5 @@
 import { Register } from '@/services/serverApi';
 import { reloadAuthorized } from '@/utils/Authorized';
-import { Init } from '@/services/initSrvc';
 
 
 export default {
@@ -19,7 +18,6 @@ export default {
           type:'user/saveCurrentUser',
           payload:response.user
         })
-        yield call(Init);
         yield put({
           type: 'registerHandle',
           payload:{status : 'ok'}

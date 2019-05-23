@@ -9,13 +9,6 @@ import HeaderDropdown from '../HeaderDropdown';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
 
-
-function logout(){
-  /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
-  window.g_app._store.dispatch({
-    type:'login/logout'
-  });
-}
 export default class GlobalHeaderRight extends PureComponent {
   getNoticeData() {
     const { notices = [] } = this.props;
@@ -99,7 +92,7 @@ export default class GlobalHeaderRight extends PureComponent {
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Divider />
-        <Menu.Item key="logout" onClick={()=>logout()}>
+        <Menu.Item key="logout">
           <Icon type="logout" />
           <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
         </Menu.Item>
@@ -190,7 +183,7 @@ export default class GlobalHeaderRight extends PureComponent {
             {...loadMoreProps}
           />
         </NoticeIcon>
-        {currentUser.user_name ? (
+        {currentUser.name ? (
           <HeaderDropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
@@ -199,7 +192,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.avatar}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.user_name}</span>
+              <span className={styles.name}>{currentUser.name}</span>
             </span>
           </HeaderDropdown>
         ) : (

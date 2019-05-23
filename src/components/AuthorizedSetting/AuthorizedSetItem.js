@@ -42,36 +42,28 @@ class AuthorizedSetItem extends Component {
 
 
   // mod 更改
-  onCheckAllChange = (menuKey,mod,checked) => {
-
-    const { data:{ menu, auth },callback } = this.props;
+  onCheckAllChange = (modCfg,mod,checked) => {
+    const { data:{ auth },callback } = this.props;
     if (checked) {
       const set = new Set(auth.actions);
 
       set.add(mod);
-      if (menu[menuKey][mod] && menu[menuKey][mod].action) {
 
-        const actions = Object.keys(menu[menuKey][mod].action);
+      Object.keys(modCfg.action).forEach((action)=>{
+        set.add(action)
+      })
 
-
-        actions.forEach(x => set.add(x));
-
-        
-      }
       auth.actions = [...set];
     }else {
         const set = new Set(auth.actions);
 
         set.delete(mod);
 
-        if (menu[menuKey][mod] && menu[menuKey][mod].action){
+        Object.keys(modCfg.action).forEach((action)=>{
+          set.delete(action)
+        })
 
-          const actions = Object.keys(menu[menuKey][mod].action);
-
-          actions.filter(x => set.delete(x));
-         
-      }
-       auth.actions = [...set];
+        auth.actions = [...set];
     }
 
     if(callback){
@@ -80,16 +72,24 @@ class AuthorizedSetItem extends Component {
   };
 
   // mod actions更改
-  onChange = (mod, modItem, checkedValues) => {
-
-    const { data:{ menu, auth },callback } = this.props;
+  onChange = (modCfg, checkedValues) => {
+    const { data:{auth },callback } = this.props;
 
     const set = new Set(auth.actions);
-    const allActions = Object.keys(menu[mod][modItem].action);
+    const allActions = [];
+    const checkedActions = [];
+    Object.keys(modCfg.action).forEach((action)=>{
+        allActions.push(action);
 
-    allActions.filter(x => set.delete(x));
+        if(checkedValues.includes(action)){
+          checkedActions.push(action);
+        }
 
-    checkedValues.forEach(x => set.add(x));
+    })
+
+    allActions.forEach(x => set.delete(x));
+
+    checkedActions.forEach(x => set.add(x));
 
     auth.actions = [...set];
 
@@ -98,8 +98,48 @@ class AuthorizedSetItem extends Component {
     }
   };
 
+  //
+  renderMenu(menu,auth){
+    return (
+      <Collapse
+        bordered={false}
+        defaultActiveKey={['1']}
+        expandIcon={({ isActive }) => <Icon type="right" rotate={isActive ? 90 : 0} />}
+      >
+        {Object.keys(menu).map(menuKey => (
+          <Panel header={menu[menuKey].text} key={menuKey} style={customPanelStyle}>
+            {Object.keys(menu[menuKey].children).map(mod => (
+              <div key={mod} className={styles.modItem}>
+                <Checkbox
+                  className={styles.modItemCheckbox}
+                  onChange={e=>this.onCheckAllChange(menu[menuKey].children[mod],mod,e.target.checked)}
+                  checked={auth.actions.indexOf(mod) !== -1}
+                >
+                  {menu[menuKey].children[mod].text}
+                </Checkbox>
+                {menu[menuKey].children[mod] && menu[menuKey].children[mod].action && (
+                  <CheckboxGroup
+                    className={styles.modItemCheckboxGroup}
+                    options={Object.keys(menu[menuKey].children[mod].action).filter(
+                      item => menu[menuKey].children[mod].action[item].text
+                    )}
+                    value={Object.keys(menu[menuKey].children[mod].action).filter(
+                      item => auth.actions.indexOf(item) !== -1
+                    )}
+                    onChange={(checkedValues) =>this.onChange(menu[menuKey].children[mod],checkedValues)}
+                  />
+                )}
+                <Divider dashed />
+              </div>
+            ))}
+          </Panel>
+        ))}
+      </Collapse>
+      )
+  }
+
   render() {
-    const { data:{ menu, auth } } = this.props;
+    const { data:{ menu={}, auth } } = this.props;
     return (
       <div>
         <Collapse
@@ -113,7 +153,7 @@ class AuthorizedSetItem extends Component {
               <Input
                 size="default"
                 placeholder="权限名称"
-                value={auth.name || ''}
+                value={auth.name}
                 onChange={e => this.onInfoChange(e, 'name')}
               />
             </div>
@@ -122,40 +162,13 @@ class AuthorizedSetItem extends Component {
               <Input
                 size="default"
                 placeholder="适用范围"
-                value={auth.scope || ''}
+                value={auth.scope}
                 onChange={e => this.onInfoChange(e, 'scope')}
               />
             </div>
           </Panel>
-          {Object.keys(menu).map(menuKey => (
-            <Panel header={menuKey} key={menuKey} style={customPanelStyle}>
-              {Object.keys(menu[menuKey]).map(mod => (
-                <div key={mod} className={styles.modItem}>
-                  <Checkbox
-                    className={styles.modItemCheckbox}
-                    onChange={e=>this.onCheckAllChange(menuKey,mod,e.target.checked)}
-                    checked={auth.actions.indexOf(mod) !== -1}
-                  >
-                    {menu[menuKey][mod].text}
-                  </Checkbox>
-                  {menu[menuKey][mod] && menu[menuKey][mod].action && (
-                    <CheckboxGroup
-                      className={styles.modItemCheckboxGroup}
-                      options={Object.keys(menu[menuKey][mod].action).filter(
-                        item => menu[menuKey][mod].action[item].text
-                      )}
-                      value={Object.keys(menu[menuKey][mod].action).filter(
-                        item => auth.actions.indexOf(item) !== -1
-                      )}
-                      onChange={(checkedValues) =>this.onChange(menuKey,mod,checkedValues)}
-                    />
-                  )}
-                  <Divider dashed />
-                </div>
-              ))}
-            </Panel>
-          ))}
         </Collapse>
+        {this.renderMenu(menu,auth)}
       </div>
     );
   }

@@ -1,6 +1,10 @@
-import { query as queryUsers } from '@/services/user';
-import { queryCurrent as queryCurrentUser } from '@/services/serverApi';
+import { queryUser } from '@/utils/utils';
 import { AppConst } from '@/utils/const';
+
+import {clearAuthority} from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
+import { routerRedux } from 'dva/router';
+import { stringify } from 'qs';
 
 function initUser(){
   let user = {};
@@ -18,37 +22,38 @@ export default {
   namespace: 'user',
 
   state: {
-    list: [],
     currentUser: initUser(),
   },
 
   effects: {
     *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
+      const response = yield call(queryUser);
+      if(response && response.user){
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response.user,
+        });
+      }
+    },
+    *clear(_,{put}){
+      clearAuthority();
+      reloadAuthorized();
       yield put({
-        type: 'save',
-        payload: response,
+        type:'saveCurrentUser',
+        payload:{}
       });
-    },
-    *fetchCurrent(_, { call, put }) {
-      // const response = yield call(queryCurrentUser);
-
-      // if(response.success && response.user){
-      //   yield put({
-      //     type:'saveCurrentUser',
-      //     payload:response.user
-      //   });
-      // }
-    },
+      yield put(
+        routerRedux.push({
+          pathname: '/user/login',
+          search: stringify({
+            redirect: window.location.href,
+          }),
+        })
+      );
+    }
   },
 
   reducers: {
-    save(state, action) {
-      return {
-        ...state,
-        list: action.payload,
-      };
-    },
     saveCurrentUser(state, action) {
       // 持久化
       localStorage[AppConst.APP_NAME] = JSON.stringify(action.payload || {});

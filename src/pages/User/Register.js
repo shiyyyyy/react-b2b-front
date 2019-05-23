@@ -149,7 +149,6 @@ class Register extends Component {
 
   checkPassword = (rule, value, callback) => {
     const { visible, confirmDirty } = this.state;
-    // debugger
     if (!value) {
       this.setState({
         help: formatMessage({ id: 'validation.password.required' }),

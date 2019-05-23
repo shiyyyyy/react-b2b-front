@@ -1,25 +1,44 @@
 /* eslint-disable import/no-mutable-exports */
 let CURRENT = 'NULL';
+let CURRENTMETA = 'NULL';
 /**
  * use  authority or getAuthority
- * @param {string|()=>String} currentAuthority
  */
-const renderAuthorize = Authorized => currentAuthority => {
-  if (currentAuthority) {
-    if (typeof currentAuthority === 'function') {
-      CURRENT = currentAuthority();
+const renderAuthorize = Authorized => (currentPathAuthority,currentMetaAuthority) => {
+  if (currentPathAuthority) {
+    if (typeof currentPathAuthority === 'function') {
+      CURRENT = currentPathAuthority();
+    }
+    if (typeof currentPathAuthority === 'object') {
+      CURRENT = currentPathAuthority;
     }
     if (
-      Object.prototype.toString.call(currentAuthority) === '[object String]' ||
-      Array.isArray(currentAuthority)
+      Object.prototype.toString.call(currentPathAuthority) === '[object String]' ||
+      Array.isArray(currentPathAuthority)
     ) {
-      CURRENT = currentAuthority;
+      CURRENT = currentPathAuthority;
     }
   } else {
     CURRENT = 'NULL';
   }
+  if (currentMetaAuthority) {
+    if (typeof currentMetaAuthority === 'function') {
+      CURRENTMETA = currentMetaAuthority();
+    }
+    if (typeof currentMetaAuthority === 'object') {
+      CURRENTMETA = currentMetaAuthority;
+    }
+    if (
+      Object.prototype.toString.call(currentMetaAuthority) === '[object String]' ||
+      Array.isArray(currentMetaAuthority)
+    ) {
+      CURRENTMETA = currentMetaAuthority;
+    }
+  } else {
+    CURRENTMETA = 'NULL';
+  }
   return Authorized;
 };
 
-export { CURRENT };
+export { CURRENT ,CURRENTMETA};
 export default Authorized => renderAuthorize(Authorized);

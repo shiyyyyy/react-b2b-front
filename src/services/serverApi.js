@@ -19,9 +19,3 @@ export async function accountLogin(params){
     body:params
   });
 }
-
-export async function queryCurrent(){
-  return request('/PublicApi/get_current',{
-    method:'POST'
-  });
-}

@@ -1,12 +1,12 @@
 import { routerRedux } from 'dva/router';
-import { stringify } from 'qs';
-// import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
 import { post} from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
-import { Init } from '@/services/initSrvc';
 
-async function login(params){
+async function reqLogin(params){
   return post('/UserLogin/login',params);
+}
+
+async function reqLogout(){
+  return post('/UserLogout/logout');
 }
 
 export default {
@@ -18,7 +18,7 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(login, payload);
+      const response = yield call(reqLogin, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -30,30 +30,27 @@ export default {
           payload:response.user
         })
 
-        yield call(Init);
-
         yield put(routerRedux.replace('/'));
       }
     },
 
-    *logout(_, { put }) {
-      yield put({
-        type: 'changeLoginStatus',
-        payload: {
-          status: false,
-          currentAuthority: [],
-        },
-      });
-      reloadAuthorized();
-      yield put(
-        routerRedux.push({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
+    *logout(_, { put,call }) {
+      try{
+        yield call(reqLogout);
+      }catch{
+        yield put({
+          type: 'changeLoginStatus',
+          payload: {
+            status: false
+          },
+        });
+        yield put({
+          type:'user/clear'
         })
-      );
+      }
     },
+
+
   },
 
   reducers: {

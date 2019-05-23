@@ -1,4 +1,4 @@
-import { readMod } from '@/services/api';
+import { readMod } from '@/utils/utils';
 
 export default {
   namespace: 'notices',

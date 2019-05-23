@@ -35,9 +35,7 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
-  'menu.product':'产品页',
-  'menu.product.list':'产品列表',
-  'menu.auth':'权限页',
-  'menu.auth.list':'权限列表',
-  'menu.auth.edit':'权限编辑'
+  '行政中心':'行政中心',
+  '权限管理':'权限管理',
+  '公司管理':'公司管理'
 };

@@ -99,6 +99,11 @@ ol {
   margin-top: 16px;
 }
 
+// 行内元素
+.dib{
+  display: inline-block;
+}
+
 /* flex */
 .flex {
   display: flex !important;
@@ -336,11 +341,25 @@ body .ant-table-tbody > tr > td > .tdDiv:hover {
     border-top: 2px dashed #1890ff !important;
   }
 
-  th.drop-over-leftward{
+  th.drop-over-leftward {
     border-left: 2px dashed #1890ff !important;
   }
 
-  th.drop-over-rightward{
+  th.drop-over-rightward {
     border-right: 2px dashed #1890ff !important;
+  }
+
+  // 表格 拉伸
+  .react-resizable {
+    position: relative;
+  }
+
+  .react-resizable-handle {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    bottom: 0;
+    right: -5px;
+    cursor: col-resize;
   }
 }

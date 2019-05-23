@@ -2,8 +2,6 @@ import React from 'react';
 import Link from 'umi/link';
 import { Menu, Icon, Row, Col, Avatar, Tabs, Rate, Tag, Tooltip } from 'antd';
 import Swiper from 'swiper/dist/js/swiper';
-import LeavingMsg from '@/components/LeavingMsg';
-import AccessRecord from '@/components/AccessRecord';
 
 // import {ModalCarousel} from '../../util/com';
 
@@ -157,7 +155,6 @@ class Personal extends React.Component {
     'purple',
   ];
 
-
   // user 下拉菜单
   DropdownMenu = (
     <Menu>
@@ -304,8 +301,36 @@ class Personal extends React.Component {
             </span>
           </div>
           {this.state.message.map((item, index) => (
-            <Col key={index}>
-              <LeavingMsg item={item} />
+            <Col className={styles.message} key={index}>
+              <Col className={styles.avatar} span={2}>
+                {/* <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                                style={{ height: '100%', width: '100%' }} /> */}
+                <Avatar
+                  src={
+                    item.avatar
+                      ? '/img/avatar1.png'
+                      : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                  }
+                  size={64}
+                />
+              </Col>
+              <Col className={styles.messageBox} span={22}>
+                <Col className={styles.BoxTop}>
+                  <p className={styles.BoxTopLeft}>
+                    {item.company}-{item.department}-{item.employee}
+                  </p>
+                  <p className={styles.BoxTopRight}>{item.time}</p>
+                </Col>
+                <Col className={styles.BoxContent}>{item.content}</Col>
+                <Col className={styles.BoxFooter}>
+                  <span className={styles.BoxFooterZan}>
+                    <Icon type="like" theme="outlined" /> {item.zan}
+                  </span>
+                  <span className={styles.BoxFooterQA}>
+                    <Icon type="form" theme="outlined" /> {item.qa}
+                  </span>
+                </Col>
+              </Col>
             </Col>
           ))}
         </Row>
@@ -320,9 +345,26 @@ class Personal extends React.Component {
           </div>
           <Col className={styles.record}>
             {this.state.visitingRecords.map((item, index) => (
-              <Col key={index} className={index >= 10 ? 'hide' : ''} style={{ width: `calc(100% * 1/10)` }}>
-                {/* 上面的1/10就是一行显示10个,应该和index >= 10相同,占满一行,多出隐藏 */}
-                <AccessRecord item={item} />
+              <Col
+                span={2}
+                className={[styles.recordBox, (index > 10 ? 'hide' : '')].join(' ')}
+                key={index}
+              >
+                <Avatar
+                  shape="square"
+                  size={64}
+                  src={
+                    item.avatar
+                      ? 'img/avatar1.png'
+                      : 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png'
+                  }
+                />
+                <div className={styles.name} title={item.name}>
+                  {item.name}
+                </div>
+                <div className={styles.time} title={item.time}>
+                  {item.time}
+                </div>
               </Col>
             ))}
           </Col>

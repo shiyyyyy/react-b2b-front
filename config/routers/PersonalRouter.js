@@ -4,7 +4,7 @@ export default [
     routes: [
       {
         path: '/personal',
-        //name: '2',
+        // name: '2',
         icon: 'home',
         isMenu: true,
         routes: [
@@ -13,8 +13,7 @@ export default [
             path: '/personal/index',
             name: '1',
             component: './Supplier/Personal/index',
-            isMenu: true,
-          },
+            isMenu: true,          },
         ],
       },
     ],
