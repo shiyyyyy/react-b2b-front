@@ -8,65 +8,110 @@ export default [
         path:'/business',
         routes:[
           {
-            path: '/business/productNav',
-            name: '产品导航',
+            path: '/business/ProductNav',
+            name: '导航字典',
             routes:[
               {
-                path: '/business/productNav',
-                redirect: '/business/productNav/list',
+                path: '/business/ProductNav',
+                redirect: '/business/ProductNav/list',
               },
               {
-                path: '/business/productNav/list',
-                name: '产品导航',
-                component: './Business/ProductNav/List',
+                path: '/business/ProductNav/list',
+                name: '导航字典',
+                component: './Common/List',
               }
             ]
           },
           {
-            path: '/business/productTag',
-            name: '一级栏目',
+            path: '/business/PackagetourNav',
+            name: '跟团游导航',
             routes:[
               {
-                path: '/business/productTag',
-                redirect: '/business/productTag/list',
+                path: '/business/PackagetourNav',
+                redirect: '/business/PackagetourNav/list',
               },
               {
-                path: '/business/productTag/list',
-                name: '一级栏目列表',
-                component: './Business/ProductTag/List',
+                path: '/business/PackagetourNav/list',
+                name: '跟团游导航',
+                component: './Common/List',
               }
             ]
           },
           {
-            path: '/business/productSubTag',
-            name: '二级栏目',
+            path: '/business/IndependentTravelNav',
+            name: '自由行字典',
             routes:[
               {
-                path: '/business/productSubTag',
-                redirect: '/business/productSubTag/list',
+                path: '/business/IndependentTravelNav',
+                redirect: '/business/IndependentTravelNav/list',
               },
               {
-                path: '/business/productSubTag/list',
-                name: '二级栏目列表',
-                component: './Business/ProductSubTag/List',
+                path: '/business/IndependentTravelNav/list',
+                name: '自由行字典',
+                component: './Common/List',
               }
             ]
           },
           {
-            path: '/business/productTheme',
-            name: '主题设置',
+            path: '/business/DestinationNav',
+            name: '目的地导航',
             routes:[
               {
-                path: '/business/productTheme',
-                redirect: '/business/productTheme/list',
+                path: '/business/DestinationNav',
+                redirect: '/business/DestinationNav/list',
               },
               {
-                path: '/business/productTheme/list',
-                name: '主题设置列表',
-                component: './Business/ProductTheme/List',
+                path: '/business/DestinationNav/list',
+                name: '目的地导航',
+                component: './Common/List',
               }
             ]
-          }
+          },
+          {
+            path: '/business/VisaNav',
+            name: '单签证导航',
+            routes:[
+              {
+                path: '/business/VisaNav',
+                redirect: '/business/VisaNav/list',
+              },
+              {
+                path: '/business/VisaNav/list',
+                name: '单签证导航',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/business/ProductTheme',
+            name: '特色标签',
+            routes:[
+              {
+                path: '/business/ProductTheme',
+                redirect: '/business/ProductTheme/list',
+              },
+              {
+                path: '/business/ProductTheme/list',
+                name: '特色标签',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/business/City',
+            name: '城市设置',
+            routes:[
+              {
+                path: '/business/City',
+                redirect: '/business/City/list',
+              },
+              {
+                path: '/business/City/list',
+                name: '城市设置',
+                component: './Common/List',
+              }
+            ]
+          },
         ]
       },
     ],

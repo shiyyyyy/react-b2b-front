@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { post} from '@/utils/utils';
+import { AppConst } from '@/utils/const';
 
 async function reqLogin(params){
   return post('/UserLogin/login',params);
@@ -29,8 +30,20 @@ export default {
           type:'user/saveCurrentUser',
           payload:response.user
         })
-
-        yield put(routerRedux.replace('/'));
+        const { user } = response;
+        switch(user.type){
+          case AppConst.USER_EMP:
+            yield put(routerRedux.replace('/Home/Admin'));
+            break;
+          case AppConst.USER_SUP:
+            yield put(routerRedux.replace('/Home/Supplier'));
+            break;
+          case AppConst.USER_RET:
+            yield put(routerRedux.replace('/Home/Retailer'));
+            break;
+          default:
+            break;
+        }
       }
     },
 

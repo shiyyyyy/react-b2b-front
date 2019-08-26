@@ -33,7 +33,7 @@ export default class FooterToolbar extends Component {
       this.setState({ width });
     }
   };
-
+  
   render() {
     const { children, className, extra, ...restProps } = this.props;
     const { width } = this.state;

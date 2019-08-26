@@ -18,7 +18,7 @@ export default class PageHeader extends PureComponent {
       title,
       logo,
       textSerach,
-      button,
+      headerPage,
       content,
       extraContent,
       tabList,
@@ -49,13 +49,15 @@ export default class PageHeader extends PureComponent {
             paragraph={{ rows: 3 }}
             avatar={{ size: 'large', shape: 'circle' }}
           >
-            {hiddenBreadcrumb ? null : <BreadcrumbView {...this.props} />}
+            <div className={styles.topCfg}>
+              {hiddenBreadcrumb ? <span /> : <BreadcrumbView {...this.props} />}
+              {headerPage && <div className={styles.headerPage}>{headerPage}</div>}
+            </div>
             <div className={styles.detail}>
               {logo && <div className={styles.logo}>{logo}</div>}
               <div className={styles.main}>
                 <div className={styles.row}>
                   {title && <h1 className={styles.title}>{title}</h1>}
-                  {button && <div className={styles.button}>{button}</div>}
                   {textSerach && <div className={styles.textSerach}>{textSerach}</div>}
                 </div>
                 <div className={styles.row}>

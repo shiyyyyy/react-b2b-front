@@ -24,7 +24,7 @@ export default class Calendar extends React.Component {
     this.weekString = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let date = this.state.date.format('YYYY-MM-DD');
     let daysArr = this.monthDay(date);
     this.setState({ daysArr: daysArr });

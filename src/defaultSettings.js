@@ -9,6 +9,6 @@ module.exports = {
   menu: {
     disableLocal: true,
   },
-  title: 'Ant Design Pro',
+  title: 'Tourtool',
   pwa: false
 };

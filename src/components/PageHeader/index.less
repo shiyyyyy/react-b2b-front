@@ -1,12 +1,18 @@
 @import '~antd/lib/style/themes/default.less';
 
 .pageHeader {
-  padding: 16px 32px 0 32px;
+  padding: 0 16px;
   background: @component-background;
   border-bottom: @border-width-base @border-style-base @border-color-split;
   .wide {
     max-width: 1200px;
     margin: auto;
+  }
+  .topCfg{
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .detail {
     display: flex;
@@ -18,7 +24,7 @@
   }
 
   .breadcrumb {
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
   }
 
   .tabs {
@@ -51,8 +57,8 @@
     font-size: 20px;
   }
 
-  .button {
-    min-width: 266px;
+  .headerPage {
+    // min-width: 266px;
     margin-left: 56px;
 
     :global {
@@ -72,7 +78,7 @@
     flex: auto;
   }
 
-  .button,
+  .headerPage,
   .extraContent,
   .main {
     flex: 0 1 auto;
@@ -82,8 +88,7 @@
     width: 100%;
   }
 
-  .title,
-  .button {
+  .title{
     margin-bottom: 16px;
   }
 
@@ -93,7 +98,6 @@
     margin-bottom: 16px;
   }
 
-  .button,
   .extraContent {
     text-align: right;
   }

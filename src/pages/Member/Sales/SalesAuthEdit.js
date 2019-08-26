@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
+import {Form,Col} from 'antd';
 import ModalForm from '@/components/ModalForm';
+import ModalFormBtn from '@/components/ModalFormBtn';
 import {submit,readAction} from '@/utils/utils';
 /* eslint react/no-multi-comp:0 */
+@Form.create()
 class SalesAuthEdit extends PureComponent {
   constructor(props) {
     super(props);
@@ -13,50 +16,61 @@ class SalesAuthEdit extends PureComponent {
   }
 
   componentDidMount() {
-    const { config={},ref={} } = this.props;
+    const { action,config={},ref={} } = this.props;
     if(config.read){
-      readAction(config.key,ref).then(res=>{
+      readAction(action,ref).then(res=>{
         this.setState({data:res.data||[],loading:false})
       });
     }
   }
 
-  submit = values => {
-    const { config = {}, modal, reload } = this.props;
-    submit(config.key, values).then(
+  submit = () => {
+    const { action, modal, afterOk  } = this.props;
+    const { form } = this.props;
+    const {data} = this.state;
+
+    const rst = {...data,...form.getFieldsValue()};
+
+    submit(action,rst).then(
       () => {
         modal.destroy();
-        reload()
-      },
-      () => {
-        modal.destroy();
-        reload();
+        if(afterOk){
+          afterOk()
+        }
       }
     );
   };
 
   cancel = () => {
-    const { modal } = this.props;
+    const { modal,afterCancel } = this.props;
     modal.destroy();
+    if(afterCancel){
+      afterCancel();
+    }
   };
 
   render() {
-    const { config = {}} = this.props;
+    const { config = {},form} = this.props;
     const {loading,data} = this.state;
     return (
       <React.Fragment>
         {
           !loading && 
-          <ModalForm
-            config={config}
-            data={data}
-            submit={values => {
-              this.submit(values);
-            }}
-            cancel={() => {
-              this.cancel();
-            }}
-          />
+          <Col>
+            <Col>
+              <ModalForm config={config} data={data} form={form} />
+            </Col>
+            <Col>
+              <ModalFormBtn
+                submit={() => {
+                  this.submit();
+                }}
+                cancel={() => {
+                  this.cancel();
+                }}
+              />
+            </Col>
+          </Col>
         }
       </React.Fragment>
     );

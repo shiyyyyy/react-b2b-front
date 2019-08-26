@@ -11,8 +11,11 @@ export default function getEnum(cfg,row,pemField){
         if(!cfg.type){
             return {};
         }
-        const {type} = cfg;
+        const {type,edit_path} = cfg;
         rest  = e[type];
+        if(edit_path){
+            return e[edit_path];
+        }
         if(cfg.cascade){
             const target = row[cfg.cascade];
 
@@ -38,6 +41,15 @@ export default function getEnum(cfg,row,pemField){
                             break;
                         case 'SupplierDepartment':
                             cascadeSet = e.SupplierDepartmentDep;
+                            break;
+                        case 'RetailerSales':
+                            cascadeSet = e.RetailerSalesDep;
+                            break;
+                        case 'RetailerDepartment':
+                            cascadeSet = e.RetailerDepartmentDep;
+                            break;
+                        case 'PdSubTag':
+                            cascadeSet = e.PdSubTagBelong;
                             break;
                         default:
                             break;             

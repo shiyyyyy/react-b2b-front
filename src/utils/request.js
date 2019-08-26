@@ -71,7 +71,7 @@ const checkStatus = response=> {
  * @param  {object} [option] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(requestUrl, option) {
+export default function request(requestUrl, option,cfg) {
   const options = {
     ...option,
   };
@@ -92,11 +92,18 @@ export default function request(requestUrl, option) {
     sid = user.currentUser.sid;//  eslint-disable-line
   }
 
+  newOptions.headers = {
+    'Authorization':sid,
+    ...newOptions.headers
+  }
+
   if(newOptions.method === 'POST'){
     newOptions.body = newOptions.body || {};
-    if(sid !==''){
-      newOptions.body.sid = sid;
-    } 
+    newOptions.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      ...newOptions.headers,
+    };
     newOptions.body = JSON.stringify(newOptions.body);
   }
 
@@ -110,7 +117,7 @@ export default function request(requestUrl, option) {
         if(response.enum){
           /* eslint no-underscore-dangle: ["error", { "allow": ["_store"] }] */
           window.g_app._store.dispatch({
-            type:'enum/update',
+            type:'enum/fetch',
             payload:{ver:response.enum}
           });
         }else{
@@ -119,6 +126,10 @@ export default function request(requestUrl, option) {
             payload:{ver:''}
           });
         }
+        window.g_app._store.dispatch({
+          type:'global/changeLoading',
+          payload: false
+        });
         rs(response);
     },error=>{
       // 未登录
@@ -139,7 +150,9 @@ export default function request(requestUrl, option) {
         message: '请求错误',
         description: error.message,
       });
-      rj(error);
+      if(cfg && cfg.rj){
+        rj(error);
+      }
     })
   });
 }
@@ -147,16 +160,26 @@ export default function request(requestUrl, option) {
 
 export function upload(formData, type) {
 
-  let url  = `/api/Pub/upload/${type}`;;
+  let url  = `/PublicApi/upload/${type}`;;
 
   if (url.indexOf('http') !== 0 && AppCore.HOST) {
       url = AppCore.HOST + url;
   }
 
+  const state = window.g_app._store.getState();
+
+  const user = state.user || {};
+
   const options = {
     method:'POST',
     body:formData
   };
+
+  if(user.currentUser && user.currentUser.sid){
+    options.headers = {
+      'Authorization':user.currentUser.sid
+    }
+  }
 
   return new Promise((rs, rj) => {
     fetch(url, options)

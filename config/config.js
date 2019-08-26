@@ -1,11 +1,10 @@
 // https://umijs.org/config/
 import os from 'os';
+import slash from 'slash2';
+import path from 'path';
 import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
-import slash from 'slash2';
-import path from 'path';
-//import proxy from './host.config';
 
 const { pwa, primaryColor } = defaultSettings;
 
@@ -43,19 +42,24 @@ const plugins = [
             hardSource: false,
           }
         : {}),
-    },
+    }
   ],
 ];
 
 // 针对 preview.pro.ant.design 的 GA 统计代码
 // 业务上不需要这个
-if (process.env.APP_TYPE === 'site') {
-  plugins.push([
-    'umi-plugin-ga',
-    {
-      code: 'UA-72788897-6',
-    },
-  ]);
+// if (process.env.APP_TYPE === 'site') {
+//   plugins.push([
+//     'umi-plugin-ga',
+//     {
+//       code: 'UA-72788897-6',
+//     },
+//   ]);
+// }
+
+const productSetting = {};
+if(process.env.NODE_ENV === 'production') {
+  productSetting['publicPath'] = '/b2b-front/'
 }
 
 export default {
@@ -63,7 +67,8 @@ export default {
   plugins,
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
-    MOCK:process.env.MOCK || ''
+    MOCK:process.env.MOCK || '',
+    PUBLICPATH:'/b2b-front/'
   },
   treeShaking: true,
   targets: {
@@ -77,10 +82,8 @@ export default {
     'primary-color': primaryColor,
   },
   externals: {
-    '@antv/data-set': 'DataSet',
+    '@antv/data-set': 'DataSet'
   },
-  //代理设置
-  //proxy: proxy,
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,
@@ -119,5 +122,5 @@ export default {
 
   chainWebpack: webpackPlugin,
   base:'/b2b-front/',
-  publicPath:'/b2b-front/'
+  ...productSetting
 };

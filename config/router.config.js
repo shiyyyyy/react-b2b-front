@@ -5,7 +5,8 @@ import User from './routers/UserRouter';
 import Exception from './routers/ExceptionRouter';
 import Admin from './routers/AdminRouter';
 import BusinessSetting from './routers/BusinessSettingRouter';
-
+import Home from './routers/HomeRouter';
+import Sale from './routers/SaleRouter';
 
 const baseConfig = {
   '/user': { component: '../layouts/UserLayout', routes: [] },
@@ -15,7 +16,7 @@ const baseConfig = {
 function init() {
   let subConfig = [];
   let routerConfig = { ...baseConfig };
-  subConfig = [...Supplier, ...User, ...Admin, ...Personal,...BusinessSetting];
+  subConfig = [...Supplier, ...User, ...Admin, ...Personal,...BusinessSetting,...Home,...Sale];
 
   subConfig = [...subConfig, ...Exception];
   subConfig.forEach(sub => {

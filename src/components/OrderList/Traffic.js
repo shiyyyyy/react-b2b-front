@@ -1,7 +1,19 @@
 import React from 'react';
 import { Row, Col, Tag } from 'antd';
 
+
+import AppCore from '@/utils/core';
 import styles from './index.less';
+
+function renderImg(item) {
+  let url = item.pd_pic;
+  if (url && url.indexOf('http') !== 0 && AppCore.HOST) {
+    url = `${AppCore.HOST}/${url}`;
+  }
+  return (
+    <img src={url || '/favicon.png'} alt="产品图片" className="img-size" />
+  );
+}
 
 class Traffic extends React.Component {
   constructor(props) {
@@ -13,33 +25,34 @@ class Traffic extends React.Component {
 
   changeActive() {
     const { active } = this.state;
-    console.log(active);
     this.setState({ active: !active });
   }
 
   render() {
     const { active } = this.state;
-    const { item, btnChildren, children } = this.props;
+    const { btnChildren, children, data } = this.props;
     return (
       <Row>
         <Col className={styles.OrderList}>
-          <Col className={[styles.item, 'clear', active ? styles.focus : ''].join(' ')}>
+          <Col className={[styles.item, 'clear', active && children ? styles.focus : ''].join(' ')}>
             <Col
-              className={[styles.list, active ? styles.active : ''].join(' ')}
-              onClick={e => this.changeActive()}
+              className={[styles.list, active && children ? styles.active : ''].join(' ')}
+              onClick={() => this.changeActive()}
             >
-              <Col className={[styles.itemHeader, active ? styles.active : ''].join(' ')}>
-                <div className={styles.hLeft}>订单号: D023456789</div>
+              <Col
+                className={[styles.itemHeader, active && children ? styles.active : ''].join(' ')}
+              >
+                <div className={styles.hLeft}>{`订单号: D0${data.id}`}</div>
                 <div className={styles.hRight}>占位待确认</div>
               </Col>
-              <Col className={[styles.content, 'clear'].join(' ')}>
+              <Col className={[styles.content, 'clear'].join(' ')} style={children ? {} : {paddingBottom: '26px'}}>
                 <Col xs={24} sm={6} md={3} lg={3} xl={3}>
                   <div className={styles.imgBox}>
-                    <img src="/favicon.png" alt="图片" />
-                    <div className={styles.num}>编号: 89757</div>
+                    {renderImg(data)}
                   </div>
+                  <div className={styles.num}>{`产品编号: PD0${data.pd_id}`}</div>
                 </Col>
-                <Col xs={24} sm={18} md={21} lg={21} xl={21}>
+                <Col xs={24} sm={18} md={21} lg={21} xl={21} style={{paddingLeft: '12px'}}>
                   <Col className={[styles.top, 'clear'].join(' ')}>
                     <Col
                       xs={20}
@@ -49,7 +62,7 @@ class Traffic extends React.Component {
                       xl={12}
                       className={[styles.title, 'text-overflow'].join(' ')}
                     >
-                      超值无忧天一地K-98K, 5晚6天, 全程五星级酒店住宿, 让你欢乐到家.
+                      {data.pd_name}
                     </Col>
                     <Col xs={2} sm={2} md={2} lg={2} xl={2} className={styles.tag}>
                       <Tag color="cyan">大交通</Tag>
@@ -59,72 +72,73 @@ class Traffic extends React.Component {
                     <Col xs={24} sm={24} md={14} lg={14} xl={14}>
                       <Col>
                         <span className={styles.key}>报名人: </span>
-                        <span className={styles.val}>北青旅</span>
-                        <span className={styles.val}>十里河门市</span>
-                        <span className={styles.val}>门管中心</span>
+                        <span className={styles.val}>{data.creator_company_name}</span>
+                        <span className={styles.val}>{data.creator_department_name}</span>
                         <span className={styles.val} style={{ width: '48px' }}>
-                          张三
+                          {data.creator_name}
                         </span>
                         <span className={styles.val} style={{ width: '72px' }}>
-                          13344445555
+                          {data.creator_mobile}
                         </span>
                       </Col>
                       <Col>
                         <span className={styles.key}>接单人: </span>
-                        <span className={styles.val}>北青旅</span>
-                        <span className={styles.val}>十里河门市</span>
-                        <span className={styles.val}>门管中心</span>
+                        <span className={styles.val}>{data.assitant_company_name}</span>
+                        <span className={styles.val}>{data.assitant_department_name}</span>
                         <span className={styles.val} style={{ width: '48px' }}>
-                          张三
+                          {data.assitant_name}
                         </span>
                         <span className={styles.val} style={{ width: '72px' }}>
-                          13344445555
+                          {data.assitant_mobile}
                         </span>
                       </Col>
                       <Col>
                         <span className={styles.key}>受理人: </span>
-                        <span className={styles.val}>北青旅</span>
-                        <span className={styles.val}>十里河门市</span>
-                        <span className={styles.val}>门管中心</span>
+                        <span className={styles.val}>{data.acceptman_company_name}</span>
+                        <span className={styles.val}>{data.acceptman_department_name}</span>
                         <span className={styles.val} style={{ width: '48px' }}>
-                          张三
+                          {data.acceptman_name}
                         </span>
                         <span className={styles.val} style={{ width: '72px' }}>
-                          13344445555
+                          {data.acceptman_mobile}
                         </span>
                       </Col>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                       <Col className={styles.contentR}>
                         <div className={styles.obj}>
-                          <span className={styles.key}>出团: </span>{' '}
-                          <span className={styles.val}>2018-02-02</span>
+                          <span className={styles.key}>出团日期：</span>
+                          <span className={styles.val}>{data.dep_date}</span>
                         </div>
                         <div className={styles.obj}>
-                          <span className={styles.key}>回团: </span>{' '}
-                          <span className={styles.val}>2018-08-09</span>
+                          <span className={styles.key}>回团日期：</span>
+                          <span className={styles.val}>{data.back_date}</span>
                         </div>
                       </Col>
                       <Col className={styles.contentR}>
                         <div className={styles.obj}>
-                          <span className={styles.key}>人数: </span>{' '}
-                          <span className={styles.val}>24人</span>
+                          <span className={styles.key}>成团人数：</span>
+                          <span className={styles.val}>{data.person_limit}人</span>
                         </div>
                         <div className={styles.obj}>
-                          <span className={styles.key}>金额: </span>{' '}
+                          <span className={styles.key}>占位时限：</span>
+                          <span className={styles.val}>48小时</span>
+                        </div>
+                      </Col>
+                      <Col className={styles.contentR}>
+                        <div className={styles.obj}>
+                          <span className={styles.key}>价&ensp;&ensp;&ensp;格：</span>
                           <span className={styles.money}>9998.00</span>
                         </div>
                       </Col>
-                      <Col className={styles.contentR}>
-                        {btnChildren ? btnChildren(item) : null}
-                      </Col>
+                      <Col className={styles.contentRBtn}>{btnChildren || null}</Col>
                     </Col>
                   </Col>
                 </Col>
               </Col>
             </Col>
             {/* modal */}
-            <Col className={styles.modal}>{children}</Col>
+            <Col className={styles.modal}>{active && children && children}</Col>
           </Col>
         </Col>
       </Row>

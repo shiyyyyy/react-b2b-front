@@ -128,7 +128,6 @@ export default class BaseMenu extends PureComponent {
       target,
       icon,
     };
-    console.log(this);
     if (isMobile) {
       addHistoryTags(tag);
       onCollapse(true);

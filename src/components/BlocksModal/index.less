@@ -1,0 +1,106 @@
+.ModBox {
+  .title {
+    font-size: 15px;
+    line-height: 44px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .text {
+    }
+    .more {
+    }
+  }
+  :global {
+    .ant-input-number {
+      width: 100%;
+      display: inline-block;
+    }
+  }
+  .noEditing {
+    margin-bottom: 24px;
+    .label {
+      width: 100%;
+      line-height: 40px;
+      color: rgba(0,0,0,.85);
+      text-overflow: hidden;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .label::after{
+      content: ':';
+      position: relative;
+      top: -0.5px;
+      margin: 0 8px 0 2px;
+    }
+    .labelRq::before{
+      display: inline-block;
+      margin-right: 4px;
+      color: #f5222d;
+      font-size: 14px;
+      font-family: SimSun, sans-serif;
+      line-height: 1;
+      content: '*';
+    }
+    .valBox{
+      padding: 4px 0;
+      .val {
+        width: 100%;
+        height: 32px;
+        line-height: 22px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 4px 12px;
+      }
+      .val:hover {
+        border: 1px solid#82afff;
+      }
+    }
+  }
+  .noRO {
+    margin-bottom: 24px;
+    .label {
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      color: rgba(0,0,0,.85);
+      text-overflow: hidden;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .label::after{
+      content: ':';
+      position: relative;
+      top: -0.5px;
+      margin: 0 8px 0 2px;
+    }
+    .labelRq::before{
+      display: inline-block;
+      margin-right: 4px;
+      color: #f5222d;
+      font-size: 14px;
+      font-family: SimSun, sans-serif;
+      line-height: 1;
+      content: '*';
+    }
+    .valBox{
+      padding: 4px 0;
+      .val {
+        width: 100%;
+        height: 32px;
+        /* line-height: 32px; */
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        display: inline-block;
+        background: #cccccc1c;
+        border-radius: 4px;
+        padding: 4px 12px;
+      }
+    }
+  }
+}

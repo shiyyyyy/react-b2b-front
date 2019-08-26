@@ -1,0 +1,39 @@
+// action
+.actionBox {
+    position: relative;
+    .actionIcon {
+      color: #5993f8;
+    }
+    .actionModal {
+      display: flex;
+      align-items: center;
+      // height: 38px;
+      background: #fff;
+      border-radius: 4px 0 0 4px;
+      position: absolute;
+      top: 1px;
+      // bottom: -6px;
+      padding: 0 12px;
+          box-shadow: -1px 0 0 4px rgba(0, 0, 0, 0.3);
+          // opacity: 1;
+      // transition: all 1s;
+      .triangle{
+        width: 14px;
+        height: 14px;
+        border-top: 8px solid rgba(0,0,0,0);
+        border-bottom: 8px solid rgba(0,0,0,0);
+        border-right: 8px solid rgba(0,0,0,0);
+        border-left: 8px solid rgba(0,0,0,.3);
+        position: absolute;
+        right: -19px;
+      }
+    }
+  }
+  
+  :global {
+    // 右侧固定表格,弹出框会显示两个(因为table就是有2个右侧columns,一个表格自带的,一个固定到右边的), 去掉表格自带的
+      .ant-table-body  .modalBtns{
+      display: none !important;
+    }
+  }
+  

@@ -1,0 +1,66 @@
+@import '~antd/lib/style/themes/default.less';
+@import '~@/utils/utils.less';
+
+.TableList {
+  // padding-bottom: 24px;
+  // background: #fff;
+  .tableList {
+    .tableListOperator {
+      margin-bottom: 16px;
+      button {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.tableListForm {
+  :global {
+    .ant-form-item {
+      display: flex;
+      margin-right: 0;
+      margin-bottom: 24px;
+      > .ant-form-item-label {
+        // width: auto;
+        padding-right: 8px;
+        line-height: 32px;
+      }
+      .ant-form-item-control {
+        line-height: 32px;
+      }
+    }
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+  .submitButtons {
+    display: block;
+    margin-bottom: 24px;
+    white-space: nowrap;
+  }
+}
+
+// table list 样式重置
+.tableStyle {
+  background: #fff;
+  padding: 20px;
+  margin-top: 12px;
+  :global {
+    // 最低400px,否则没有数据的话左右滚动条会在table-headr下,难看
+    .ant-table-body {
+      min-height: 400px !important;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-lg) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 24px;
+  }
+}
+
+@media screen and (max-width: @screen-md) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 8px;
+  }
+}

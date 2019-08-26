@@ -1,6 +1,6 @@
 import memoizeOne from 'memoize-one';
 import isEqual from 'lodash/isEqual';
-import { queryMenu } from '@/utils/utils';
+import { queryMenu ,queryAction} from '@/utils/utils';
 
 // according to server response to get menu 
 function formatter(data,pathMap){
@@ -94,21 +94,19 @@ export default {
   },
 
   effects: {
-    *getMenuData({payload}, { call,put}) {
-      const {routes} = payload;
-      // get from server
-      const req = yield call(queryMenu);
-      if(req.data){
-        const routerMap = getRouterMap(routes);
-        const serverMenu = {...req.data};
-        const menuData = filterMenuData(memoizeOneFormatter(serverMenu,routerMap));
-        const breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(menuData);
-        yield put({
-          type: 'save',
-          payload: { menuData, breadcrumbNameMap},
-        });
-      }
-    },
+    *init({payload},{put}){
+      const {menu:serverMenu,actionData={},routes={}} = payload;
+      const routerMap = getRouterMap(routes);
+      const menuData = filterMenuData(memoizeOneFormatter(serverMenu,routerMap));
+      let breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(menuData);
+      const actionBreadData = filterMenuData(memoizeOneFormatter(actionData,routerMap));
+      const actionBreadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(actionBreadData);
+      breadcrumbNameMap = {...breadcrumbNameMap,...actionBreadcrumbNameMap};
+      yield put({
+        type: 'save',
+        payload: { menuData, breadcrumbNameMap},
+      });
+    }
   },
 
   reducers: {

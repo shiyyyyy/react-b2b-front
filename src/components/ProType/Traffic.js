@@ -1,7 +1,28 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Col } from 'antd';
 
+
+import getEnum from '@/utils/enum';
+import AppCore from '@/utils/core'; 
 import styles from './Traffic.less';
+
+
+function renderImg(data) {
+  let url = data.list_pic;
+  if (url && url.indexOf('http') !== 0 && AppCore.HOST) {
+    url = `${AppCore.HOST}/${url}`;
+  }
+  return (
+    <div className={styles.imgWrapper}>
+      <img
+        src={url || '/img/login-bg.png'}
+        className={styles.img}
+        alt="产品图片"
+      />
+      <span className={styles.imgText}>{`产品编号P0${data.id}`}</span>
+    </div>
+  );
+}
 
 class Traffic extends React.Component {
   constructor(props) {
@@ -13,96 +34,96 @@ class Traffic extends React.Component {
 
   render() {
     const { openModal } = this.state;
-    const { children, btnChildren, state } = this.props;
+    const { children, btnChildren,data } = this.props;
     return (
-      <Row>
-        <Col className={styles.GroupTour}>
-          <Col
-            className={[styles.top, openModal && children ? styles.topActive : ''].join(' ')}
-            onClick={_ => this.setState({ openModal: !openModal })}
-          >
-            <Col className={styles.imgBox}>
-              <img
-                src={'http://pic1.16pic.com/00/07/65/16pic_765243_b.jpg'}
-                className={styles.img}
-                alt="产品图片"
-              />
-              <span className={styles.imgText}>产品编号: P0-4396</span>
+      <Col className={styles.GroupTour}>
+        <Col
+          className={[styles.top, openModal && children ? styles.topActive : ''].join(' ')}
+          onClick={() => this.setState({ openModal: !openModal })}
+        >
+          <Col className={styles.imgBox} xs={3} sm={3} md={3} lg={3}>
+            {
+              renderImg(data)
+            }
+          </Col>
+          <Col style={{ paddingLeft: '20px', flex: '1' }} xs={21} sm={21} md={21} lg={21}>
+            <Col className={styles.RTop}>
+              <span className={[styles.name, 'text-overflow'].join(' ')}>
+                {data.pd_name}
+              </span>
+              <span className={styles.tag}>大交通</span>
             </Col>
-            <Col style={{ paddingLeft: '20px', flex: '1' }}>
-              <Col className={styles.RTop}>
-                <span className={[styles.name, 'text-overflow'].join(' ')}>
-                  超值无忧泰一地,体验泰国风情超值无忧泰一地,体验泰国风情
-                </span>
-                <span className={styles.tag}>大交通</span>
+            <Col className={styles.RCenter}>
+              <Col span={10} className={styles.RCenterL}>
+                <div>
+                  <span className={styles.lable}>{`产品编号P0${data.id}`}</span>{' '}
+                  <span className={styles.text}>{data.account_name}</span>
+                </div>
+                <div>
+                  <span className={styles.lable}>发 布 人： </span>{' '}
+                  <span className={styles.text}>{data.supplier_full_name}</span>{' '}
+                  <span className={styles.text}>{data.account_name}</span>
+                </div>
               </Col>
-              <Col className={styles.RCenter}>
-                <Col span={10} className={styles.RCenterL}>
-                  <div>
-                    供应商: <span>南亚风情--琳琳</span>
-                  </div>
-                  <div>
-                    票程信息: <span>广西桂林甲天下之旅</span>
-                  </div>
-                  <div className="text-overflow">
-                    最近班期:{' '}
-                    <span>
-                      2018-09-08、2018-12-12、2018-11-11、2018-12-21、2018-12-12、2018-11-11
+              <Col span={14} className={styles.RCenterR}>
+                <Col span={24} className={styles.infoRow}>
+                  <Col className={styles.infoCell}>
+                    <span className={styles.lable}>已 过 期： </span>
+                    <span className={styles.text}>140</span>
+                  </Col>
+                  <Col className={styles.infoCell}>
+                    <span className={styles.lable}>在 售 中： </span>
+                    <span className={styles.text}>76</span>
+                  </Col>
+                </Col>
+                <Col span={24} className={styles.infoRow}>
+                  <Col className={styles.infoCell}>
+                    <span className={styles.lable}>累计访问： </span>
+                    <span className={styles.text}>32685</span>
+                  </Col>
+                  <Col className={styles.infoCell}>
+                    <span className={styles.lable}>审核状态： </span>
+                    <span className={styles.text} style={{ color: '#00A36A' }}>
+                      待审核
                     </span>
-                  </div>
-                </Col>
-                <Col span={14} className={styles.RCenterR}>
-                  <Col style={{ display: 'flex' }}>
-                    <Col span={8}>
-                      同行价:
-                      <span
-                        className="imp-text pointer"
-                        onClick={_ => console.log('跳转登录页')}
-                      >
-                        登录可查
-                      </span>
-                    </Col>
-                    <Col span={8}>
-                      在售团期: <span className="imp-text">76</span>个
-                    </Col>
-                    <Col span={8}>
-                      产品评分: <span className="imp-text">9.6</span>分
-                    </Col>
-                  </Col>
-                  <Col style={{ display: 'flex' }}>
-                    <Col span={8}>
-                      销售价: <span className="imp-text">￥29998</span>/人起
-                    </Col>
-                    <Col span={8}>
-                      访问次数: <span className="imp-text">32685</span>次
-                    </Col>
-                    <Col span={8} className={state ? '' : 'hide'}>
-                      审核状态:{' '}
-                      <span className="imp-text" style={{ color: '#00A36A' }}>
-                        待审核
-                      </span>
-                    </Col>
                   </Col>
                 </Col>
               </Col>
-              <Col className={styles.RBtm}>
-                <Col span={14} className={styles.RBtmL}>
-                  <div>北京出发</div>
-                  <div>5晚6天</div>
-                  <div>飞机来回</div>
-                  <div>无自费</div>
-                  <div>无购物</div>
-                </Col>
-                <Col span={10} className={btnChildren ? '' : 'hide'} style={{ textAlign: 'right' }}>
-                  {btnChildren || null}
-                </Col>
+            </Col>
+            <Col className={styles.RBtm} span={24}>
+              <Col span={14} className={styles.RBtmL}>
+                {/* 票种 */}
+                <div>{getEnum('TicketKind')[data.ticket_kind_id]}</div>
+                {/* 时间 */}
+                <div>{`${data.days}天`}</div>
+                <div>{getEnum('TrafficKind')[data.kind_id]}</div>
+                <div>
+                  {
+                    `${getEnum('City')[data.dep_city_id] || '' }/${getEnum('City')[data.back_city_id] || ''}`
+                  }
+                </div> 
+                {
+                  data.kind_id === '2' && 
+                  <div>
+                    {
+                      `${getEnum('City')[data.back_city_id]|| '' }/${getEnum('City')[data.dep_city_id] || ''}`
+                    }
+                  </div> 
+                }
+              </Col>
+              <Col
+                span={9}
+                className={btnChildren ? '' : 'hide'}
+                style={{ textAlign: 'right' }}
+              >
+                {btnChildren || null}
               </Col>
             </Col>
           </Col>
-
-          <Col className={openModal ? '' : 'hide'}>{children}</Col>
         </Col>
-      </Row>
+
+        <Col className={openModal ? '' : 'hide'}>{children}</Col>
+      </Col>
     );
   }
 }

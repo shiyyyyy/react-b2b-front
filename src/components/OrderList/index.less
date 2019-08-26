@@ -22,11 +22,13 @@
   }
 
   .item {
-    margin: 20px 0;
+    margin-top: 20px;
+    border-radius: 4px;
     .active {
       border-color: #377dea !important;
     }
     .list {
+      background: #fff;
       border: 1px solid #edf1f5;
       border-radius: 4px;
       .itemHeader {
@@ -50,19 +52,27 @@
         padding: 10px;
         .imgBox {
           width: 100%;
-          padding-right: 12px;
+          padding-bottom: 75%;
+          position: relative;
           & > img {
             width: 100%;
-            height: 84px;
+            height: 100%;
             border-radius: 4px 4px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
           }
-          .num {
-            line-height: 18px;
-            text-align: center;
-            border: 1px solid #b1bcd1;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-          }
+        }
+        .num {
+          position: absolute;
+          width: 100%;
+          top: 100%;
+          left: 0;
+          line-height: 18px;
+          text-align: center;
+          border: 1px solid #b1bcd1;
+          border-top: none;
+          border-radius: 0 0 4px 4px;
         }
         .top {
           margin-bottom: 4px;
@@ -87,15 +97,26 @@
           }
           .contentR {
             display: flex;
-            justify-content: flex-end;
+            // justify-content: flex-end;
             .obj {
-              width: 110px;
+              .key {
+                width: 60px;
+              }
+              .val {
+                width: auto;
+              }
+              width: 160px;
               display: inline-block;
               .money {
                 color: #f43266;
                 display: inline-block;
               }
             }
+          }
+          .contentRBtn {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 24px;
           }
         }
       }

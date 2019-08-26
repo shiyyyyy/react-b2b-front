@@ -3,12 +3,13 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 // import pathToRegexp from 'path-to-regexp';
-import { Modal ,Button} from 'antd';
-import router from 'umi/router';
+import { Modal ,Button,message} from 'antd';
+import { routerRedux } from 'dva/router';
+import {getLocale} from 'umi/locale';
+
 import request from './request';
 import AppCore from './core';
 import ModalRender from '@/components/ModalRender';
-
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -186,7 +187,7 @@ export function formatWan(val) {
 
 // 给官方演示站点用，用于关闭真实开发环境不需要使用的特性
 export function isAntdPro() {
-  return window.location.hostname === 'preview.pro.ant.design';
+  return false;
 }
 
 //
@@ -322,7 +323,7 @@ export async function get(url,data){
     return request(newUrl,option);
 }
 
-export async function post(url,data){
+export async function post(url,data,rjCfg){
     const option = {
       method: 'POST',
       body: {
@@ -335,7 +336,7 @@ export async function post(url,data){
       nUrl = `${nUrl}\?front_enum=${e.front_enum}`;
     }
 
-    return request(nUrl,option);
+    return request(nUrl,option,rjCfg);
 }
 
 
@@ -355,33 +356,43 @@ export async function readMod(mod,params = {} ){
   const cfg = mods[mod];
   
   const serach = {...params,mod}
-
   return get(cfg.read.url,getReadParam(serach));
 }
 
-export async function readAction(action,params = {}){
+export async function readAction(action,data = {}){
   const {actions} = getGobalState('meta');
 
   if(!actions){
     return new Promise((rs)=>{
-      rs({success:true,data:[]})
+      rs({success:true,data:{}})
     });
   }
   if(!actions[action]){
     return new Promise((rs)=>{
-      rs({success:true,data:[]})
+      rs({success:true,data:{}})
     });
   }
   const cfg = actions[action];
-  const serach = {...params,action}
-  return get(cfg.read.url,getReadParam(serach));
+  const serach = {action}
+  if(!cfg.read){
+    return new Promise((rs)=>{
+      rs({success:true,data:{}})
+    });
+  }
+  return get(cfg.read.url,getReadParam(serach,cfg.read.data,data));
 }
 
-export async function submit(action, data) {
+export async function submit(action, data,rjCfg) {
     const {actions} = getGobalState('meta');
     const cfg = actions[action];
-
-    return post(cfg.submit.url, getReqData(cfg.submit.data, data));
+    return post(cfg.submit.url, getReqData(cfg.submit.data, data),rjCfg).then((r)=>{
+      if(cfg.view &&cfg.view !=='submit'){
+        message.success(r.message);
+      }
+      return r;
+    },(e)=>{
+      return e;
+    })
 }
 
 export async function queryEnum(ver) {
@@ -395,65 +406,156 @@ export async function queryEnum(ver) {
     });
 }
 
-export async function queryMeta(){
-    let url = `${AppCore.HOST}/api/Pub/get_meta`;
+export async function init(){
+  let url = `${AppCore.HOST}/api/Pub/init`;
 
 
-    const user = getGobalState('user').currentUser;
+  const user = getGobalState('user').currentUser;
 
-    const sid = user.sid ? user.sid :'';
-    if(sid!==''){
-      url = `${AppCore.HOST}/PublicApi/get_meta`;
-    }
-    return post(url);
+  const sid = user.sid ? user.sid :'';
+  const option = {lang:getLocale()};
+  if(sid!==''){
+    url = `${AppCore.HOST}/PublicApi/init`;
+  }
+  return post(url,option);
 }
 
 export async function queryUser(){
   return post('/PublicApi/get_current', {});
 }
 
-export async function queryMenu(){
-    let url = `${AppCore.HOST}/api/Pub/get_menu`;
-
-
-    const user = getGobalState('user').currentUser;
-
-    const sid = user.sid ? user.sid :'';
-    if(sid!==''){
-      url = `${AppCore.HOST}/PublicApi/get_menu`;
-    }
-    return post(url);
-}
-
 export function renderButton(cfg,actionMap){
-    const {actions} = cfg;
+    const {action} = cfg;
     return (
       <div>
         {
-          Object.keys(actions).map((key)=>(
+          Object.keys(action).map((key)=>(
             <Button key={key} onClick={()=>(actionMap[key]) && (actionMap[key])()}>
-              <span>{actions[key].text}</span>
+              <span>{action[key].text}</span>
             </Button>
           ))}
       </div>);
 }
 
-export function trigger(action,meta,storeId,data,prePageReload){
-  const cfg = meta || getGobalState('meta').actions[action];
+/**
+ * trigger
+ * @param {object} action action
+ * @param {object} cfg 具体配置
+ * @param {object} ref 初始数据
+ * @param {function} rs success 回调
+ * @param {function} rj reject 回调
+ */
+export function trigger(action,ref,rs,rj){
+  const cfg = getGobalState('meta').actions[action] || null;
   if(!cfg){
-    router.push({
-      pathname: '/exception/403'
-    });
+    window.g_app._store.dispatch(
+      routerRedux.push({
+        pathname:'/exception/403'
+      })
+    );
+
   }else if(cfg.view){
     if(cfg.modal){
-      ModalRender(action,cfg,data,prePageReload);
+      ModalRender(action,{text: action,isDrag: true, ...cfg},ref,rs,rj);
     }else if(cfg.view === 'submit'){
-      submit(action,{}).then(()=>prePageReload());
+      submit(action,ref).then(
+        r=>{
+          message.success(r.message);
+          if(rs){
+            rs(r);
+          }
+        },e=>{
+          if(rj){
+            rj(e)
+          }
+        });
     }else{
-      router.push({
-        pathname: cfg.view,
-        state:{action,...data}
-      });
+      window.g_app._store.dispatch(
+        routerRedux.push({
+          pathname: cfg.view,
+          state:{action,...ref}
+        })
+      );
     }
   }
+}
+
+export function searchChange(cfg,field,data){
+    const result = {...data};
+    const clearCascade = (checkField) =>{
+      let nField = null;
+      Object.keys(cfg).forEach((key)=>{
+        if(!nField && cfg[key].cascade && cfg[key].cascade === checkField){
+          nField = key;
+          delete result[key];
+        }
+      })
+      return nField;
+    }
+    let cField = clearCascade(field);
+    while(cField){
+      cField = clearCascade(cField);
+    }
+    return result;
+}
+
+export function initBlocksData(blocks){
+  const data ={};
+  blocks.forEach((block)=>{
+    data[block] = []
+  });
+  return data;
+}
+
+export function blocksPageStateInit(blocks,blocksCfg){
+  const data = {};
+  blocks.forEach((block)=>{
+    data[block] = []
+  });
+  const sel = {};
+  const selKeys = {};
+  blocks.forEach((block)=>{
+    sel[block] = {};
+    if(blocksCfg[block] && blocksCfg[block].rowSelection){
+      sel[block] = [];
+      selKeys[block] = [];
+    }
+  });
+
+  return {
+    data,
+    selectedRows:sel,
+    selectedRowKeys:selKeys
+  };
+}
+
+export function AddArrayUid(uidSeed,data){
+  return data.map((item)=>(
+    {...item,hashKey:(item.hashKey || uidSeed.generate())}
+  ))
+}
+
+export function AddDataUid(storeids,uidSeed,data){
+  if(typeof data === 'object'){
+    const rst = {...data};
+    storeids.forEach((storeid)=>{
+      if(rst[storeid] && Array.isArray(rst[storeid])){
+        rst[storeid] =  AddArrayUid(uidSeed,rst[storeid]);
+      }
+    });
+    return rst;
+  }
+  return data;
+}
+
+export function AddDataUidCell(uidSeed,data){
+  const dataKey = Object.keys(data)
+  const rst = {}
+  dataKey.forEach(item => {
+    rst[item] = data[item]
+    if(data[item]  && Array.isArray(data[item] )){
+      rst[item]  =  AddArrayUid(uidSeed,data[item] );
+    }
+  })
+  return rst
 }

@@ -17,7 +17,7 @@ export default [
               {
                 path: '/office/auth/list',
                 name: '权限管理',
-                component: './Office/Auth/AuthList',
+                component: './Common/List',
               },
               {
                 path:'/office/auth/edit',
@@ -37,7 +37,7 @@ export default [
               {
                 path: '/office/company/list',
                 name: '公司列表',
-                component: './Office/Company/CompanyList',
+                component: './Common/List',
               }
             ]
           },
@@ -52,7 +52,7 @@ export default [
               {
                 path: '/office/department/list',
                 name: '部门列表',
-                component: './Office/Department/DepartmentList',
+                component: './Common/List',
               }
             ]
           },
@@ -67,7 +67,7 @@ export default [
               {
                 path: '/office/employee/list',
                 name: '员工列表',
-                component: './Office/Employee/EmployeeList',
+                component: './Common/List',
               }
             ]
           },
@@ -89,7 +89,7 @@ export default [
               {
                 path: '/member/company/list',
                 name: '公司列表',
-                component: './Member/Company/CompanyList',
+                component: './Common/List',
               }
             ]
           },
@@ -104,7 +104,7 @@ export default [
               {
                 path: '/member/department/list',
                 name: '部门列表',
-                component: './Member/Company/CompanyList',
+                component: './Common/List',
               }
             ]
           },
@@ -119,7 +119,111 @@ export default [
               {
                 path: '/member/sales/list',
                 name: '账号列表',
-                component: './Member/Company/CompanyList',
+                component: './Common/List',
+              }
+            ]
+          },
+        ]
+      },
+      {
+        name :'供应商管理',
+        icon:'sitemap',
+        path:'/SupplierManagement',
+        routes:[
+          {
+            path: '/SupplierManagement/Company',
+            name: '供应商管理',
+            routes:[
+              {
+                path: '/SupplierManagement/Company',
+                redirect: '/SupplierManagement/Company/List',
+              },
+              {
+                path: '/SupplierManagement/Company/List',
+                name: '公司列表',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/SupplierManagement/Department',
+            name: '部门管理',
+            routes:[
+              {
+                path: '/SupplierManagement/Department',
+                redirect: '/SupplierManagement/Department/List',
+              },
+              {
+                path: '/SupplierManagement/Department/List',
+                name: '部门列表',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/SupplierManagement/Sales',
+            name: '账号管理',
+            routes:[
+              {
+                path: '/SupplierManagement/Sales',
+                redirect: '/SupplierManagement/Sales/List',
+              },
+              {
+                path: '/SupplierManagement/Sales/List',
+                name: '账号列表',
+                component: './Common/List',
+              }
+            ]
+          },
+        ]
+      },
+      {
+        name :'零售商管理',
+        icon:'sitemap',
+        path:'/RetailerManagement',
+        routes:[
+          {
+            path: '/RetailerManagement/Company',
+            name: '零售商管理',
+            routes:[
+              {
+                path: '/RetailerManagement/Company',
+                redirect: '/RetailerManagement/Company/List',
+              },
+              {
+                path: '/RetailerManagement/Company/List',
+                name: '公司列表',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/RetailerManagement/Department',
+            name: '部门管理',
+            routes:[
+              {
+                path: '/RetailerManagement/Department',
+                redirect: '/RetailerManagement/Department/List',
+              },
+              {
+                path: '/RetailerManagement/Department/List',
+                name: '部门列表',
+                component: './Common/List',
+              }
+            ]
+          },
+          {
+            path: '/RetailerManagement/Sales',
+            name: '账号管理',
+            routes:[
+              {
+                path: '/RetailerManagement/Sales',
+                redirect: '/RetailerManagement/Sales/List',
+              },
+              {
+                path: '/RetailerManagement/Sales/List',
+                name: '账号列表',
+                component: './Common/List',
               }
             ]
           },
@@ -161,7 +265,7 @@ export default [
               {
                 path: '/product/productMaintain/list',
                 name: '产品维护列表',
-                component: './Product/ProductMaintain/List',
+                component: './Common/List',
               },
               {
                 path:'/product/productMaintain/maintain',
@@ -170,6 +274,48 @@ export default [
               }
             ]
           }
+        ]
+      },
+      {
+        name :'系统设置',
+        icon:'sitemap',
+        path:'/sys',
+        routes:[
+          {
+            path: '/sys/flow',
+            name: '审批流程',
+            routes:[
+              {
+                path: '/sys/flow',
+                redirect: '/sys/flow/list',
+              },
+              {
+                path: '/sys/flow/list',
+                name: '流程列表',
+                component: './Sys/FlowList',
+              },
+              {
+                path: '/sys/flow/modify',
+                name:'修改权限',
+                component:'./Sys/Modify'
+              },
+            ]
+          },
+          {
+            path: '/sys/api',
+            name: '接口管理',
+            routes:[
+              {
+                path: '/sys/api',
+                redirect: '/sys/api/list',
+              },
+              {
+                path: '/sys/api/list',
+                name: '供应商接口列表',
+                component: './Common/List',
+              },
+            ]
+          },
         ]
       },
     ],

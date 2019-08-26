@@ -13,19 +13,22 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
+import LoadingHoc from '@/components/LoadingHoc';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import Authorized from '@/utils/Authorized';
 import { menu, title } from '../defaultSettings';
-import {signalInit} from '@/utils/signal';
-import Exception403 from '@/pages/Exception/403';
+import { signalInit } from '@/utils/signal';
+import NoMatch from '@/pages/Exception/NoMatch';
 
+import 'animate.css';
 import styles from './BasicLayout.less';
 
 import 'swiper/dist/css/swiper.min.css';
 
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
+// const logo = require('@public/img/logo.png');
 
 const { Content } = Layout;
 
@@ -54,8 +57,6 @@ const query = {
   },
 };
 
-
-
 class BasicLayout extends React.Component {
   constructor(props) {
     super(props);
@@ -74,19 +75,16 @@ class BasicLayout extends React.Component {
     });
 
     dispatch({
-      type: 'meta/getMetaData',
-    });
-    dispatch({
-      type: 'menu/getMenuData',
+      type: 'init/Init',
       payload: { routes },
     });
     dispatch({
-      type: 'enum/update',
-      payload: { ver: new Date().getTime()},
+      type: 'enum/fetch',
+      payload: { ver: new Date().getTime() },
     });
-    dispatch({
-      type: 'user/fetch'      
-    })
+    // dispatch({
+    //   type: 'user/fetch'      
+    // })
     
     signalInit().catch(e=>console.log(e));
   }
@@ -166,10 +164,21 @@ class BasicLayout extends React.Component {
       breadcrumbNameMap,
       fixedHeader,
       metaLoading,
-      menuLoading
+      menuLoading,
+      initLoading,
+      loading,
     } = this.props;
+    const wrap = () => (
+      <div className={styles.contentBgc}>
+        {!initLoading && !metaLoading && !menuLoading && (
+          <Authorized authority={pathname} noMatch={<NoMatch />}>
+            {children}
+          </Authorized>
+        )}
+      </div>
+    );
     const isTop = PropsLayout === 'topmenu';
-    const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0};
+    const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0 };
     const layout = (
       <Layout className={styles.Layout}>
         {isTop && !isMobile ? null : (
@@ -197,16 +206,7 @@ class BasicLayout extends React.Component {
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
-            <div className={styles.contentBgc}>
-              {
-                !metaLoading && !menuLoading && 
-                <Authorized authority={pathname} noMatch={<Exception403 />}>
-                  {
-                    children
-                  }
-                </Authorized>
-              }
-            </div>
+            {LoadingHoc(wrap, loading)}
           </Content>
           <Footer />
         </Layout>
@@ -223,20 +223,21 @@ class BasicLayout extends React.Component {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense>
+        {/* <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense> */}
       </React.Fragment>
     );
   }
 }
 
-export default connect(({ global, setting, menu: menuModel,meta ,loading}) => ({
+export default connect(({ global, setting, menu: menuModel, loading }) => ({
   collapsed: global.collapsed,
+  loading: global.loading,
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-  meta,
-  metaLoading:loading.models.meta,
-  menuLoading:loading.models.menu,
+  initLoading: loading.models.init,
+  metaLoading: loading.models.meta,
+  menuLoading: loading.models.menu,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

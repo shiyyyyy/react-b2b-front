@@ -1,4 +1,6 @@
+import {Modal} from 'antd';
 import { queryNotices } from '@/services/api';
+
 
 export default {
   namespace: 'global',
@@ -7,6 +9,8 @@ export default {
     collapsed: false,
     notices: [],
     loadedAllNotices: false,
+    routeRecord:'',
+    loading: true,
   },
 
   effects: {
@@ -93,6 +97,16 @@ export default {
         },
       });
     },
+    *routeChange({payload},{put,select}){
+      const routeRecord = yield select(state => state.global.routeRecord);
+      if(routeRecord !== '' && routeRecord !== payload){
+        Modal.destroyAll();
+      }
+      yield put({
+        type:'changeRouteRecord',
+        payload
+      })
+    },
   },
 
   reducers: {
@@ -126,16 +140,33 @@ export default {
         loadedAllNotices: payload,
       };
     },
+    changeRouteRecord(state,{payload}){
+      return {
+        ...state,
+        routeRecord:payload
+      };
+    },
+    changeLoading(state,{payload}){
+      return {
+        ...state,
+        loading: payload
+      }
+    }
   },
 
   subscriptions: {
-    setup({ history }) {
-      // Subscribe history(url) change, trigger `load` action if pathname is `/`
-      return history.listen(({ pathname, search }) => {
-        if (typeof window.ga !== 'undefined') {
-          window.ga('send', 'pageview', pathname + search);
-        }
-      });
-    },
+    // setup({ history}) {
+    //   // Subscribe history(url) change, trigger `load` action if pathname is `/`
+    //   return history.listen(({ pathname, search }) => {
+    //     if (typeof window.ga !== 'undefined') {
+    //       window.ga('send', 'pageview', pathname + search);
+    //     }
+    //   });
+    // },
+    watch({history,dispatch}){
+      return history.listen(({pathname})=>{
+        dispatch({type:'routeChange',payload:pathname});
+      })
+    }
   },
 };

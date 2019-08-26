@@ -941,7 +941,7 @@ export class RoomstatusAndPrice extends React.Component{
 
     }
 
-    componentWillMount(){
+    componentDidMount(){
         let roomTypeMore = []
         this.state.data.forEach(item => {
             roomTypeMore.push(2)

@@ -1,0 +1,211 @@
+.btns {
+    margin: 0 4px;
+  }
+  
+  // 新增 跟团游
+  .add {
+    padding: 0 0 24px;
+    background: #fff;
+    .breadcrumb {
+      height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .addMod {
+      // 产品图片
+      .imgWrapper {
+        .imgBox {
+          width: 100%;
+          padding-bottom: 75%;
+          position: relative;
+          .Carousel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            & div {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .placeholderImg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+  
+      .title {
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        .titleL {
+          display: flex;
+          .text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2e3a4e;
+          }
+          .btns {
+            padding-left: 12px;
+          }
+        }
+      }
+      .content {
+        padding: 0 16px;
+        .cell {
+          margin: 12px 0;
+          .cellLabel {
+            line-height: 32px;
+          }
+          .cellInput {
+            line-height: 32px;
+            .cellSelect {
+              width: 33.333%;
+              // min-width: 160px;
+              // margin-right: 12px;
+            }
+            .cellInputAfter {
+            }
+            .cellInputPopup {
+            }
+          }
+          .cellInput2 {
+            margin-top: 12px;
+            .cellSelect {
+              width: 33.333%;
+              // min-width: 160px;
+              // margin-right: 12px;
+            }
+            .cellInputAfter {
+            }
+            .cellInputPopup {
+            }
+          }
+        }
+      }
+    }
+  
+    // 产品行程
+    .scheduling {
+      padding: 12px 24px;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+    }
+    .schedulingT {
+      border-bottom: 1px solid #d9d9d9;
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .schedulingTBtn > button {
+      margin: 0 8px;
+    }
+    .schedulingTPageNum {
+    }
+    .schedulingTPageNumInput {
+      margin: 0 8px;
+      width: 54px;
+      // height: 30px;
+      // padding: 4px 8px;
+      // border-radius: 4px;
+      // outline: none;
+      // border: 1px solid #d9d9d9;
+    }
+    // .schedulingTPageNumInput:hover {
+    //   border-color: #1890ff;
+    //   transition: all 0.3s;
+    // }
+    // .schedulingTPageNumInput:focus {
+    //   border-color: #1890ff;
+    //   box-shadow: 0px 0px 0px 2px #40a0fa3b;
+    //   transition: all 0.3s;
+    // }
+    .schedulingContent {
+      padding: 12px 0;
+      min-height: 400px;
+      :global {
+        .avatar-uploader {
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+        }
+        .ant-upload.ant-upload-select-picture-card {
+          // display: flex;
+          width: 100%;
+          min-height: 400px;
+          // height: 100%;
+          text-align: center;
+          vertical-align: top;
+          background-color: #fafafa;
+          border: 1px dashed #d9d9d9;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: border-color 0.3s;
+        }
+        .ant-upload.ant-upload-select-picture-card:hover {
+          border-color: #1890ff;
+        }
+        .ant-upload.ant-upload-select-picture-card > .ant-upload {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          padding: 8px;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+  
+  // 产品列表==============================================================
+  .List {
+    // background: #fff;
+    // padding: 24px;
+    .itemBox {
+    }
+    .page {
+      text-align: center;
+    }
+  }
+  
+  // 开团  =============================================================
+  .OpenHeader {
+    background: none;
+  }
+  .Open {
+    .itemBox {
+      background: #fff;
+      border-radius: 4px;
+      margin-bottom: 24px;
+      .itemTitle {
+        padding: 0 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .text {
+          font-size: 16px;
+          font-weight: bold;
+          height: 44px;
+          line-height: 44px;
+        }
+        .btns {
+          & > button {
+            margin-right: 12px;
+          }
+        }
+      }
+      .itemTable {
+        padding-bottom: 12px;
+      }
+    }
+  }
+  

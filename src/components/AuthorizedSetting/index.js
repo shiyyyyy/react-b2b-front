@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import AuthorizedSetItem from './AuthorizedSetItem';
 import AuthorizedOverview from './AuthorizedOverview';
 
-import styles from './index.less';
-
 class AuthorizedSetting extends Component {
   constructor(props) {
     super(props);

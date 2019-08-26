@@ -1,9 +1,18 @@
 import getEnum from './enum';
 
 export default function colDisplay(v,cfg,row) {
-    const e = getEnum(cfg,row,null);
-    if(e[v]){
-        return e[v];
+    switch (cfg.type) {
+        case 'date':
+        case 'number':
+        case 'time':
+        case 'ArrayEdit':
+          return v;
+        default:
+            break;
     }
-    return v;
+    const e = getEnum(cfg,row,null);
+    if(e && (e[v]||e[Number(v)])){
+        return (e[v]||e[Number(v)]);
+    }
+    return '';
 }

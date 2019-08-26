@@ -1,10 +1,12 @@
+import { routerRedux } from 'dva/router';
+import { stringify } from 'qs';
+
 import { queryUser } from '@/utils/utils';
 import { AppConst } from '@/utils/const';
 
 import {clearAuthority} from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
-import { routerRedux } from 'dva/router';
-import { stringify } from 'qs';
+
 
 function initUser(){
   let user = {};

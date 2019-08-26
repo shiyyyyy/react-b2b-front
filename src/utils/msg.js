@@ -1,22 +1,26 @@
 import React from 'react';
-import { Button, notification } from 'antd';
+import { Button, notification,message } from 'antd';
 import {trigger} from './utils';
+
+message.config({
+  maxCount: 1,
+});
 
 const openActionNotification = (msg,buttonType,buttonSize) => {
   const key = `open${Date.now()}`;
   const click = () =>{
-    trigger(msg.extra.action,null,null,msg.extra.assoc,null);
+    trigger(msg.extra.action,msg.extra.assoc,null);
     notification.close(key);
   }
   const btn = (
     <Button type={buttonType} size={buttonSize} onClick={() => click()}>
-      Confirm
+      查看
     </Button>
   );
   notification.open({
       message: msg.title,
-      description:
-        msg.title,
+      description:msg.title,
+      placement:'bottomLeft',
       btn,
       key
   });
@@ -27,8 +31,8 @@ const openNotification = (msg) => {
   const key = `open${Date.now()}`;
   notification.open({
       message: msg.title,
-      description:
-      msg.title,
+      description:msg.title,
+      placement:'bottomLeft',
       key
   });
 };
@@ -37,6 +41,7 @@ const openNotification = (msg) => {
 export default function msgPush(msg,size,type){
     const buttonType = type||"primary";
     const buttonSize = size||"small";
+
     if(msg.extra && msg.extra.action && msg.extra.assoc){
       openActionNotification(msg,buttonType,buttonSize);
       return ;
