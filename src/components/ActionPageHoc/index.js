@@ -1,10 +1,12 @@
 import React from 'react';
 import { routerRedux } from 'dva/router';
-import { Modal } from 'antd';
+import { Spin } from 'antd';
 import ModalRender from '@/components/ModalRender';
 import RowModal from '@/components/Table/RowModal';
+import ActionHocException from '@/pages/Exception/ActionHocException';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
-import {readAction,submit,AddDataUid} from '@/utils/utils';
+import { readAction, submit, AddDataUid } from '@/utils/utils';
 
 const Seed = require('short-id');
 
@@ -12,32 +14,41 @@ export default function ActionPageHoc(WrappedComponent) {
   return class ActionPage extends React.Component {
     constructor(props) {
       super(props);
+      this.state = {
+        loading: true,
+      };
       this.WrappedRef = React.createRef();
     }
 
     componentDidMount() {
-      const {location,actions } = this.props;
-      const {action=''} = location.state;
-      const cfg = actions[action];
-      readAction(action,location.state).then(res=>{
-        if(res.success && res.data){
-          if (this.WrappedRef.current) {
-            const wrappedCom = this.WrappedRef.current;
-            const { data } = wrappedCom.state;
-            let rst = {...res.data};
-            if(cfg.block){
-              rst = AddDataUid(cfg.block,Seed,rst);
-            }
-            wrappedCom.setState(() => ({
-              data:{...data,...rst} 
-            }),()=>{
-              if(wrappedCom.init && typeof wrappedCom.init === 'function'){
-                wrappedCom.init();
+      const { location, actions } = this.props;
+      if (location.state) {
+        const { action = '' } = location.state;
+        const cfg = actions[action];
+        readAction(action, location.state).then(res => {
+          if (res.success && res.data) {
+            if (this.WrappedRef.current) {
+              const wrappedCom = this.WrappedRef.current;
+              const { data } = wrappedCom.state;
+              let rst = { ...res.data };
+              if (cfg.block) {
+                rst = AddDataUid(cfg.block, Seed, rst);
               }
-            })
+              wrappedCom.setState(
+                () => ({
+                  data: { ...data, ...rst },
+                }),
+                () => {
+                  if (wrappedCom.init && typeof wrappedCom.init === 'function') {
+                    wrappedCom.init();
+                  }
+                  this.setState({ loading: false });
+                }
+              );
+            }
           }
-        }
-      });
+        }).catch(e=> this.setState({loading:false}));
+      }
     }
 
     addRow = (config, storeId) => {
@@ -45,7 +56,7 @@ export default function ActionPageHoc(WrappedComponent) {
         if (this.WrappedRef.current) {
           const wrappedCom = this.WrappedRef.current;
           const { data } = wrappedCom.state;
-          data[storeId].push({...row,hashKey:row.hashKey||Seed.generate()});
+          data[storeId].push({ ...row, hashKey: row.hashKey || Seed.generate() });
           wrappedCom.setState({ data });
         }
       };
@@ -57,7 +68,7 @@ export default function ActionPageHoc(WrappedComponent) {
         if (this.WrappedRef.current) {
           const wrappedCom = this.WrappedRef.current;
           const { data } = wrappedCom.state;
-          const index = data[storeId].findIndex((value)=>value.hashKey === rst.hashKey);
+          const index = data[storeId].findIndex(value => value.hashKey === rst.hashKey);
           data[storeId].splice(index, 1, rst);
           wrappedCom.setState({ data });
         }
@@ -69,7 +80,7 @@ export default function ActionPageHoc(WrappedComponent) {
       if (this.WrappedRef.current) {
         const wrappedCom = this.WrappedRef.current;
         const { data } = wrappedCom.state;
-        const index = data[storeId].findIndex((value)=>value.hashKey === row.hashKey);
+        const index = data[storeId].findIndex(value => value.hashKey === row.hashKey);
         data[storeId].splice(index, 1);
         wrappedCom.setState({ data });
       }
@@ -77,17 +88,15 @@ export default function ActionPageHoc(WrappedComponent) {
 
     submit = () => {
       const { location } = this.props;
-      const {action=''} = location.state;
+      const { action = '' } = location.state;
 
       if (this.WrappedRef.current) {
         const wrappedCom = this.WrappedRef.current;
         const { data } = wrappedCom.state;
         const { dispatch } = wrappedCom.props;
-        submit(action,data).then(
-          ()=>{
-            dispatch(routerRedux.goBack());
-          }
-        );
+        submit(action, data).then(() => {
+          dispatch(routerRedux.goBack());
+        });
       }
     };
 
@@ -96,15 +105,15 @@ export default function ActionPageHoc(WrappedComponent) {
       dispatch(routerRedux.goBack());
     };
 
-    rowSelChange = (Keys,Rows,block) =>{
-      if(this.WrappedRef.current){
+    rowSelChange = (Keys, Rows, block) => {
+      if (this.WrappedRef.current) {
         const wrappedCom = this.WrappedRef.current;
-        const {selectedRows,selectedRowKeys} = wrappedCom.state;
+        const { selectedRows, selectedRowKeys } = wrappedCom.state;
         selectedRowKeys[block] = Keys;
         selectedRows[block] = Rows;
-        wrappedCom.setState({selectedRows,selectedRowKeys});
+        wrappedCom.setState({ selectedRows, selectedRowKeys });
       }
-    }
+    };
 
     render() {
       const actionMap = {
@@ -114,7 +123,26 @@ export default function ActionPageHoc(WrappedComponent) {
         提交: this.submit,
         关闭: this.cancel,
       };
-      return <WrappedComponent ref={this.WrappedRef} actionMap={actionMap} rowSelChange={this.rowSelChange} {...this.props} />;
+      const { location } = this.props;
+      const { loading } = this.state;
+      if (!location.state) {
+        return <ActionHocException />;
+      }
+      return (
+        <ErrorBoundary>
+          <div>
+            <div className={[loading ? '' : 'hide', 'Spin-box'].join(' ')}>
+              <Spin tip="Loading..." />
+            </div>
+            <WrappedComponent
+              ref={this.WrappedRef}
+              actionMap={actionMap}
+              rowSelChange={this.rowSelChange}
+              {...this.props}
+            />
+          </div>
+        </ErrorBoundary>
+      );
     }
   };
 }

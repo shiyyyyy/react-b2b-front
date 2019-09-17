@@ -71,6 +71,21 @@ export default [
               }
             ]
           },
+          {
+            path: '/office/announce',
+            name: '公告管理',
+            routes:[
+              {
+                path: '/office/announce',
+                redirect: '/office/announce/list',
+              },
+              {
+                path: '/office/announce/list',
+                name: '公告列表',
+                component: './Common/List',
+              }
+            ]
+          },
         ]
       },
       {
@@ -131,6 +146,47 @@ export default [
         path:'/SupplierManagement',
         routes:[
           {
+            path: '/SupplierManagement/TbCompany',
+            name: '提报供应商',
+            routes:[
+              {
+                path: '/SupplierManagement/TbCompany',
+                redirect: '/SupplierManagement/TbCompany/List',
+              },
+              {
+                path: '/SupplierManagement/TbCompany/List',
+                name: '供应商列表',
+                component: './Common/List',
+              },
+              {
+                path:'/SupplierManagement/TbCompany/Edit',
+                name:'完善供应商',
+                component:'./SupplierManagement/Company/Add'
+              },
+            ]
+          },
+          {
+            path: '/SupplierManagement/XnCompany',
+            name: '吸纳供应商',
+            routes:[
+              {
+                path: '/SupplierManagement/XnCompany',
+                redirect: '/SupplierManagement/XnCompany/List',
+              },
+              {
+                path: '/SupplierManagement/XnCompany/List',
+                name: '供应商列表',
+                component: './Common/List',
+              },
+              {
+                path:'/SupplierManagement/XnCompany/Approve',
+                name:'审批吸纳',
+                component:'./SupplierManagement/Company/Approve'
+              },
+              
+            ]
+          },
+          {
             path: '/SupplierManagement/Company',
             name: '供应商管理',
             routes:[
@@ -142,9 +198,30 @@ export default [
                 path: '/SupplierManagement/Company/List',
                 name: '公司列表',
                 component: './Common/List',
+              },
+              {
+                path:'/SupplierManagement/Company/Add',
+                name:'新增供应商',
+                component:'./SupplierManagement/Company/Add'
+              },
+              {
+                path:'/SupplierManagement/Company/Edit',
+                name:'修改供应商',
+                component:'./SupplierManagement/Company/Add'
+              },
+              {
+                path:'/SupplierManagement/Company/Maintain',
+                name:'维护供应商',
+                component:'./SupplierManagement/Company/Add'
+              },
+              {
+                path:'/SupplierManagement/Company/Approve',
+                name:'审批供应商',
+                component:'./SupplierManagement/Company/Approve'
               }
             ]
           },
+          
           {
             path: '/SupplierManagement/Department',
             name: '部门管理',
@@ -194,7 +271,7 @@ export default [
                 path: '/RetailerManagement/Company/List',
                 name: '公司列表',
                 component: './Common/List',
-              }
+              },
             ]
           },
           {
@@ -230,48 +307,43 @@ export default [
         ]
       },
       {
-        name :'产品管理',
+        name :'产品监管',
         icon:'sitemap',
-        path:'/product',
+        path:'/Product',
         routes:[
           {
-            path: '/product/productCheck',
+            path: '/Product/productCheck',
             name: '产品审核',
             routes:[
               {
-                path: '/product/productCheck',
+                path: '/Product/productCheck',
                 redirect: '/product/productCheck/list',
               },
               {
-                path: '/product/productCheck/list',
+                path: '/Product/productCheck/list',
                 name: '产品审核',
-                component: './Common/List',
+                component: './ProductStore/Product/List',
               },
               {
-                path: '/product/productCheck/check',
+                path: '/Product/productCheck/check',
                 name: '审核',
-                component: './Product/ProductCheck/Check',
+                component: './ProductStore/ApproveAll',
               }
             ]
           },
           {
-            path: '/product/productMaintain',
+            path: '/Product/productMaintain',
             name: '产品维护',
             routes:[
               {
-                path: '/product/productMaintain',
+                path: '/Product/productMaintain',
                 redirect: '/product/productMaintain/list',
               },
               {
-                path: '/product/productMaintain/list',
+                path: '/Product/productMaintain/list',
                 name: '产品维护列表',
-                component: './Common/List',
+                component: './ProductStore/Product/List',
               },
-              {
-                path:'/product/productMaintain/maintain',
-                name:'维护',
-                component:'./Product/ProductMaintain/Maintain'
-              }
             ]
           }
         ]

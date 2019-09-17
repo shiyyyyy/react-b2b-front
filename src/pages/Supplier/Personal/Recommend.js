@@ -84,7 +84,7 @@ class Recommend extends React.Component {
                       className={styles.img}
                       alt="产品图片"
                     />
-                    <span className={styles.imgText}>产品编号: P0-4396</span>
+                    <span className={[styles.imgText, 'text-overflow'].join(' ')}>产品编号: P0-4396</span>
                   </Col>
                   <Col span={21} style={{ paddingLeft: '20px' }}>
                     <Col className={styles.rTop}>

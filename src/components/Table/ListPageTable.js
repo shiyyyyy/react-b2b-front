@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'antd';
 
+import ActionModal from './ActionModal';
 import CommonTable from './index';
 
 import { trigger } from '@/utils/utils';
@@ -60,6 +61,20 @@ class ListPageTable extends Component {
     modConfig: {},
   };
 
+  constructor(props){
+    super(props)
+    this.state = {
+      actionModal: '',
+    }
+
+    this.closeActionModal = this.closeActionModal.bind(this);
+  }
+
+  openActionModal = data => {
+    const { hashKey } = data;
+    this.setState({ actionModal: hashKey });
+  };
+
   renderRowBtns = data => {
     const { modConfig, reload } = this.props;
 
@@ -75,7 +90,7 @@ class ListPageTable extends Component {
         <Button
           icon={item.icon || ''}
           type={item.type || ''}
-          onClick={() => trigger(item.key, data,reload )}
+          onClick={() => trigger(item.key, data, reload )}
         >
           {item.text || ''}
         </Button>
@@ -84,20 +99,40 @@ class ListPageTable extends Component {
     ));
   };
 
+  
+
   getModConfig = () => {
-    const { modConfig,rowSelection,mod ,dataSource} = this.props;
+    const { modConfig, rowSelection,mod ,dataSource, block, actionMap} = this.props;
     const config =  getTableConfig(modConfig,rowSelection,mod,dataSource,1);
     if (modConfig.action) {
       const col = {
         title: '操作',
         key: 'action',
-        width: actionColWidth(modConfig,dataSource),
-        render: (text, record) => <span>{this.renderRowBtns(record)}</span>,
+        // 以下两个属性,是为了保证弹窗正常显示
+        fixed: 'right',
+        className: 'noOver',
+        // width: actionColWidth(modConfig,dataSource),
+        width: 80,
+        // render: (text, record) => <span>{this.renderRowBtns(record)}</span>,
+        render: (text, data, index) => (
+          <ActionModal
+            data={data}
+            width={actionColWidth(modConfig, this.props.dataSource)}
+            renderRowBtns={() => this.renderRowBtns(data)}
+            openActionModal={this.openActionModal}
+            actionModal={this.state.actionModal}
+            closeActionModal={this.closeActionModal}
+          />
+        ),
       };
       config.columns.push(col);
     }
     return config;
   };
+
+  closeActionModal() {
+    this.setState({ actionModal: '' });
+  }
 
   render() {
     const { loading, dataSource, page ,mod} = this.props;

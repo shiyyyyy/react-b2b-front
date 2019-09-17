@@ -126,10 +126,6 @@ export default function request(requestUrl, option,cfg) {
             payload:{ver:''}
           });
         }
-        window.g_app._store.dispatch({
-          type:'global/changeLoading',
-          payload: false
-        });
         rs(response);
     },error=>{
       // 未登录

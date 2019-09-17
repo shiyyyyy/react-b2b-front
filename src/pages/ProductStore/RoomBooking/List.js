@@ -26,6 +26,7 @@ class List extends PureComponent {
 
     this.state = {
       data: [],
+      serch: {},
       pageSize: 10,
       currentPage: 1,
       loading: true,
@@ -36,10 +37,19 @@ class List extends PureComponent {
     this.reload = reload;
     this.pageChange = this.pageChange.bind(this);
     this.pageSizeChange = this.pageSizeChange.bind(this);
+    this.changeSearch = this.changeSearch.bind(this);
   }
 
   componentDidMount() {
     this.reload();
+  }
+
+  changeSearch = val => {
+    const { reload } = this.props
+    if(!val){
+      this.setState({search: val}, () => reload())
+    }
+    this.setState({search: val, currentPage: 1}, () => reload())
   }
 
   btnChildren = data => {
@@ -107,7 +117,7 @@ class List extends PureComponent {
     );
     return (
       <PageHeaderWrapper headerPage={headerPage}>
-        <ModHeaderBtnFilter modConfig={modConfig} reload={this.reload} />
+        <ModHeaderBtnFilter modConfig={modConfig} reload={this.reload} changeSearch={this.changeSearch} />
         <Col className={styles.List}>
           <Col className={styles.itemBox}>
             {data.map(item => (

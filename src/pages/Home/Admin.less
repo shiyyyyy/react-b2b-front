@@ -16,6 +16,21 @@
         overflow: hidden;
         padding: 12px 24px;
         // border: 1px solid #edf1f5;
+        .item {
+          overflow: hidden;
+          line-height: 24px;
+          .item-left {
+            font-size: 13px;
+            color: #999;
+          }
+          .item-center {
+            font-size: 14px;
+            text-align: left;
+          }
+          .item-right {
+            text-align: center;
+          }
+        }
         .content1 {
           width: 100%;
           height: 100%;
@@ -29,17 +44,25 @@
           }
           .content-right {
             /* margin-top: 48px; */
+            .title {
+              font-size: 15px;
+              font-weight:600;
+              color: #2e3a4e;
+              padding-bottom: 12px;
+            }
             .company {
               font-size: 13px;
               color: #333;
               padding: 0 12px;
             }
             .brand {
-              font-size: 12px;
-              color: #999;
-              text-align: right;
-              padding-right: 24px;
+              font-size: 13px;
+              line-height: 24px;
+              // color: #999;
+              // text-align: right;
+              // padding-right: 24px;
             }
+
           }
         }
         .c2item {
@@ -125,6 +148,49 @@
       }
       .item-right {
         text-align: center;
+      }
+    }
+    .c2item {
+      height: 77px;
+      .center {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        & > div {
+          text-align: center;
+        }
+        & > span {
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+      .center:hover {
+        color: #1755c0;
+        cursor: pointer;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+      }
+      .c2item1 {
+        border-bottom: 1px solid #f2f4f8;
+        border-right: 1px solid #f2f4f8;
+      }
+      .c2item2 {
+        border-bottom: 1px solid #f2f4f8;
+      }
+      .c2item3 {
+        border-left: 1px solid #f2f4f8;
+        border-bottom: 1px solid #f2f4f8;
+      }
+      .c2item4 {
+        border-right: 1px solid #f2f4f8;
+      }
+      .c2item5 {
+        // border-right: 1px solid #f2f4f8;
+      }
+      .c2item6 {
+        border-left: 1px solid #f2f4f8;
       }
     }
   }

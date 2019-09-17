@@ -6,6 +6,8 @@ import TableGroup from '@/components/Table/ActionPageTableGroup';
 import ActionPageHoc from '@/components/ActionPageHoc';
 
 import {blocksPageStateInit,renderButton} from '@/utils/utils';
+import ModalRender from '@/components/ModalRender';
+import RowModal from '@/components/Table/RowModal';
 
 /* eslint react/no-multi-comp:0 */
 @connect(({ meta: { actions,blocks } }) => ({
@@ -24,6 +26,7 @@ class Modify extends React.Component {
     this.state = blocksPageStateInit(cfg.block || [],blocks);
     this.onCellChange = this.onCellChange.bind(this);
     this.init = this.init.bind(this);
+    this.actionMap['指定专人'] = this.specialist.bind(this);
   }
 
 
@@ -32,6 +35,33 @@ class Modify extends React.Component {
     const {data} = this.state;
     data[tableKey][rowIndex][dataIndex] = value;
     this.setState({data});
+  }
+  
+  specialist(config, storeId, row){
+
+    const afterDone = rst => {
+      const {data} = this.state;
+      const index = data[storeId].findIndex(value => value.hashKey === rst.hashKey);
+      const newRow = {...row};
+      newRow.specify = rst.specify;
+      data[storeId].splice(index, 1, newRow);
+      this.setState({data});
+    };
+
+    const ModalConfig = {
+      list:{
+        'specify':{'text':'专人','type':'EmpAccount','multi':1}
+      }
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    const newData = {...row};
+    if(!row.specify){
+      newData.specify = [];
+    }
+
+    ModalRender('指定专人',{ view: RowModal, text: '指定专人',...ModalConfig },newData,afterDone);
+    
   }
 
   init(){
@@ -43,7 +73,7 @@ class Modify extends React.Component {
             payload:{'审批角色':data['审批角色'],'可选接口':data['可选接口']}
          })
     }
-}
+  }
 
   render() {
     // 列表按钮
@@ -69,7 +99,7 @@ class Modify extends React.Component {
         />
 
       </PageHeaderWrapper>
-    );
+    )
   }
 }
 

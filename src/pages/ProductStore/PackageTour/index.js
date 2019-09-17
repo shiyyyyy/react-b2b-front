@@ -19,19 +19,20 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PictureList from '@/components/PictureList';
 import getEnum from '@/utils/enum';
 import AppCore from  '@/utils/core';
-import {renderButton} from '@/utils/utils';
+import {renderButton,searchChange} from '@/utils/utils';
 import {upload} from '@/utils/request';
 import {loadPdf,prePage,nextPage,goTOPage} from '@/utils/pdf';
 import ActionPageHoc from '@/components/ActionPageHoc';
+import FastSelect from '@/components/FastSelect';
 
 import styles from './index.less';
 
 const { Option } = Select;
 const RadioGroup = Radio.Group;
 const selectCfg = {
-  pd_kind_id:{'text':'出境/国内','type':'PdKind'},
-  pd_tag_id:{'text':'一级导航','type':'PdTag'},
-  pd_subtag_id:{'text':'二级导航','type':'PdSubTag','cascade':'pd_tag_id'}
+  pd_direction:{'text':'出境/国内','type':'PdDirection'},
+  primary_nav:{'text':'一级导航','type':'PackagetourNav','cascade':'pd_direction'},
+  secondary_nav:{'text':'二级导航','type':'PackagetourSecondaryNav','cascade':'primary_nav'}
 };
 
 function renderImg(item){
@@ -124,6 +125,37 @@ class PackageTour extends React.Component {
     );
   };
 
+  changeProCity = (value) =>{
+    const {data} = this.state;
+    data['途径城市'] = [...value];
+    this.setState({data});
+  }
+
+  renderPassBycity = () =>{
+    const {data} = this.state;
+    const Enum = getEnum('City');
+
+    return (
+      <Col>
+        <Select 
+          onChange={(value)=>{this.changeProCity(value)}}
+          showSearch
+          style={{minWidth: '200px'}}
+          optionFilterProp='children'
+          mode='multiple'
+          placeholder='途径城市'
+          value={data['途径城市']}
+        >
+          {
+            Object.keys(Enum).map( key =>
+              <Option key={key} value={key}>{Enum[key]}</Option>
+            )
+          }
+        </Select>
+      </Col>
+    )
+  }
+
   changeProTheme = (value) =>{
     const {data} = this.state;
     data['游玩主题'] = [...value];
@@ -142,7 +174,7 @@ class PackageTour extends React.Component {
           style={{minWidth: '200px'}}
           optionFilterProp='children'
           mode='multiple'
-          placeholder='游玩主题'
+          placeholder='特色标签'
           value={data['游玩主题']}
         >
           {
@@ -262,6 +294,9 @@ class PackageTour extends React.Component {
     // const { packagedata:{data} } = this.props;
     const {data} = this.state;
     data['产品信息'][type] = val;
+    const rst = searchChange(selectCfg,type,data['产品信息']);
+    data['产品信息'] = {...rst};
+    
     this.setState({ data });
   }
 
@@ -327,6 +362,15 @@ class PackageTour extends React.Component {
                     />
                   </Col>
                 </Col>
+                {/* 途径地区 */}
+                <Col className={[styles.cell, 'clear'].join(' ')}>
+                  <Col className={styles.cellLabel} xs={24} sm={3} md={3} lg={3}>
+                    途径地区
+                  </Col>
+                  <Col className={styles.cellInput} xs={24} sm={20} md={20} lg={20}>
+                    {this.renderPassBycity()}
+                  </Col>
+                </Col>
                 {/* 导航标签 */}
                 <Col className={[styles.cell, 'clear'].join(' ')}>
                   <Col className={styles.cellLabel} xs={24} sm={3} md={3} lg={3}>
@@ -342,34 +386,24 @@ class PackageTour extends React.Component {
                     出发城市
                   </Col>
                   <Col className={styles.cellInput} xs={24} sm={20} md={20} lg={20}>
-                    <Select
+                    <FastSelect
                       showSearch
                       value={data['产品信息'].dep_city_id || ''}
                       onChange={val => this.changeProInfo('dep_city_id', val)}
                       className={styles.cellSelect}
                       maxTagCount={10}
-                      maxTagTextLength={8}
-                    >
-                      {Object.keys(getEnum('City') || {}).map(item => (
-                        <Option value={item} key={item}>
-                          {getEnum('City')[item]}
-                        </Option>
-                      ))}
-                    </Select>
-                    <Select
+                      maxTagTextLength={8} 
+                      options={getEnum('City')}  
+                    />
+                    <FastSelect
                       showSearch
                       value={data['产品信息'].back_city_id || ''}
                       onChange={val => this.changeProInfo('back_city_id', val)}
                       className={styles.cellSelect}
                       maxTagCount={10}
-                      maxTagTextLength={10}
-                    >
-                      {Object.keys(getEnum('City') || {}).map(item => (
-                        <Option value={item} key={item}>
-                          {getEnum('City')[item]}
-                        </Option>
-                      ))}
-                    </Select>
+                      maxTagTextLength={8} 
+                      options={getEnum('City')}  
+                    />
                   </Col>
                 </Col>
                 {/* 天数晚数 */}
@@ -434,7 +468,7 @@ class PackageTour extends React.Component {
                 {/* 游玩主题 */}
                 <Col className={[styles.cell, 'clear'].join(' ')}>
                   <Col className={styles.cellLabel} xs={24} sm={3} md={3} lg={3}>
-                    游玩主题
+                    特色标签
                   </Col>
                   <Col className={styles.cellInput} xs={24} sm={20} md={20} lg={20}>
                     {

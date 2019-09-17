@@ -27,10 +27,10 @@ class ListPage extends Component {
   };
 
   render() {
-    const { loading, dataSource, page, mod, rowSelection, modConfig, reload } = this.props;
+    const { loading, dataSource, page, mod, rowSelection, modConfig, reload, search, changeSearch } = this.props;
     return (
       <div className={styles.tableList}>
-        <ModHeaderBtnFilter modConfig={modConfig} reload={reload} />
+        <ModHeaderBtnFilter modConfig={modConfig} reload={reload} search={search} changeSearch={changeSearch} />
         <div className={styles.tableStyle}>
           <ListPageTable
             rowSelection={rowSelection || null}

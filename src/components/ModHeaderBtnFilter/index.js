@@ -5,7 +5,7 @@ import { Form, Row, Col, Icon, Button, Input, Select, Divider, Tooltip } from 'a
 
 import getEnum from '@/utils/enum';
 
-import { trigger } from '@/utils/utils';
+import { trigger,searchChange } from '@/utils/utils';
 import { getHeaderBtnArray } from '@/utils/Btn';
 
 import styles from './index.less';
@@ -14,41 +14,26 @@ const FormItem = Form.Item;
 const SelectOption = Select.Option;
 const InputGroup = Input.Group;
 
-function renderEnumSelect(cfg) {
-  const Enum = getEnum(cfg.type) || {};
-  return (
-    <Select
-      size="small"
-      showSearch
-      optionFilterProp="children"
-      placeholder={cfg.text}
-    >
-      {Object.keys(Enum).map(key => (
-        <SelectOption key={key} value={key}>
-          {Enum[key]}
-        </SelectOption>
-      ))}
-    </Select>
-  );
-}
-
 @Form.create()
 class ModHeaderBtnFilter extends Component {
   static propTypes = {
     modConfig: PropTypes.object,
     reload: PropTypes.func,
+    search: PropTypes.object,
+    changeSearch: PropTypes.func,
   };
 
   static defaultProps = {
     modConfig: {},
     reload: () => {},
+    search: {},
+    changeSearch: () => {},
   };
 
   constructor(props) {
     super(props);
-
     this.state = {
-      searchType: props.modConfig.s_text[Object.keys(props.modConfig.s_text)[0]].text || '',
+      searchType: Object.keys(props.modConfig.s_text)[0] || '',
       searchValues: '',
       curType: 'lg',
       more: false,
@@ -98,12 +83,17 @@ class ModHeaderBtnFilter extends Component {
   search =  e => {
     e.preventDefault();
 
-    const { reload, form } = this.props;
+    const { reload, form, changeSearch } = this.props;
 
     const values = form.getFieldsValue();
     const { searchType, searchValues } = this.state;
     values[searchType] = searchValues;
-    reload(values);
+    Object.keys(values).forEach( k => {
+      if(!values[k]){
+        delete values[k]
+      }
+    })
+    changeSearch(values)
   };
 
   toggleForm = () => {
@@ -130,11 +120,41 @@ class ModHeaderBtnFilter extends Component {
     });
   };
 
+  onSelectChange = (field) =>{
+    const { form,modConfig } = this.props;
+    const data = form.getFieldsValue();
+    const rst = searchChange(modConfig.s_regular,field,data);
+    form.setFieldsValue({
+      ...rst
+    })
+  }
+
+  renderEnumSelect = (cfg,field) => {
+    const { form } = this.props;
+    const data = form.getFieldsValue();
+    const Enum = getEnum(cfg, data) || {};
+    return (
+      <Select
+        size="small"
+        showSearch
+        optionFilterProp="children"
+        onChange={()=>this.onSelectChange(field)}
+        placeholder={cfg.text}
+      >
+        {Object.keys(Enum).map(key => (
+          <SelectOption key={key} value={key}>
+            {Enum[key]}
+          </SelectOption>
+        ))}
+      </Select>
+    );
+  };
+
   renderHeaderBtns = (btnCfg) => {
     const { reload } = this.props;
 
     return btnCfg.map(item => (
-      <div key={item.key} className={styles.btnBox}>
+      <div key={item.key} className={[styles.btnBox, 'dib'].join(' ')}>
         <Button
           icon={item.icon || ''}
           type={item.type || 'primary'}
@@ -150,7 +170,7 @@ class ModHeaderBtnFilter extends Component {
 
   renderMoreSerach(modConfig) {
     const {
-      form: { getFieldDecorator },
+      form:{getFieldDecorator}
     } = this.props;
     if(!modConfig.s_regular){
       return null;
@@ -161,6 +181,7 @@ class ModHeaderBtnFilter extends Component {
     }
     const rConfig = modConfig.s_regular;
     const { curType, more } = this.state;
+
     let rowColumns = 4;
     let showDownIcon = false;
     switch (curType) {
@@ -188,7 +209,7 @@ class ModHeaderBtnFilter extends Component {
             {rKeys &&
               rKeys.map(key => (
                 <Col xs={24} sm={12} md={6} lg={6} key={key}>
-                  <FormItem>{getFieldDecorator(key)(renderEnumSelect(rConfig[key]))}</FormItem>
+                  <FormItem>{getFieldDecorator(key)(this.renderEnumSelect(rConfig[key],key))}</FormItem>
                 </Col>
               ))}
           </Col>

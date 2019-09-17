@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import DocumentTitle from 'react-document-title';
 import isEqual from 'lodash/isEqual';
@@ -13,8 +13,6 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
-import LoadingHoc from '@/components/LoadingHoc';
-import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import Authorized from '@/utils/Authorized';
 import { menu, title } from '../defaultSettings';
@@ -62,6 +60,10 @@ class BasicLayout extends React.Component {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
     this.matchParamsPath = memoizeOne(this.matchParamsPath, isEqual);
+    this.state = {
+      Inited:false,
+      EnumInited:false
+    }
   }
 
   componentDidMount() {
@@ -77,16 +79,17 @@ class BasicLayout extends React.Component {
     dispatch({
       type: 'init/Init',
       payload: { routes },
+    }).then(()=>{
+      this.setState({Inited:true});
     });
     dispatch({
       type: 'enum/fetch',
       payload: { ver: new Date().getTime() },
+    }).then(()=>{
+      this.setState({EnumInited:true})
     });
-    // dispatch({
-    //   type: 'user/fetch'      
-    // })
-    
-    signalInit().catch(e=>console.log(e));
+
+    signalInit().catch(e => console.log(e));
   }
 
   getContext() {
@@ -163,20 +166,8 @@ class BasicLayout extends React.Component {
       menuData,
       breadcrumbNameMap,
       fixedHeader,
-      metaLoading,
-      menuLoading,
-      initLoading,
-      loading,
     } = this.props;
-    const wrap = () => (
-      <div className={styles.contentBgc}>
-        {!initLoading && !metaLoading && !menuLoading && (
-          <Authorized authority={pathname} noMatch={<NoMatch />}>
-            {children}
-          </Authorized>
-        )}
-      </div>
-    );
+    const {Inited,EnumInited} = this.state;
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 24 } : { paddingTop: 0 };
     const layout = (
@@ -206,7 +197,16 @@ class BasicLayout extends React.Component {
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
-            {LoadingHoc(wrap, loading)}
+            <div className={styles.contentBgc}>
+              {
+                Inited && EnumInited &&
+                  <Authorized authority={pathname} noMatch={<NoMatch />}>
+                    {
+                      children
+                    }
+                  </Authorized>
+              }
+            </div>
           </Content>
           <Footer />
         </Layout>
@@ -229,15 +229,11 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ global, setting, menu: menuModel, loading }) => ({
+export default connect(({ global, setting, menu: menuModel }) => ({
   collapsed: global.collapsed,
-  loading: global.loading,
   layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-  initLoading: loading.models.init,
-  metaLoading: loading.models.meta,
-  menuLoading: loading.models.menu,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

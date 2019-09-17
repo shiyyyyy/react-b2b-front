@@ -22,18 +22,48 @@ export default [
         path: '/ProductStore',
         routes: [
           {
+            path: '/ProductStore/Product',
+            name: '产品发布',
+            routes: [
+              {
+                path: '/ProductStore/Product',
+                redirect: '/ProductStore/Product/List',
+              },
+              {
+                path: '/ProductStore/Product/List',
+                name: '产品发布列表',
+                component: './ProductStore/Product/List',
+              },
+            ],
+          },
+          {
+            path: '/ProductStore/Group',
+            name: '班期管理',
+            routes: [
+              {
+                path: '/ProductStore/Group',
+                redirect: '/ProductStore/Group/List',
+              },
+              {
+                path: '/ProductStore/Group/List',
+                name: '班期列表',
+                component: './ProductStore/Group/List',
+              }
+            ],
+          },
+          {
             path: '/ProductStore/PackageTour',
             name: '跟团游',
             routes: [
-              {
-                path: '/ProductStore/PackageTour',
-                redirect: '/ProductStore/PackageTour/List',
-              },
-              {
-                path: '/ProductStore/PackageTour/List',
-                name: '跟团游列表',
-                component: './ProductStore/PackageTour/List',
-              },
+              // {
+              //   path: '/ProductStore/PackageTour',
+              //   redirect: '/ProductStore/PackageTour/List',
+              // },
+              // {
+              //   path: '/ProductStore/PackageTour/List',
+              //   name: '跟团游列表',
+              //   component: './ProductStore/PackageTour/List',
+              // },
               {
                 path: '/ProductStore/PackageTour/Add',
                 name: '新增跟团游',
@@ -148,73 +178,73 @@ export default [
           },
         ],
       },
-      {
-        name: '团期维护',
-        icon: 'sitemap',
-        path: '/Group',
-        routes: [
-          {
-            path: '/Group/PackageTourGroup',
-            name: '跟团游团期',
-            routes: [
-              {
-                path: '/Group/PackageTourGroup',
-                redirect: '/Group/PackageTourGroup/List',
-              },
-              {
-                path: '/Group/PackageTourGroup/List',
-                name: '跟团游团期列表',
-                component: './Common/List',
-              }
-            ],
-          },
-          {
-            path: '/Group/BigTraffic',
-            name: '大交通团期',
-            routes: [
-              {
-                path: '/Group/BigTraffic',
-                redirect: '/Group/BigTraffic/List',
-              },
-              {
-                path: '/Group/BigTraffic/List',
-                name: '大交通团期列表',
-                component: './Common/List',
-              }
-            ],
-          },
-          {
-            path: '/Group/RoomBooking',
-            name: '单订房团期',
-            routes: [
-              {
-                path: '/Group/RoomBooking',
-                redirect: '/Group/RoomBooking/List',
-              },
-              {
-                path: '/Group/RoomBooking/List',
-                name: '单订房团期列表',
-                component: './Common/List',
-              }
-            ],
-          },
-          {
-            path: '/Group/VisaBooking',
-            name: '单签证团期',
-            routes: [
-              {
-                path: '/Group/VisaBooking',
-                redirect: '/Group/VisaBooking/List',
-              },
-              {
-                path: '/Group/VisaBooking/List',
-                name: '单签证列表',
-                component: './Common/List',
-              }
-            ],
-          },
-        ],
-      },
+      // {
+      //   name: '团期维护',
+      //   icon: 'sitemap',
+      //   path: '/Group',
+      //   routes: [
+      //     {
+      //       path: '/Group/PackageTourGroup',
+      //       name: '跟团游团期',
+      //       routes: [
+      //         {
+      //           path: '/Group/PackageTourGroup',
+      //           redirect: '/Group/PackageTourGroup/List',
+      //         },
+      //         {
+      //           path: '/Group/PackageTourGroup/List',
+      //           name: '跟团游团期列表',
+      //           component: './Common/List',
+      //         }
+      //       ],
+      //     },
+      //     {
+      //       path: '/Group/BigTraffic',
+      //       name: '大交通团期',
+      //       routes: [
+      //         {
+      //           path: '/Group/BigTraffic',
+      //           redirect: '/Group/BigTraffic/List',
+      //         },
+      //         {
+      //           path: '/Group/BigTraffic/List',
+      //           name: '大交通团期列表',
+      //           component: './Common/List',
+      //         }
+      //       ],
+      //     },
+      //     {
+      //       path: '/Group/RoomBooking',
+      //       name: '单订房团期',
+      //       routes: [
+      //         {
+      //           path: '/Group/RoomBooking',
+      //           redirect: '/Group/RoomBooking/List',
+      //         },
+      //         {
+      //           path: '/Group/RoomBooking/List',
+      //           name: '单订房团期列表',
+      //           component: './Common/List',
+      //         }
+      //       ],
+      //     },
+      //     {
+      //       path: '/Group/VisaBooking',
+      //       name: '单签证团期',
+      //       routes: [
+      //         {
+      //           path: '/Group/VisaBooking',
+      //           redirect: '/Group/VisaBooking/List',
+      //         },
+      //         {
+      //           path: '/Group/VisaBooking/List',
+      //           name: '单签证列表',
+      //           component: './Common/List',
+      //         }
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
 ];

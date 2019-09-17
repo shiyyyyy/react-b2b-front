@@ -126,6 +126,26 @@ ol {
   align-items: center !important;
 }
 
+.Spin-box {
+  background: rgba(0,0,0,.1);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+// .Spin {
+//   position: absolute;
+//   top: 300px;
+//   left: 0;
+//   right: 0;
+//   z-index: 100000;
+// }
+
 // 清除浮动
 .clear:after {
   content: '.';
@@ -136,16 +156,16 @@ ol {
 }
 
 // 不滚动,不隐藏
-.noOver{
+.noOver {
   overflow: visible !important;
 }
 
 // 透明度
-.opcity-1{
+.opcity-1 {
   opacity: 1 !important;
 }
 
-.opcity-0{
+.opcity-0 {
   opacity: 0 !important;
 }
 
@@ -330,7 +350,6 @@ body::-webkit-scrollbar-resizer {
 /* ------------------------- firefox -------------------- */
 
 /* ------------------------- IE -------------------- */
-
 
 // 表格拖拽
 :global {

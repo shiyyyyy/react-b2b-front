@@ -25,8 +25,9 @@ export default function ModalRender(action, config, dataSource, afterOk,afterCan
   };
   modal.update({
     title: config.isDrag ? <DragmModal title={config.text || '弹窗'} /> : <div>{config.text || '标题'}</div>,
-    width: config.width || 520,
+    width: config.width || config.size || 520,
     content: content(),
+    centered: config.centered || '',
     className: styles.view,
     okButtonProps: { className: 'hide' },
     cancelButtonProps: { className: 'hide' },

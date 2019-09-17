@@ -1,17 +1,38 @@
 import React from 'react';
 import { connect } from 'dva';
+import {
+  Col,
+} from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TableGroup from '@/components/Table/ActionPageTableGroup';
 import ActionPageHoc from '@/components/ActionPageHoc';
 import BlocksModal from '@/components/BlocksModal';
+import ProType from '@/components/ProType';
 
 import CalendarUtil from '../CalendarUtil';
 
 import ModalRender from '@/components/ModalRender';
 import { blocksPageStateInit, renderButton, AddArrayUid } from '@/utils/utils';
+import styles from './index.less';
 
 const Seed = require('short-id');
+function renderImg(data) {
+  let url = data['产品图片'][0] || '';
+  if (url && url.indexOf('http') !== 0 && AppCore.HOST) {
+    url = `${AppCore.HOST}/${url}`;
+  }
+  return (
+    <div className={styles.imgWrapper}>
+      <img
+        src={url || '/img/login-bg.png'}
+        className={styles.img}
+        alt="产品图片"
+      />
+      <span className={[styles.imgText, 'text-overflow'].join(' ')}>{`产品编号P0${data['产品信息'].id}`}</span>
+    </div>
+  );
+}
 /* eslint react/no-multi-comp:0 */
 @connect(({ meta: { actions, blocks } }) => ({
   actions,
@@ -27,7 +48,7 @@ class AddGroup extends React.Component {
 
     this.state = blocksPageStateInit(cfg.block || [], blocks);
     this.state.groupModalOpen = false;
-
+    this.state.data = {...this.state.data, theme_arr:[]};
     this.actionMap = { ...props.actionMap };
     this.actionMap['批量新增团期'] = this.batchAddGroup.bind(this);
     this.actionMap['批量填充团期'] = this.batchFillGroup.bind(this);
@@ -129,6 +150,22 @@ class AddGroup extends React.Component {
     this.setState({data});
   }
 
+  renderproductInfo = (data) => {
+    return (
+      <Col className={styles.GroupTour}>
+        <Col
+          className={styles.top}
+        >
+          <Col className={styles.imgBox} xs={3} sm={3} md={3} lg={3}>
+            {
+              renderImg(data)
+            }
+          </Col>
+        </Col>
+      </Col>
+    );
+  }
+
   render() {
     // 列表按钮
     const { data, groupModalOpen, selectedRowKeys } = this.state;
@@ -140,24 +177,25 @@ class AddGroup extends React.Component {
       onChange: rowSelChange,
     };
     return (
-      <PageHeaderWrapper headerPage={renderButton(config, this.actionMap)}>
-        <TableGroup
-          blocks={blocks}
-          config={config.block}
-          ro={config.ro}
-          dataSource={data}
-          actionMap={this.actionMap}
-          rowSelection={rowSelection}
-          onCellChange={this.onCellChange}
-        />
-        <CalendarUtil
-          title="新增团期"
-          width={800}
-          visible={groupModalOpen}
-          onOk={this.addGroupDone}
-          onCancel={this.closeModal}
-        />
-      </PageHeaderWrapper>
+        <PageHeaderWrapper headerPage={renderButton(config, this.actionMap)}>
+          <ProType.GroupTour data={data} />
+          <TableGroup
+            blocks={blocks}
+            config={config.block}
+            ro={config.ro}
+            dataSource={data}
+            actionMap={this.actionMap}
+            rowSelection={rowSelection}
+            onCellChange={this.onCellChange}
+          />
+          <CalendarUtil
+            title="新增团期"
+            width={800}
+            visible={groupModalOpen}
+            onOk={this.addGroupDone}
+            onCancel={this.closeModal}
+          />
+        </PageHeaderWrapper>
     );
   }
 }

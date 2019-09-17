@@ -308,7 +308,7 @@ class VisaBooking extends React.Component {
                 {/* 搜索标签 */}
                 <Col className={[styles.cell, 'clear'].join(' ')}>
                   <Col className={styles.cellLabel} xs={24} sm={3} md={3} lg={3}>
-                    搜索标签
+                  途径国家
                   </Col>
                   <Col className={styles.cellInput} xs={24} sm={20} md={20} lg={20}>
                     <Select
@@ -325,6 +325,7 @@ class VisaBooking extends React.Component {
                         </Option>
                       ))}
                     </Select>
+                    签证类型
                     <Select
                       showSearch
                       value={data['产品信息'].kind_id || ''}
@@ -432,12 +433,28 @@ class VisaBooking extends React.Component {
               </Col>
               <Col className={styles.content}>{this.proPhotos()}</Col>
             </Col>
-
+            {/* 提醒说明 */}
+            <Col className={styles.addMod}>
+              <Col className={styles.title}>
+                <Col className={styles.titleL}>
+                  <Col className={styles.text}>提醒说明</Col>
+                  <Col className={styles.btns} />
+                </Col>
+              </Col>
+              <Col className={styles.content}>
+                <Input.TextArea
+                  placeholder="请输入提醒说明"
+                  autosize={{ minRows: 4, maxRows: 8 }}
+                  onChange={e => this.changeProInfo('comment', e.target.value)}
+                  value={data['产品信息'].comment}
+                />
+              </Col>
+            </Col>
             {/* 产品行程 */}
             <Col className={styles.addMod}>
               <Col className={styles.title}>
                 <Col className={styles.titleL}>
-                  <Col className={styles.text}>产品行程</Col>
+                  <Col className={styles.text}>所需资料</Col>
                   <Col className={styles.btns} />
                 </Col>
               </Col>

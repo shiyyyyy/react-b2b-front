@@ -18,7 +18,7 @@ class Pricing extends React.Component {
     const { action,config={},data:ref } = this.props;
     if(config.read){
       readAction(action,ref).then(res=>{
-        this.setState({data:res.data||[],loading:false})
+        this.setState({data:res.data||{},loading:false})
       });
     }
   }
@@ -37,9 +37,10 @@ class Pricing extends React.Component {
     const {modal} = this.props;
     const {loading,data} = this.state;
     const {blocks={}} = getGobalState('meta');
-    const config = {};
-    ['跟团游价格调整'].forEach((key)=>{
-        config[key] = blocks[key];
+    const blkconfig = {};
+    const { config } = this.props;
+    config.block.forEach((key)=>{
+      blkconfig[key] = blocks[key];
         data[key] = data[key] || [{}];
     })
     return (
@@ -47,7 +48,7 @@ class Pricing extends React.Component {
         {
           !loading && 
             <BlocksModal
-              config={{blocks:config}}
+              config={{blocks:blkconfig}}
               data={data}
               afterOk={this.submit}
               modal={modal}

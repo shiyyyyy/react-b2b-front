@@ -18,7 +18,7 @@ function renderImg(data) {
         className={styles.img}
         alt="产品图片"
       />
-      <span className={styles.imgText}>{`产品编号P0${data.id}`}</span>
+      <span className={[styles.imgText, 'text-overflow'].join(' ')}>{`产品编号P0${data.id}`}</span>
     </div>
   );
 }
@@ -55,35 +55,37 @@ class Booking extends React.Component {
             <Col className={styles.RCenter}>
               <Col span={10} className={styles.RCenterL}>
                 <div>
-                  <span className={styles.lable}>{`产品编号P0${data.id}`}</span>{' '}
-                  <span className={styles.text}>{data.account_name}</span>
+                  <span className={styles.lable}>产品编号</span>{' '}
+                  <span className={[styles.text, 'text-overflow'].join(' ')}>{`p0${data.id}`}</span>
                 </div>
                 <div>
                   <span className={styles.lable}>发 布 人： </span>{' '}
-                  <span className={styles.text}>{data.supplier_full_name}</span>{' '}
-                  <span className={styles.text}>{data.account_name}</span>
+                  <span className={[styles.text, 'text-overflow'].join(' ')}>{data.supplier_full_name}</span>{' '}
+                  <span className={[styles.text, 'text-overflow'].join(' ')}>{data.account_name}</span>
                 </div>
               </Col>
               <Col span={14} className={styles.RCenterR}>
                 <Col span={24} className={styles.infoRow}>
                   <Col className={styles.infoCell}>
                     <span className={styles.lable}>已 过 期： </span>
-                    <span className={styles.text}>140</span>
+                    <span className={[styles.text, 'text-overflow'].join(' ')}>140</span>
                   </Col>
                   <Col className={styles.infoCell}>
                     <span className={styles.lable}>在 售 中： </span>
-                    <span className={styles.text}>76</span>
+                    <span className={[styles.text, 'text-overflow'].join(' ')}>76</span>
                   </Col>
                 </Col>
                 <Col span={24} className={styles.infoRow}>
                   <Col className={styles.infoCell}>
                     <span className={styles.lable}>累计访问： </span>
-                    <span className={styles.text}>32685</span>
+                    <span className={[styles.text, 'text-overflow'].join(' ')}>32685</span>
                   </Col>
                   <Col className={styles.infoCell}>
                     <span className={styles.lable}>审核状态： </span>
-                    <span className={styles.text} style={{ color: '#00A36A' }}>
-                      待审核
+                    <span className={[styles.text, 'text-overflow'].join(' ')} style={{ color: '#00A36A' }}>
+                      {
+                        `${getEnum('Flow')[data.flow] || ''}`
+                      }
                     </span>
                   </Col>
                 </Col>
@@ -93,7 +95,7 @@ class Booking extends React.Component {
               <Col span={14} className={styles.RBtmL}>
                 {/* 主题 */}
                 {
-                  data.tag_arr.map((tag,index) => (
+                  data.tag_arr && data.tag_arr.map((tag,index) => (
                     index <3 &&
                     <div key={`${tag}\${index}`}>
                       {getEnum('PdTheme')[tag]}

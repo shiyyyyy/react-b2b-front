@@ -7,6 +7,9 @@ order: 15
 
 支持3种列表，并内置了几种展开模块，可以灵活组合。
 
+GroupTour/Traffic/Booking/Visa => 产品
+GroupTour/ScheduleTraffic/ScheduleBooking/ScheduleVisa => 班期
+
 ## API
 
 ### ProType

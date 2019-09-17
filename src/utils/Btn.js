@@ -117,7 +117,8 @@ export function getRowBtnArray(data,actions,useAuth){
             return true;
           })
           .find(item => item === false);
-        if (flag) return null;
+          
+        if (flag===false) return null;
       }
       return action;
     })

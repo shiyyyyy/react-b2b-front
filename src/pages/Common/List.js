@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Pagination } from 'antd';
+
 import ListPage from '@/components/Table/ListPage';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import ModPageHoc from '@/components/ModPageHoc';
+
+
+import Add from '../SupplierManagement/Company/Add';
 /* eslint react/no-multi-comp:0 */
 @connect(({ menu: menuModel, meta: { mods, actions } }) => ({
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
@@ -17,16 +21,26 @@ class List extends PureComponent {
 
     this.state = {
       data:[],
+      search: {},
       pageSize: 10,
       currentPage: 1,
       loading:true,
-      total:0
+      total:0,
     };
 
     const {reload} = this.props;
     this.reload = reload;
     this.pageChange = this.pageChange.bind(this);
     this.pageSizeChange = this.pageSizeChange.bind(this);
+    this.changeSearch = this.changeSearch.bind(this);
+  }
+
+  changeSearch = val => {
+    const { reload } = this.props
+    if(!val){
+      this.setState({search: val}, () => reload())
+    }
+    this.setState({search: val, currentPage: 1}, () => reload())
   }
 
   pageChange(page, size) {
@@ -59,7 +73,7 @@ class List extends PureComponent {
       mods,
       actions,
     } = this.props;
-    const {data,pageSize,currentPage,total,loading} = this.state;
+    const {data,pageSize,currentPage,total,search,loading} = this.state;
     const mod = breadcrumbNameMap[location.pathname].key;
     const config = mods[mod];
 
@@ -91,10 +105,13 @@ class List extends PureComponent {
           modConfig={config}
           actionConfig={actions}
           reload={this.reload}
+          search={search}
+          changeSearch={this.changeSearch}
           loading={loading}
           // page={paging}
           mod={mod}
         />
+        {/* <Add /> */}
       </PageHeaderWrapper>
     );
   }

@@ -23,13 +23,7 @@ export default [
             path: '/exception/500',
             name: 'server-error',
             component: './Exception/500',
-          },
-          {
-            path: '/exception/trigger',
-            name: 'trigger',
-            hideInMenu: true,
-            component: './Exception/TriggerException',
-          },
+          }
         ],
       },
       {

@@ -5,10 +5,13 @@ import Exception from '@/components/Exception';
 
 const Exception500 = () => (
   <Exception
-    type="500"
-    desc={formatMessage({ id: 'app.exception.description.500' })}
+    type="页面出错"
+    title={<div>页面出错</div>}
+    // desc={formatMessage({ id: 'app.exception.description.500' })}
+    desc='页面仿佛出了点问题'
     linkElement={Link}
-    backText={formatMessage({ id: 'app.exception.back' })}
+    // backText={formatMessage({ id: 'app.exception.back' })}
+    backText='返回首页'
   />
 );
 

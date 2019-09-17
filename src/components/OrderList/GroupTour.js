@@ -1,18 +1,17 @@
 import React from 'react';
-import { Row, Col, Tag } from 'antd';
+import { Row, Col, Tag, Icon, Spin } from 'antd';
 
 import AppCore from '@/utils/core';
+import getEnum from '@/utils/enum';
 
 import styles from './index.less';
 
-function renderImg(item) {
-  let url = item.pd_pic;
+function renderImg(img) {
+  let url = img;
   if (url && url.indexOf('http') !== 0 && AppCore.HOST) {
     url = `${AppCore.HOST}/${url}`;
   }
-  return (
-    <img src={url || '/favicon.png'} alt="产品图片" className="img-size" />
-  );
+  return <img src={url || '/favicon.png'} alt="产品图片" className="img-size" />;
 }
 
 class GroupTour extends React.Component {
@@ -20,44 +19,66 @@ class GroupTour extends React.Component {
     super(props);
     this.state = {
       active: false,
+      loading: false,
+      detail:{}
     };
   }
 
   changeActive() {
     const { active } = this.state;
-    this.setState({ active: !active });
+    const { openChildren, data } = this.props;
+    if (!active) {
+      this.setState({ loading: true });
+      if(openChildren){
+        openChildren(data).then(r => {
+          this.setState({ active: true, loading: false,detail:r.data })
+        });
+      }else{
+        this.setState({ active: true, loading: false })
+      }
+    } else {
+      this.setState({ active: false });
+    }
   }
 
-
+  renderMore(){
+    const {more} = this.props;
+    const {detail} = this.state;
+    if(typeof more === 'function'){
+      return (
+        more(detail)
+      )
+    }
+    return null;
+  }
 
   render() {
-    const { active } = this.state;
-    const { btnChildren, children, data } = this.props;
+    const { active, loading } = this.state;
+    const { btnChildren, more, data } = this.props;
     return (
       <Row>
         <Col className={styles.OrderList}>
-          <Col className={[styles.item, 'clear', active && children ? styles.focus : ''].join(' ')}>
-            <Col
-              className={[styles.list, active && children ? styles.active : ''].join(' ')}
-              onClick={() => this.changeActive()}
-            >
+          <Col className={[styles.item, 'clear', active && more ? styles.focus : ''].join(' ')}>
+            <Col className={[styles.list, active && more ? styles.active : ''].join(' ')}>
               <Col
-                className={[styles.itemHeader, active && children ? styles.active : ''].join(' ')}
+                className={[styles.itemHeader, active && more ? styles.active : ''].join(' ')}
               >
                 <div className={styles.hLeft}>{`订单号: D0${data.id}`}</div>
-                <div className={styles.hRight}>占位待确认</div>
+                <div className={styles.hRight}>{getEnum('OrderState')[data.state]}</div>
               </Col>
-              <Col className={[styles.content, 'clear'].join(' ')} style={children ? {} : {paddingBottom: '26px'}}>
+              <Col
+                className={[styles.content, 'clear'].join(' ')}
+                style={more ? {} : { paddingBottom: '26px' }}
+              >
                 <Col xs={24} sm={6} md={3} lg={3} xl={3}>
-                  <div className={styles.imgBox}>
-                    {
-                      renderImg(data)
-                    }
+                  <div className={styles.imgBox}>{renderImg(data.pd_pic)}</div>
+                  <div className={[styles.num, 'text-overflow'].join(' ')}>{`产品编号: PD0${
+                    data.pd_id
+                  }`}
                   </div>
-                  <div className={styles.num}>{`产品编号: PD0${data.pd_id}`}</div>
                 </Col>
 
-                <Col xs={24} sm={18} md={21} lg={21} xl={21} style={{paddingLeft: '12px'}}>
+                <Col xs={24} sm={18} md={21} lg={21} xl={21} style={{ paddingLeft: '12px' }}>
                   <Col className={[styles.top, 'clear'].join(' ')}>
                     <Col
                       xs={20}
@@ -77,36 +98,36 @@ class GroupTour extends React.Component {
                     <Col xs={24} sm={24} md={14} lg={14} xl={14}>
                       <Col>
                         <span className={styles.key}>报名人: </span>
-                        <span className={styles.val}>{data.creator_company_name}</span>
-                        <span className={styles.val}>{data.creator_department_name}</span>
-                        <span className={styles.val} style={{ width: '48px' }}>
-                          {data.creator_name}
-                        </span>
-                        <span className={styles.val} style={{ width: '72px' }}>
-                          {data.creator_mobile}
-                        </span>
+                        <span>{data.creator}</span>
                       </Col>
                       <Col>
                         <span className={styles.key}>接单人: </span>
-                        <span className={styles.val}>{data.assitant_company_name}</span>
-                        <span className={styles.val}>{data.assitant_department_name}</span>
-                        <span className={styles.val} style={{ width: '48px' }}>
-                          {data.assitant_name}
-                        </span>
-                        <span className={styles.val} style={{ width: '72px' }}>
-                          {data.assitant_mobile}
-                        </span>
+                        <span>{data.assitant}</span>
                       </Col>
                       <Col>
                         <span className={styles.key}>受理人: </span>
-                        <span className={styles.val}>{data.acceptman_company_name}</span>
-                        <span className={styles.val}>{data.acceptman_department_name}</span>
-                        <span className={styles.val} style={{ width: '48px' }}>
-                          {data.acceptman_name}
-                        </span>
-                        <span className={styles.val} style={{ width: '72px' }}>
-                          {data.acceptman_mobile}
-                        </span>
+                        <span>{`${data.supplier_full_name}-${data.supplier_department_name}-${data.name}-${data.mobile}` }</span>
+                      </Col>
+                      <Col className="text-right">
+                        <Col
+                          className={loading ? 'dib' : 'hide'}
+                          style={{ width: '60px', paddingRight: '12px', textAlign: 'center' }}
+                        >
+                          <Spin />
+                        </Col>
+                        {
+                          more && 
+                          <Col
+                            className={[styles.openIconBox, 'dib', loading ? 'hide' : ''].join(' ')}
+                            onClick={() => this.changeActive()}
+                          >
+                            展开详情
+                            <Icon
+                              type="double-left"
+                              className={[active && more ? styles.close : styles.open]}
+                            />
+                          </Col>
+                        }
                       </Col>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -127,13 +148,13 @@ class GroupTour extends React.Component {
                         </div>
                         <div className={styles.obj}>
                           <span className={styles.key}>占位时限：</span>
-                          <span className={styles.val}>48小时</span>
+                          <span className={styles.val}>{getEnum('Hour')[data.hour]}</span>
                         </div>
                       </Col>
                       <Col className={styles.contentR}>
                         <div className={styles.obj}>
                           <span className={styles.key}>价&ensp;&ensp;&ensp;格：</span>
-                          <span className={styles.money}>9998.00</span>
+                          <span className={styles.money}>{data.retail_price}</span>
                         </div>
                       </Col>
                       <Col className={styles.contentRBtn}>{btnChildren || null}</Col>
@@ -143,7 +164,10 @@ class GroupTour extends React.Component {
               </Col>
             </Col>
             {/* modal */}
-            <Col className={styles.modal}>{active && children && children}</Col>
+            {
+              active && this.renderMore()
+            }
+            {/* <Col className={styles.modal}>{active && children && children}</Col> */}
           </Col>
         </Col>
       </Row>

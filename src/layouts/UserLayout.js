@@ -34,9 +34,7 @@ const copyright = (
 class UserLayout extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      visible: false,
-    };
+    this.state = { };
   }
   // @TODO <DocumentTitle title={this.getPageTitle()}>
   // <div className={styles.container}>
@@ -58,12 +56,8 @@ class UserLayout extends React.Component {
   //   <GlobalFooter links={links} copyright={copyright} />
   // </div>
 
-  visibleModal = () => {
-    this.setState({ visible: true });
-  };
 
   render() {
-    const { visible } = this.state;
     const { children } = this.props;
     return (
       <Row className={styles.box}>
@@ -73,7 +67,6 @@ class UserLayout extends React.Component {
             <Col className={styles.r_name}>TourTool系统</Col>
             <Col className={styles.r_input}>{children}</Col>
           </Col>
-          <Col className={visible ? 'hide' : styles.r_modal} onClick={this.visibleModal} />
         </Col>
       </Row>
     );

@@ -2,15 +2,16 @@ import React, { PureComponent } from 'react';
 import { Form, Select, Input, DatePicker, TimePicker, Col,InputNumber } from 'antd';
 import moment from 'moment';
 import getEnum from '@/utils/enum';
-
+import {searchChange} from '@/utils/utils';
 
 import styles from './index.less';
 
 const { Option } = Select;
 
 class ModalForm extends PureComponent {
-  renderArraySelect = (cfg) => {
-    const { form } = this.props;
+
+  renderArraySelect = (cfg,field) => {
+    const { form ,onChange = ()=>{} } = this.props;
     const data = form.getFieldsValue();
     const Enum = getEnum(cfg, data) || [];
     let mode = null;
@@ -22,6 +23,7 @@ class ModalForm extends PureComponent {
         showSearch
         optionFilterProp="children"
         mode={mode}
+        onChange={(val)=>onChange(field,val)}
       >
         {Object.keys(Enum).map(key => (
           <Option key={key} value={Enum[key]}>
@@ -32,7 +34,17 @@ class ModalForm extends PureComponent {
     );
   };
 
-  renderEnumSelect = (cfg) => {
+  onSelectChange = (field,val) =>{
+    const { form,config,onChange=()=>{} } = this.props;
+    const data = form.getFieldsValue();
+    const rst = searchChange(config.list,field,data);
+    form.setFieldsValue({
+      ...rst
+    })
+    onChange(field,val);
+  }
+
+  renderEnumSelect = (cfg,field) => {
     const { form } = this.props;
     const data = form.getFieldsValue();
     const Enum = getEnum(cfg, data) || {};
@@ -45,6 +57,7 @@ class ModalForm extends PureComponent {
         showSearch
         optionFilterProp="children"
         mode={mode}
+        onChange={(val)=>this.onSelectChange(field,val)}
       >
         {Object.keys(Enum).map(key => (
           <Option key={key} value={key}>
@@ -59,16 +72,26 @@ class ModalForm extends PureComponent {
     const {
       form: { getFieldDecorator },
       config = {},
+      onChange =()=>{}
     } = this.props;
     let { data = {} } = this.props;
     data = data ? data : {}
     const list = config.list || {};
     return (
       <Col className={styles.ModalForm}>
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
+        <Form labelCol={{ span: 7 }} wrapperCol={{ span: 16 }}>
           {Object.keys(list).map(field => (
             <React.Fragment key={field}>
-              {!list[field].type && (
+              {list[field].ro === 1 && !list[field].type && (
+                <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
+                  {getFieldDecorator(field, {
+                    initialValue: data[field] || '',
+                  })(
+                    <Input readOnly />
+                  )}
+                </Form.Item>
+              )}
+              {list[field].ro !== 1 && !list[field].type && (
                 <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
                   {getFieldDecorator(field, {
                     rules: [
@@ -79,11 +102,11 @@ class ModalForm extends PureComponent {
                     ],
                     initialValue: data[field] || '',
                   })(
-                    <Input />
+                    <Input onChange={(val)=>onChange(field,val)} />
                   )}
                 </Form.Item>
               )}
-              {list[field].type === 'number' && (
+              {list[field].ro !== 1 && list[field].type === 'number' && (
                 <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
                   {getFieldDecorator(field, {
                     rules: [
@@ -94,11 +117,11 @@ class ModalForm extends PureComponent {
                     ],
                     initialValue: data[field],
                   })(
-                    <InputNumber style={{width: '100%'}}/>
+                    <InputNumber style={{width: '100%'}} onChange={(val)=>onChange(field,val)} />
                   )}
                 </Form.Item>
               )}
-              {list[field].type === 'date' && (
+              {list[field].ro !== 1 && list[field].type === 'date' && (
                 <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
                   {getFieldDecorator(field, {
                     rules: [
@@ -109,11 +132,11 @@ class ModalForm extends PureComponent {
                     ],
                     initialValue: data[field] ? moment(data[field], 'YYYY-MM-DD') : moment(new Date(), 'YYYY-MM-DD'),
                   })(
-                    <DatePicker style={{width: '100%'}} format="YYYY-MM-DD" />
+                    <DatePicker style={{width: '100%'}} format="YYYY-MM-DD" onChange={(val)=>onChange(field,val)} />
                   )}
                 </Form.Item>
               )}
-              {list[field].type === 'time' && (
+              {list[field].ro !== 1 && list[field].type === 'time' && (
                 <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
                   {getFieldDecorator(field, {
                     rules: [
@@ -124,11 +147,11 @@ class ModalForm extends PureComponent {
                     ],
                     initialValue: data[field] ? moment(data[field], 'HH:mm:ss') : moment(new Date(), 'HH:mm'),
                   })(
-                    <TimePicker style={{width: '100%'}} format="HH:mm" />
+                    <TimePicker style={{width: '100%'}} format="HH:mm" onChange={(val)=>onChange(field,val)} />
                   )}
                 </Form.Item>
               )}
-              {list[field].type === 'ArrayEdit' && (
+              {list[field].ro !== 1 && list[field].type === 'ArrayEdit' && (
                 <Form.Item label={list[field].text} style={{ margin: '12px 0' }}>
                   {getFieldDecorator(field, {
                     rules: [
@@ -141,7 +164,9 @@ class ModalForm extends PureComponent {
                   })(this.renderArraySelect(list[field], field))}
                 </Form.Item>
               )}
-              {list[field].type 
+              {
+              list[field].ro !== 1  
+              && list[field].type 
               && list[field].type !== 'text' 
               && list[field].type !== 'number' 
               && list[field].type !== 'date' 

@@ -11,8 +11,10 @@ export default function getEnum(cfg,row,pemField){
         if(!cfg.type){
             return {};
         }
+        // eslint-disable-next-line camelcase
         const {type,edit_path} = cfg;
-        rest  = e[type];
+        rest  = e[type] || {};
+        // eslint-disable-next-line camelcase
         if(edit_path){
             return e[edit_path];
         }
@@ -26,6 +28,7 @@ export default function getEnum(cfg,row,pemField){
             }else{
                 let cascadeSet = {};
                 const result = {};
+                let navKind = '';
                 if(cfg.cascade_type){
                     cascadeSet = e[cfg.cascade_type];
                 }else{
@@ -48,8 +51,93 @@ export default function getEnum(cfg,row,pemField){
                         case 'RetailerDepartment':
                             cascadeSet = e.RetailerDepartmentDep;
                             break;
-                        case 'PdSubTag':
-                            cascadeSet = e.PdSubTagBelong;
+                        case 'PrimaryNav':
+                        case 'SecondaryNav':
+                        case 'PackagetourNav':
+                            cascadeSet = e.NavPdDirection;
+                            break;
+                        case 'PackagetourSecondaryNav':
+                            if(e.PackagetourNavMap){
+                                let matchArr= [];
+                                if(Array.isArray(target)){
+                                    target.forEach((item)=>{
+                                        if(e.PackagetourNavMap[item]){
+                                            matchArr = [...matchArr,...e.PackagetourNavMap[item]];
+                                        }
+                                    })
+                                }else if(e.PackagetourNavMap[target]){
+                                    matchArr = [...matchArr,...e.PackagetourNavMap[target]];
+                                }
+
+                                matchArr.forEach((k)=>{
+                                    if(rest[k]){
+                                        result[k] = rest[k];
+                                    }
+                                })
+                            }
+                            break;
+                        case 'MutilPrimaryNav':
+                            navKind = row[cfg.cascade2];
+                            cascadeSet = e.NavPdDirection;
+                            switch(navKind){
+                                case '1':
+                                    rest = e.PackagetourNav;
+                                    break;
+                                case '5':
+                                    rest = e.IndependentTravelNav;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        case 'MutilSecondaryNav':
+                            navKind = row[cfg.cascade2];
+                            switch(navKind){
+                                case '1':
+                                    rest = e.PackagetourSecondaryNav;
+                                    if(e.PackagetourNavMap){
+                                        let matchArr= [];
+                                        if(Array.isArray(target)){
+                                            target.forEach((item)=>{
+                                                if(e.PackagetourNavMap[item]){
+                                                    matchArr = [...matchArr,...e.PackagetourNavMap[item]];
+                                                }
+                                            })
+                                        }else if(e.PackagetourNavMap[target]){
+                                            matchArr = [...matchArr,...e.PackagetourNavMap[target]];
+                                        }
+        
+                                        matchArr.forEach((k)=>{
+                                            if(rest[k]){
+                                                result[k] = rest[k];
+                                            }
+                                        })
+                                    }
+                                    break;
+                                case '5':
+                                        rest = e.IndependentTravelSecondaryNav;
+                                        if(e.IndependentTravelNavMap){
+                                            let matchArr= [];
+                                            if(Array.isArray(target)){
+                                                target.forEach((item)=>{
+                                                    if(e.IndependentTravelNavMap[item]){
+                                                        matchArr = [...matchArr,...e.IndependentTravelNavMap[item]];
+                                                    }
+                                                })
+                                            }else if(e.IndependentTravelNavMap[target]){
+                                                matchArr = [...matchArr,...e.IndependentTravelNavMap[target]];
+                                            }
+            
+                                            matchArr.forEach((k)=>{
+                                                if(rest[k]){
+                                                    result[k] = rest[k];
+                                                }
+                                            })
+                                        }
+                                        break;
+                                default:
+                                    break;
+                            }
                             break;
                         default:
                             break;             

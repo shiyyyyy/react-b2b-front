@@ -17,7 +17,7 @@ function renderImg(data) {
         className={styles.img}
         alt="产品图片"
       />
-      <span className={styles.imgText}>{`产品编号P0${data.id}`}</span>
+      <span className={[styles.imgText, 'text-overflow'].join(' ')}>{`产品编号P0${data.id}`}</span>
     </div>
   );
 }
@@ -81,7 +81,9 @@ class Visa extends React.Component {
                   <Col className={styles.infoCell}>
                     <span className={styles.lable}>审核状态： </span>
                     <span className={styles.text} style={{ color: '#00A36A' }}>
-                      待审核
+                      {
+                        `${getEnum('Flow')[data.flow] || ''}`
+                      }
                     </span>
                   </Col>
                 </Col>

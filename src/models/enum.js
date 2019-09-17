@@ -1,5 +1,33 @@
 import {queryEnum} from '@/utils/utils';
 
+function convertEnum(enumData){
+  const data = {...enumData};
+  data.PackagetourNavMap  = {};
+  if(data.PackagetourNavConfig){
+    const PackagetourNavMap = {};
+    Object.keys(data.PackagetourNavConfig).forEach((k)=>{
+        const {primary_nav:primaryNav,secondary_nav:secondaryNav} = data.PackagetourNavConfig[k];
+        if(!PackagetourNavMap[primaryNav]){
+          PackagetourNavMap[primaryNav] = [];
+        }
+        PackagetourNavMap[primaryNav].push(secondaryNav);
+    })
+    data.PackagetourNavMap = {...PackagetourNavMap};
+  }
+  if(data.IndependentTravelNavConfig){
+    const IndependentTravelNavMap = {};
+    Object.keys(data.IndependentTravelNavConfig).forEach((k)=>{
+        const {primary_nav:primaryNav,secondary_nav:secondaryNav} = data.IndependentTravelNavConfig[k];
+        if(!IndependentTravelNavMap[primaryNav]){
+          IndependentTravelNavMap[primaryNav] = [];
+        }
+        IndependentTravelNavMap[primaryNav].push(secondaryNav);
+    })
+    data.IndependentTravelNavMap = {...IndependentTravelNavMap};
+  }
+  return data;
+}
+
 export default {
   namespace: 'enum',
 
@@ -29,7 +57,17 @@ export default {
 
     Include:{1:'不包含',2:'包含'},
     PriceType:{1:'基准同行价',2:'其他同行价'},
-    front_enum:''
+    front_enum:'',
+    Flow:{0:'未进行',1:'未提交',2:'待审批',3:'拒审批',4:'审核通过'},
+    Opinion:{0:'提交',1:'通过',2:'不通过',3:'取消',4:'撤销'},
+    GroupState: {1:'收客',2:'截止',3:'结算'},
+    ShelfState:{1:'未上架',2:'待上架',3:'已上架'},
+    ApproveType:{1:'erp审批',2:'b2b审批'},
+    SuppType:{0:'客户吸纳',1:'本地添加'},
+    Hour:{1:'1小时',2:'2小时'},
+    OrderState:{1:'未占位',2:'占位待确认',3:'占位已确认',4:'占位已拒绝',5:'实报未提交',6:'实报待确认'
+    ,7:'实报已确认',8:'实报已拒绝'},
+    OrderKind:{1:'三方',2:'自营',3:'过账'}
   },
 
   effects: {
@@ -38,12 +76,19 @@ export default {
       const ver =  yield select(state => state.enum.ver);
 
       if(payload.ver && payload.ver !== ver){
-        const data = yield call(queryEnum,payload.ver);
-        yield put({
-          type: 'save',
-          payload: data,
-        });
+        try {
+          const data = yield call(queryEnum,payload.ver);
+          const EnumData = convertEnum(data);
+          yield put({
+            type: 'save',
+            payload: EnumData,
+          });
+        } catch (error) {
+          console.log(error);
+          return true;
+        }
       }
+      return true;
     }
   },
 

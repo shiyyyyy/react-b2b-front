@@ -65,7 +65,7 @@ class CellModalForm extends PureComponent {
     const list = config.list || {};
     return (
       <Col className={styles.ModalForm}>
-        <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }}>
+        <Form labelCol={{ span: 7 }} wrapperCol={{ span: 16 }}>
           {Object.keys(list).map(field => (
             <React.Fragment key={field}>
               {(!data[field].type || data[field].type === 'text') && (

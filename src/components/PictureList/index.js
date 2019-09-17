@@ -76,7 +76,7 @@ class PictureList extends React.Component {
   }
 
   render() {
-    const { data, deleteImg, addImg, id } = this.props;
+    const { data, deleteImg, addImg, id, readOnly } = this.props;
     const { loading } = this.state;
     const uploadButton = (
       <div>
@@ -86,7 +86,7 @@ class PictureList extends React.Component {
     );
     return (
       <Row>
-        <Col className={[styles.UpdataList, 'clear'].join(' ')}>
+        <Col className={[styles.UpdataList, 'clear'].join(' ')} style={readOnly ? {display: 'block'} : {}}>
           {/* 产品图片 */}
           <Col span={21} className="swiper-container" id={id}>
             <div className="swiper-wrapper">
@@ -99,24 +99,28 @@ class PictureList extends React.Component {
                 <div className={[styles.item, ' swiper-slide'].join(' ')} key={item} id={item}>
                   <div className={styles['item-top']}>
                     <div className="text-center">{index + 1}</div>
-                    <div>
+                    <div className={readOnly ? 'hide' : ''}>
                       <Icon type="minus-circle" onClick={() => deleteImg(index)} />
                     </div>
                   </div>
                   <div className={styles['item-content']}>
                     <div className={styles['item-content-imgBox']}>
-                      <Dragger
-                        name="CarouselImg"
-                        multiple={false}
-                        className={styles.previewUploader}
-                        showUploadList={false}
-                        beforeUpload={this.beforeUpload}
-                        onChange={info => this.handleChange(info, index)}
-                        onRemove={this.removeFile}
-                        customRequest={({ file })=>this.handleCustomRequest({ file },index)}
-                      >
-                        {item ? <img src={item} alt="图片" className=" img-size" /> : uploadButton}
-                      </Dragger>
+                      {readOnly ? (<img src={item || '/img/timg.jpeg'} alt="图片" className=" img-size" />)
+                      : (
+                        <Dragger
+                          name="CarouselImg"
+                          multiple={false}
+                          className={styles.previewUploader}
+                          showUploadList={false}
+                          beforeUpload={this.beforeUpload}
+                          onChange={info => this.handleChange(info, index)}
+                          onRemove={this.removeFile}
+                          customRequest={({ file })=>this.handleCustomRequest({ file },index)}
+                        >
+                          {item ? <img src={item} alt="图片" className=" img-size" /> : uploadButton}
+                        </Dragger>
+                        )
+                      }
                     </div>
                   </div>
                 </div>
@@ -124,7 +128,7 @@ class PictureList extends React.Component {
             </div>
           </Col>
           {/* + */}
-          <Col span={3} className={styles['add-btn']}>
+          <Col span={3} className={[styles['add-btn'], (readOnly ? 'hide' : '')].join(' ')}>
             <Icon type="plus" className={styles['add-btn-icon']} onClick={() => addImg()} />
           </Col>
           <div

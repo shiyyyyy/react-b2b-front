@@ -10,6 +10,7 @@ import {getLocale} from 'umi/locale';
 import request from './request';
 import AppCore from './core';
 import ModalRender from '@/components/ModalRender';
+import GobalActionMap from '@/businessServices/ActionMap';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -403,7 +404,7 @@ export async function queryEnum(ver) {
     const url = `${AppCore.HOST}/files/${AppCore.TENANT}/cache/Enum.js?ver=${enumVer}`;
     return request(url ,{
       method: 'GET'
-    });
+    },{rj:1});
 }
 
 export async function init(){
@@ -458,22 +459,58 @@ export function trigger(action,ref,rs,rj){
     if(cfg.modal){
       ModalRender(action,{text: action,isDrag: true, ...cfg},ref,rs,rj);
     }else if(cfg.view === 'submit'){
-      submit(action,ref).then(
-        r=>{
-          message.success(r.message);
-          if(rs){
-            rs(r);
-          }
-        },e=>{
-          if(rj){
-            rj(e)
-          }
-        });
+      if(cfg.confirm){
+        const modal = Modal.confirm();
+        const m = {
+          content: cfg.confirm,
+          title: cfg.text || '请确认',
+          cancelText:'取消',
+          okText:'确定',
+          onOk:()=> {
+            modal.destroy();
+            submit(action,ref).then(
+              r=>{
+                message.success(r.message);
+                if(rs){
+                  rs(r);
+                }
+              },e=>{
+                if(rj){
+                  rj(e)
+                }
+              });
+          } 
+        };
+        modal.update(m);
+      }else{
+        submit(action,ref).then(
+          r=>{
+            message.success(r.message);
+            if(rs){
+              rs(r);
+            }
+          },e=>{
+            if(rj){
+              rj(e)
+            }
+          });
+      }
+    }else if(cfg.view === 'mandatory'){
+      if(GobalActionMap[action]){
+        const mapRst = GobalActionMap[action](ref);
+        const {action:rstAction,data:rstData} = mapRst;
+        trigger(rstAction,rstData,rs,rj);
+      }
     }else{
+      let queryData = {action,...ref};
+      if(cfg.read && cfg.read.data){
+        queryData = getReadParam({action},cfg.read.data,ref);
+      }
       window.g_app._store.dispatch(
         routerRedux.push({
           pathname: cfg.view,
-          state:{action,...ref}
+          // query:{...queryData},
+          state:{...queryData}
         })
       );
     }
@@ -485,9 +522,10 @@ export function searchChange(cfg,field,data){
     const clearCascade = (checkField) =>{
       let nField = null;
       Object.keys(cfg).forEach((key)=>{
-        if(!nField && cfg[key].cascade && cfg[key].cascade === checkField){
+        if( cfg[key].cascade && (cfg[key].cascade === checkField 
+          || cfg[key].cascade2 === checkField || cfg[key].cascade3 === checkField)){
           nField = key;
-          delete result[key];
+          result[key] = '';
         }
       })
       return nField;

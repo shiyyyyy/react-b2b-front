@@ -35,6 +35,11 @@ export default [
                   name: '跟团游列表',
                   component: './Sale/Order/List',
                 },
+                {
+                  path: '/Sale/Order/check',
+                  name: '审核',
+                  component: './Sale/Order/ApproveAll',
+                }
               ],
             },
             {

@@ -97,6 +97,7 @@ const mapColPropsToColumn = (cols, cellChange, handleResize, moveCol) => {
   return columns;
 };
 
+
 class Grid extends React.Component {
   static propTypes = {
     columns: PropTypes.array,
@@ -124,20 +125,37 @@ class Grid extends React.Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { columns, dataSource } = nextProps;
+    // const { columns, dataSource } = nextProps;
+    const stateColumns = prevState.columns;
+    const stateDataSource = prevState.dataSource;
+    const propsColumns = nextProps.columns;
+    const propsDataSource = nextProps.dataSource;
+    let columns = stateColumns
+    let flag = false
+    // 拖拽
     const updataColumns = columns.map(item => {
-      if (prevState.columns.length) {
-        return prevState.columns.find(column => column.dataIndex === item.dataIndex);
+      if (stateColumns.length) {
+        return stateColumns.find(column => column.dataIndex === item.dataIndex);
       }
       return false;
     });
-
     if (updataColumns.includes(false)) {
+      columns = propsColumns
+      flag = true
+    }
+    // resizeble
+    if(prevState.resizeble && prevState.resizeble.size && prevState.resizeble.size.width){
+      const { index } = prevState.resizeble
+      const { size } = prevState.resizeble
+      columns[index].width = size.width
+      flag = true
+    }
+    if(flag){
       return {
         columns,
-        dataSource,
       };
     }
+
     return null;
   }
 
@@ -220,6 +238,7 @@ class Grid extends React.Component {
     } = this.state;
     let scrollTable = '';
     if (size && size.width) {
+      scrollTable = '';
       scrollTable = this.scrollChange(index, size);
     }
     const cols = mapColPropsToColumn(columns, this.CellChange, this.handleResize, this.moveCol);

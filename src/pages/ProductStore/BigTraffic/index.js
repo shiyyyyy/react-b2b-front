@@ -40,6 +40,7 @@ class BigTraffic extends React.Component {
         产品图片: [],
         航班车次: [],
       },
+      edit:true
     };
     this.actionMap = {...props.actionMap};
 
@@ -80,9 +81,9 @@ class BigTraffic extends React.Component {
   proPhotos() {
     // const { packagedata:{data} } = this.props;
     const { data } = this.state;
-
+    const { route: { path } } = this.props;
     const swiperCfg = {
-      id: 'GroupTourAdd',
+      id: path,
       loop: false,
       numSwiper: 3.5,
       // height: '260px',
@@ -125,7 +126,7 @@ class BigTraffic extends React.Component {
               {/* 产品图片 */}
               <Col xs={24} sm={24} md={10} lg={10} className={styles.imgWrapper}>
                 <Col className={styles.imgBox}>
-                  <Carousel className={styles.Carousel}>
+                  <Carousel autoplay className={styles.Carousel}>
                     {data['产品图片'].map(item => renderImg(item))}
                   </Carousel>
                 </Col>

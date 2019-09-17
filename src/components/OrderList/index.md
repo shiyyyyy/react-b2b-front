@@ -22,6 +22,7 @@ order: 15
 item | 当前数据 | Object | -
 btnChildren | 返回右下按钮 | ReactNode | null
 children | 点击展开时显示的模块 | ReactNode | -
+openChildren | 点击展开按钮时的回调 | fun | -
 
 
 ### OrderList.Traffic
@@ -31,6 +32,7 @@ children | 点击展开时显示的模块 | ReactNode | -
 item | 当前数据 | Object | -
 btnChildren | 返回右下按钮 | ReactNode | null
 children | 点击展开时显示的模块 | ReactNode | -
+openChildren | 点击展开按钮时的回调 | fun | -
 
 
 ### OrderList.Visa
@@ -40,3 +42,4 @@ children | 点击展开时显示的模块 | ReactNode | -
 item | 当前数据 | Object | -
 btnChildren | 返回右下按钮 | ReactNode | null
 children | 点击展开时显示的模块 | ReactNode | -
+openChildren | 点击展开按钮时的回调 | fun | -
